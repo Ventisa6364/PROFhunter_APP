@@ -1,0 +1,38 @@
+name: profhunterapp
+description: "A new Flutter project."
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.11.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  get: ^4.7.3
+  cupertino_icons: ^1.0.8
+  flutter_screenutil: ^5.9.3
+
+  profhunteruikit:
+    git:
+      url: https://github.com/xchizhx/ProfHunter
+      ref: uikit/goga/07-03
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^6.0.0
+
+
+flutter:
+
+
+  uses-material-design: true
+
+
+
