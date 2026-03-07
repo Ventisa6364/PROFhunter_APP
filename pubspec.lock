@@ -160,7 +160,7 @@ packages:
     description:
       path: "."
       ref: "uikit/goga/07-03"
-      resolved-ref: "83ee845aca697409eb5e48f9a251af83133b515f"
+      resolved-ref: "0c58e1af855f64567929781b569971f50a0403d5"
       url: "https://github.com/xchizhx/ProfHunter"
     source: git
     version: "1.0.0+1"
