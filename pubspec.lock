@@ -159,9 +159,9 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "uikit/goga/08-03"
-      resolved-ref: "44b4ec42acb2b355363804f769868b6f6cfe7bd4"
-      url: "https://github.com/xchizhx/ProfHunter"
+      ref: main
+      resolved-ref: "7f2fd4fef7cb0e798a1733625e234559348f43ba"
+      url: "https://github.com/Ventisa6364/PROFhunter_UIKit"
     source: git
     version: "1.0.0+1"
   sky_engine:
