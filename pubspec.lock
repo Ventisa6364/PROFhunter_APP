@@ -160,7 +160,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "7f2fd4fef7cb0e798a1733625e234559348f43ba"
+      resolved-ref: e90383edc811d6af606b6973da3c1dffddacab0d
       url: "https://github.com/Ventisa6364/PROFhunter_UIKit"
     source: git
     version: "1.0.0+1"
