@@ -51,9 +51,9 @@ class RegPage extends StatelessWidget {
               crossAxisAlignment: .stretch,
               spacing: 14.h,
               children: [
-                CustomTextInput(emailController, textHint: 'email@example.com'),
-                CustomPasswordInput(passwordController: passwordController),
-                CustomPasswordInput(passwordController: passwordConfirmController),
+                CustomTextInput(emailController, textHint: 'email@example.com', label: 'email',),
+                CustomPasswordInput(passwordController: passwordController, label: 'password',),
+                CustomPasswordInput(passwordController: passwordConfirmController, label: 'confirm password',),
               ],
             ),
             Column(
@@ -83,5 +83,6 @@ class RegPage extends StatelessWidget {
       ),
     );
   }
+
   void _getSignUp() => Get.to(AuthPage());
 }

@@ -19,7 +19,7 @@ dependencies:
   profhunteruikit:
     git:
       url: https://github.com/xchizhx/ProfHunter
-      ref: uikit/goga/07-03
+      ref: uikit/goga/08-03
 
 dev_dependencies:
   flutter_test:

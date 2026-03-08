@@ -159,8 +159,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "uikit/goga/07-03"
-      resolved-ref: "0c58e1af855f64567929781b569971f50a0403d5"
+      ref: "uikit/goga/08-03"
+      resolved-ref: "44b4ec42acb2b355363804f769868b6f6cfe7bd4"
       url: "https://github.com/xchizhx/ProfHunter"
     source: git
     version: "1.0.0+1"
