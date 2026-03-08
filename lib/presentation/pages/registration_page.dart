@@ -29,23 +29,34 @@ class RegPage extends StatelessWidget {
           children: [
             Column(
               children: [
-                Column(
-                  spacing: 12.h,
+                Row(
+                  mainAxisAlignment: .spaceBetween,
                   children: [
-                    Padding(
-                      padding: EdgeInsets.only(right: 3.w, left: 2.w),
-                      child: Text(
-                        "Создать аккаунт",
-                        style: CustomStyles.nunitoBold32.copyWith(
-                          color: theme.palette.text,
-                        ),
-                      ),
+                    GestureDetector(
+                      onTap: _getBack,
+                      child: Icon(Icons.arrow_back_rounded),
                     ),
-                    Text(
-                      "Создайте аккаунт, чтобы начать",
-                      style: CustomStyles.nunitoMedium16.copyWith(
-                        color: theme.palette.text,
-                      ),
+                    Column(
+                      spacing: 12.h,
+                      crossAxisAlignment: .end,
+                      mainAxisAlignment: .end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 3.w, left: 2.w),
+                          child: Text(
+                            "Создать аккаунт",
+                            style: CustomStyles.nunitoBold32.copyWith(
+                              color: theme.palette.text,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          "Создайте аккаунт, чтобы начать",
+                          style: CustomStyles.nunitoMedium16.copyWith(
+                            color: theme.palette.text,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
@@ -101,5 +112,6 @@ class RegPage extends StatelessWidget {
   }
 
   void _getSignUp() => Get.to(AuthPage());
+  void _getBack() => Get.back();
 }
 
