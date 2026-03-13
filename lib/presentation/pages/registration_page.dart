@@ -8,6 +8,7 @@ class RegPage extends StatelessWidget {
   RegPage({super.key});
 
   final emailController = TextEditingController();
+  final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
 
@@ -67,6 +68,11 @@ class RegPage extends StatelessWidget {
                   spacing: 14.h,
                   children: [
                     CustomTextInput(
+                      nameController,
+                      textHint: 'Введите имя',
+                      label: 'Имя',
+                    ),
+                    CustomTextInput(
                       emailController,
                       textHint: 'email@example.com',
                       label: 'E-mail',
@@ -92,7 +98,8 @@ class RegPage extends StatelessWidget {
                     theme: theme,
                     text: "Зарегистрироваться",
                     onPressed: () {},
-                    height: 48.h, width: 336.w,
+                    height: 48.h,
+                    width: 336.w,
                   ),
                 ),
                 GestureDetector(
@@ -113,6 +120,6 @@ class RegPage extends StatelessWidget {
   }
 
   void _getSignUp() => Get.to(AuthPage());
+
   void _getBack() => Get.back();
 }
-
