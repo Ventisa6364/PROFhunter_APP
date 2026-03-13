@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/presentation/pages/registration_page.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
@@ -11,7 +10,7 @@ class Application extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(500, 1000),
+      designSize: const Size(376, 832),
       builder: (context, child) {
         return GetMaterialApp(
           theme: ThemeData().copyWith(

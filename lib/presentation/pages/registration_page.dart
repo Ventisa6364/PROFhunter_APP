@@ -92,6 +92,7 @@ class RegPage extends StatelessWidget {
                     theme: theme,
                     text: "Зарегистрироваться",
                     onPressed: () {},
+                    height: 48.h, width: 336.w,
                   ),
                 ),
                 GestureDetector(
