@@ -4,13 +4,20 @@ import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/pages/auth_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
-class RegPage extends StatelessWidget {
-  RegPage({super.key});
-
+class RegistrationPage extends StatefulWidget {
   final emailController = TextEditingController();
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
+
+  RegistrationPage({super.key});
+
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+  String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -68,22 +75,31 @@ class RegPage extends StatelessWidget {
                   spacing: 14.h,
                   children: [
                     CustomTextInput(
-                      nameController,
+                      widget.nameController,
                       textHint: 'Введите имя',
                       label: 'Имя',
                     ),
                     CustomTextInput(
-                      emailController,
+                      widget.emailController,
                       textHint: 'email@example.com',
                       label: 'E-mail',
                     ),
                     CustomPasswordInput(
-                      passwordController: passwordController,
+                      passwordController: widget.passwordController,
                       label: 'Пароль',
                     ),
                     CustomPasswordInput(
-                      passwordController: passwordConfirmController,
+                      passwordController: widget.passwordConfirmController,
                       label: 'Повторите пароль',
+                    ),
+                    CustomSelectorWidget(
+                      selectList: ['Работодатель', 'Соискатель'],
+                      label: 'Выберите роль',
+                      onChanged: (value) {
+                        setState(() {
+                          selectedValue = value;
+                        });
+                      },
                     ),
                   ],
                 ),
