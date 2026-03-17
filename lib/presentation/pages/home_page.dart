@@ -23,41 +23,13 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 64.h),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             spacing: 32.h,
             children: [
               CustomButton.filled(
                 theme: theme,
-                onPressed: () {},
-                text: 'Войти',
-                height: 48.h,
-                width: 336.w,
-              ),
-              CustomButton.filled(
-                theme: theme,
-                onPressed: null,
-                text: 'Войти',
-                height: 48.h,
-                width: 336.w,
-              ),
-              CustomButton.error(
-                theme: theme,
-                onPressed: () {},
-                text: 'Войти',
-                height: 48.h,
-                width: 336.w,
-              ),
-              CustomButton.simple(
-                theme: theme,
-                onPressed: () {},
-                text: 'Войти',
-                height: 48.h,
-                width: 336.w,
-              ),
-              CustomButton.filled(
-                theme: theme,
                 onPressed: _getReg,
-                text: 'auth page',
+                text: 'Зарегистрироваться',
                 height: 48.h,
                 width: 336.w,
               ),

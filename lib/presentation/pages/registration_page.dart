@@ -27,10 +27,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
       resizeToAvoidBottomInset: false,
       body: Padding(
         padding: .only(
-          top: 40.h,
-          right: 20.w,
-          bottom: 52.h,
-          left: 20.w,
+          top: 20.h,
+          right: 15.w,
+          bottom: 30.h,
+          left: 15.w,
         ).add(MediaQuery.paddingOf(context)),
         child: Column(
           mainAxisAlignment: .spaceBetween,
@@ -68,29 +68,31 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                   ],
                 ),
-                SizedBox(height: 40),
+                SizedBox(height: 30),
                 Column(
                   mainAxisAlignment: .center,
                   crossAxisAlignment: .stretch,
-                  spacing: 14.h,
+                  spacing: 5.h,
                   children: [
                     CustomTextInput(
-                      widget.nameController,
+                      controller: widget.nameController,
                       textHint: 'Введите имя',
                       label: 'Имя',
                     ),
                     CustomTextInput(
-                      widget.emailController,
+                      controller: widget.emailController,
                       textHint: 'email@example.com',
                       label: 'E-mail',
                     ),
                     CustomPasswordInput(
-                      passwordController: widget.passwordController,
+                      controller: widget.passwordController,
                       label: 'Пароль',
+                      textHint: 'Password',
                     ),
                     CustomPasswordInput(
-                      passwordController: widget.passwordConfirmController,
+                      controller: widget.passwordConfirmController,
                       label: 'Повторите пароль',
+                      textHint: ' Confirm password',
                     ),
                     CustomSelectorWidget(
                       selectList: ['Работодатель', 'Соискатель'],
@@ -100,23 +102,21 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           selectedValue = value;
                         });
                       },
+                      width: 400.w,
                     ),
                   ],
                 ),
               ],
             ),
             Column(
-              spacing: 28.h,
+              spacing: 15.h,
               children: [
-                SizedBox.fromSize(
-                  size: .new(336.w, 48.h),
-                  child: CustomButton.filled(
-                    theme: theme,
-                    text: "Зарегистрироваться",
-                    onPressed: () {},
-                    height: 48.h,
-                    width: 336.w,
-                  ),
+                CustomButton.filled(
+                  theme: theme,
+                  text: "Зарегистрироваться",
+                  onPressed: () {},
+                  height: 48.h,
+                  width: 336.w,
                 ),
                 GestureDetector(
                   onTap: _getSignUp,
