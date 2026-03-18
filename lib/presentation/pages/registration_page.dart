@@ -95,7 +95,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       textHint: ' Confirm password',
                     ),
                     CustomSelectorWidget(
-                      selectList: ['Работодатель', 'Соискатель'],
+                      selectList: ['Соискатель', 'Работодатель'],
                       label: 'Выберите роль',
                       onChanged: (value) {
                         setState(() {
@@ -118,15 +118,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   height: 48.h,
                   width: 336.w,
                 ),
-                GestureDetector(
-                  onTap: _getSignUp,
-                  child: Text(
-                    "Уже есть аккаунт? Нажмите сюда, чтобы войти",
-                    style: CustomStyles.nunitoRegular12.copyWith(
-                      color: theme.palette.text,
-                    ),
-                  ),
-                ),
+                // GestureDetector(
+                //   onTap: _getSignUp,
+                //   child: Text(
+                //     "Уже есть аккаунт? Нажмите сюда, чтобы войти",
+                //     style: CustomStyles.nunitoRegular12.copyWith(
+                //       color: theme.palette.text,
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ],
@@ -134,8 +134,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
       ),
     );
   }
-
-  void _getSignUp() => Get.to(AuthPage());
 
   void _getBack() => Get.back();
 }

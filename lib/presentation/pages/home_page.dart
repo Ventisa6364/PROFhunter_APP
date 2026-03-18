@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:profhunterapp/presentation/pages/auth_page.dart';
 import 'package:profhunterapp/presentation/pages/registration_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
@@ -12,7 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
@@ -24,12 +24,27 @@ class _HomePageState extends State<HomePage> {
           padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 64.h),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 32.h,
             children: [
+              Text(
+                'Чтобы продолжить работу \nвойдите или создайте аккаунт',
+                style: CustomStyles.nunitoMedium22.copyWith(
+                  color: theme.palette.text,
+                ),
+                textAlign: .center,
+              ),
+              Container(height: 28.h,),
               CustomButton.filled(
                 theme: theme,
                 onPressed: _getReg,
-                text: 'Зарегистрироваться',
+                text: 'Создать аккаунт',
+                height: 48.h,
+                width: 336.w,
+              ),
+              Container(height: 16.h,),
+              CustomButton.filled(
+                theme: theme,
+                onPressed: _getAuth,
+                text: 'Войти в аккаунт',
                 height: 48.h,
                 width: 336.w,
               ),
@@ -41,4 +56,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _getReg() => Get.to(RegistrationPage());
+
+  void _getAuth() => Get.to(AuthPage());
 }
