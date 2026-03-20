@@ -160,7 +160,7 @@ packages:
     description:
       path: "."
       ref: "features/add_selector"
-      resolved-ref: "5a06be259cc34f97e361ab42dca4a8954de70c4e"
+      resolved-ref: "44757099ca69d2a5f7cbbe219727aadfe47ca2b5"
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"

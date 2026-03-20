@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/presentation/pages/auth_page.dart';
-import 'package:profhunterapp/presentation/pages/registration_page.dart';
+import 'package:profhunterapp/presentation/pages/registration/choice_role.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class HomePage extends StatefulWidget {
@@ -43,7 +42,7 @@ class _HomePageState extends State<HomePage> {
               Container(height: 16.h,),
               CustomButton.filled(
                 theme: theme,
-                onPressed: _getAuth,
+                onPressed: null,
                 text: 'Войти в аккаунт',
                 height: 48.h,
                 width: 336.w,
@@ -55,7 +54,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _getReg() => Get.to(RegistrationPage());
-
-  void _getAuth() => Get.to(AuthPage());
+  void _getReg() => Get.to(ChoiceRolePage());
 }

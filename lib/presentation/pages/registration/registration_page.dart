@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/presentation/pages/auth_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class RegistrationPage extends StatefulWidget {
@@ -9,6 +8,7 @@ class RegistrationPage extends StatefulWidget {
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
+  final role = Get.arguments;
 
   RegistrationPage({super.key});
 
@@ -17,11 +17,13 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  String selectedRoleAndRegion = Get.arguments;
   String? selectedValue;
 
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
+    print(selectedRoleAndRegion);
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
@@ -42,7 +44,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     GestureDetector(
                       onTap: _getBack,
-                      child: Icon(Icons.arrow_back_rounded),
+                      child: Icon(Icons.arrow_back_rounded, color: theme.palette.icon,),
                     ),
                     Column(
                       spacing: 12.h,
@@ -94,16 +96,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       label: 'Повторите пароль',
                       textHint: ' Confirm password',
                     ),
-                    CustomSelectorWidget(
-                      selectList: ['Соискатель', 'Работодатель'],
-                      label: 'Выберите роль',
-                      onChanged: (value) {
-                        setState(() {
-                          selectedValue = value;
-                        });
-                      },
-                      width: 400.w,
-                    ),
                   ],
                 ),
               ],
@@ -118,15 +110,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   height: 48.h,
                   width: 336.w,
                 ),
-                // GestureDetector(
-                //   onTap: _getSignUp,
-                //   child: Text(
-                //     "Уже есть аккаунт? Нажмите сюда, чтобы войти",
-                //     style: CustomStyles.nunitoRegular12.copyWith(
-                //       color: theme.palette.text,
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ],
