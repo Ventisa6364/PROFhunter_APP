@@ -96,8 +96,6 @@ class _ChoiceRolePageState extends State<ChoiceRolePage> {
                   text: "Продолжить",
                   onPressed: () {
                     Get.to(ChoiceRegionPage(), arguments: selectedValue);
-                    print('hello');
-                    print(selectedValue);
                   },
                   height: 48.h,
                   width: 336.w,
