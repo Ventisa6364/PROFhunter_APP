@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
+import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class Application extends StatelessWidget {
@@ -23,7 +24,7 @@ class Application extends StatelessWidget {
           home: child,
         );
       },
-      child: HomePage(),
+      child: VacancyPage(),
     );
   }
 }

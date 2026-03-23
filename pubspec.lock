@@ -159,8 +159,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "features/add_selector"
-      resolved-ref: "44757099ca69d2a5f7cbbe219727aadfe47ca2b5"
+      ref: "features/vacancy_ui"
+      resolved-ref: bfa8b6aaf12e19ee9fdb068f3f6df6b50caee325
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"
