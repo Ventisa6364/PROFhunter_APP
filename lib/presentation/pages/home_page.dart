@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/pages/registration/choice_role.dart';
+import 'package:profhunterapp/presentation/pages/vacancy/vacancy_widget.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,35 +19,30 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 64.h),
+      appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: theme.palette.block,
+        title: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            "Главная",
+            style: CustomStyles.nunitoBold32.copyWith(
+              color: theme.palette.text,
+            ),
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: .only(
+          top: 12.h,
+          right: 16.w,
+          left: 16.w,
+        ),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            spacing: 12.h,
             children: [
-              Text(
-                'Чтобы продолжить работу \nвойдите или создайте аккаунт',
-                style: CustomStyles.nunitoMedium22.copyWith(
-                  color: theme.palette.text,
-                ),
-                textAlign: .center,
-              ),
-              Container(height: 28.h,),
-              CustomButton.filled(
-                theme: theme,
-                onPressed: _getReg,
-                text: 'Создать аккаунт',
-                height: 48.h,
-                width: 336.w,
-              ),
-              Container(height: 16.h,),
-              CustomButton.filled(
-                theme: theme,
-                onPressed: null,
-                text: 'Войти в аккаунт',
-                height: 48.h,
-                width: 336.w,
-              ),
+              VacancyWidget(),
             ],
           ),
         ),

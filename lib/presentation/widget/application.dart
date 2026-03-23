@@ -24,7 +24,7 @@ class Application extends StatelessWidget {
           home: child,
         );
       },
-      child: VacancyPage(),
+      child: HomePage(),
     );
   }
 }
