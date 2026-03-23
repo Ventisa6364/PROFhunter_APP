@@ -1,7 +1,9 @@
 class VacancyModel {
   static String name = 'Python-developer';
-  static String salary = '100000 ₽';
+  static String salary = 'От 100 000 ₽';
   static String orgName = 'ООО "Интернет решения"';
+  static String employmentType = 'Полный день';
+  static String place = 'Офис, Москва';
   static String address =
       '123112, г. Москва, Пресненская наб., д. 10, эт. 41, Пом. I, комн. 6';
   static List<String> duties = [
@@ -10,9 +12,9 @@ class VacancyModel {
     'Чистка кода',
   ];
   static List<String> requirements = [
-    'опыт от 2 лет',
-    'умение работы с flask и django',
-    'любовь к печенькам',
+    'Опыт от 2 лет',
+    'Умение работы с flask и django',
+    'Любовь к печенькам',
   ];
   static List<String> conditions = [
     'График договорный',

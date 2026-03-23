@@ -36,9 +36,9 @@ class VacancyPage extends StatelessWidget {
             Divider(height: 1.h, thickness: 1.r, color: theme.palette.border),
             VacancyHeroBlock(
               vacancyName: VacancyModel.name,
-              textChipsSalary: 'от 100 000 ₽',
-              textChipsEmploymentType: 'Полный день',
-              textChipsPlace: 'Офис, Москва',
+              textChipsSalary: VacancyModel.salary,
+              textChipsEmploymentType: VacancyModel.employmentType,
+              textChipsPlace: VacancyModel.place,
             ),
             SizedBox(height: 12.h,),
             Padding(
