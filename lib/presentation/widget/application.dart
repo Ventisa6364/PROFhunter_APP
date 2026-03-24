@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
-import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
-class Application extends StatelessWidget {
+class Application extends StatefulWidget {
   const Application({super.key});
 
+  @override
+  State<Application> createState() => _ApplicationState();
+}
+
+class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -24,7 +28,7 @@ class Application extends StatelessWidget {
           home: child,
         );
       },
-      child: HomePage(),
+      child: const HomePage(),
     );
   }
 }
