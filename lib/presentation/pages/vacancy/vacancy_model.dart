@@ -1,15 +1,4 @@
-abstract class VacancyModel {
-  abstract final String name;
-  abstract final String salary;
-  abstract final String orgName;
-  abstract final String employmentType;
-  abstract final String place;
-  abstract final String address;
-  abstract final List<String> duties;
-  abstract final List<String> requirements;
-  abstract final List<String> conditions;
-  abstract final Map<String, String> contacts;
-}
+import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPython extends VacancyModel {
   @override
