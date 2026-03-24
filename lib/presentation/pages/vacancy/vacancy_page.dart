@@ -5,7 +5,9 @@ import 'package:profhunterapp/presentation/pages/vacancy/vacancy_model.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPage extends StatelessWidget {
-  const VacancyPage({super.key});
+  final VacancyModel vacancy;
+
+  const VacancyPage({super.key, required this.vacancy});
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +37,10 @@ class VacancyPage extends StatelessWidget {
           children: [
             Divider(height: 1.h, thickness: 1.r, color: theme.palette.border),
             VacancyHeroBlock(
-              vacancyName: VacancyModel.name,
-              textChipsSalary: VacancyModel.salary,
-              textChipsEmploymentType: VacancyModel.employmentType,
-              textChipsPlace: VacancyModel.place,
+              vacancyName: vacancy.name,
+              textChipsSalary: vacancy.salary,
+              textChipsEmploymentType: vacancy.employmentType,
+              textChipsPlace: vacancy.place,
             ),
             SizedBox(height: 12.h,),
             Padding(
@@ -46,24 +48,24 @@ class VacancyPage extends StatelessWidget {
               child: Column(
                 spacing: 16.h,
                 children: [
-                  InfoCard(title: 'О компании', child: CompanyInfoContent(address: VacancyModel.address, orgName: VacancyModel.orgName,)),
+                  InfoCard(title: 'О компании', child: CompanyInfoContent(address: vacancy.address, orgName: vacancy.orgName,)),
                   InfoCard(
                     title: 'Обязанности',
-                    child: BulletList(items: VacancyModel.duties),
+                    child: BulletList(items: vacancy.duties),
                   ),
                   InfoCard(
                     title: 'Требования',
-                    child: BulletList(items: VacancyModel.requirements),
+                    child: BulletList(items: vacancy.requirements),
                   ),
                   InfoCard(
                     title: 'Условия работы',
                     child: ConditionsList(
-                      termsOfEmployment: VacancyModel.conditions,
+                      termsOfEmployment: vacancy.conditions,
                     ),
                   ),
                   ContactsCard(
-                    email: VacancyModel.contacts['email']!,
-                    phone: VacancyModel.contacts['phone']!,
+                    email: vacancy.contacts['email']!,
+                    phone: vacancy.contacts['phone']!,
                     textButtonBottomButton: 'Написать работодателю',
                     onPressedBottomButton: () {},
                   ),

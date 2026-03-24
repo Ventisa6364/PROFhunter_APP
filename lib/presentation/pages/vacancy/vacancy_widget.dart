@@ -6,7 +6,9 @@ import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyWidget extends StatelessWidget {
-  const VacancyWidget({super.key});
+  final VacancyModel vacancy;
+
+  const VacancyWidget({super.key, required this.vacancy});
 
   @override
   Widget build(BuildContext context) {
@@ -40,20 +42,25 @@ class VacancyWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: .spaceBetween,
               children: [
-                Text(
-                  VacancyModel.name,
-                  style: CustomStyles.nunitoBold32.copyWith(
-                    color: theme.palette.text,
+                Expanded(
+                  child: Text(
+                    vacancy.name,
+                    style: CustomStyles.nunitoBold32.copyWith(
+                      color: theme.palette.text,
+                    ),
                   ),
                 ),
-                Icon(Icons.keyboard_arrow_right_outlined, color: theme.palette.icon),
+                Icon(
+                  Icons.keyboard_arrow_right_outlined,
+                  color: theme.palette.icon,
+                ),
               ],
             ),
             Row(
-              spacing: 8.w,
+              spacing: 4.w,
               children: [
                 Text(
-                  VacancyModel.salary,
+                  vacancy.salary,
                   style: CustomStyles.nunitoMedium22.copyWith(
                     color: theme.palette.text,
                   ),
@@ -64,25 +71,28 @@ class VacancyWidget extends StatelessWidget {
                     color: theme.palette.text,
                   ),
                 ),
-                Text(
-                  VacancyModel.employmentType,
-                  style: CustomStyles.nunitoMedium22.copyWith(
-                    color: theme.palette.text,
+                Expanded(
+                  child: Text(
+                    vacancy.employmentType,
+                    overflow: TextOverflow.ellipsis,
+                    style: CustomStyles.nunitoMedium22.copyWith(
+                      color: theme.palette.text,
+                    ),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 4.h),
-            _VacancyRow(label: VacancyModel.conditions[0]),
-            _VacancyRow(label: VacancyModel.duties[0]),
-            _VacancyRow(label: VacancyModel.requirements[0]),
+            _VacancyRow(label: vacancy.conditions[0]),
+            _VacancyRow(label: vacancy.duties[0]),
+            _VacancyRow(label: vacancy.requirements[0]),
           ],
         ),
       ),
     );
   }
 
-  void _getVacancy() => Get.to(VacancyPage());
+  void _getVacancy() => Get.to(VacancyPage(vacancy: vacancy));
 }
 
 class _VacancyRow extends StatelessWidget {
@@ -97,10 +107,12 @@ class _VacancyRow extends StatelessWidget {
       spacing: 12.w,
       children: [
         Icon(Icons.check_circle_rounded, color: theme.palette.icon),
-        Text(
-          label,
-          style: CustomStyles.nunitoMedium16.copyWith(
-            color: theme.palette.text,
+        Expanded(
+          child: Text(
+            label,
+            style: CustomStyles.nunitoMedium16.copyWith(
+              color: theme.palette.text,
+            ),
           ),
         ),
       ],
