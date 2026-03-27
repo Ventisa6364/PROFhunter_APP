@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:profhunterapp/presentation/pages/registration/registration_page_candidate.dart';
+import 'package:profhunterapp/presentation/pages/registration/registration_page_company.dart';
 import 'package:profhunteruikit/uikit.dart';
 
-class RegistrationPage extends StatefulWidget {
+class EmailAndPassPage extends StatefulWidget {
   final emailController = TextEditingController();
-  final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
-  final role = Get.arguments;
 
-  RegistrationPage({super.key});
+  EmailAndPassPage({super.key});
 
   @override
-  State<RegistrationPage> createState() => _RegistrationPageState();
+  State<EmailAndPassPage> createState() => _EmailAndPassPageState();
 }
 
-class _RegistrationPageState extends State<RegistrationPage> {
-  String selectedRoleAndRegion = Get.arguments;
-  String? selectedValue;
-
+class _EmailAndPassPageState extends State<EmailAndPassPage> {
+  final role = Get.arguments;
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
-    print(selectedRoleAndRegion);
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
@@ -44,7 +41,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   children: [
                     GestureDetector(
                       onTap: _getBack,
-                      child: Icon(Icons.arrow_back_rounded, color: theme.palette.icon,),
+                      child: Icon(
+                        Icons.arrow_back_rounded,
+                        color: theme.palette.icon,
+                      ),
                     ),
                     Column(
                       spacing: 12.h,
@@ -55,13 +55,13 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           padding: EdgeInsets.only(right: 3.w, left: 2.w),
                           child: Text(
                             "Создать аккаунт",
-                            style: CustomStyles.nunitoBold32.copyWith(
+                            style: CustomStyles.nunitoBold28.copyWith(
                               color: theme.palette.text,
                             ),
                           ),
                         ),
                         Text(
-                          "Создайте аккаунт, чтобы начать",
+                          "Введите e-mail и придумайте пароль",
                           style: CustomStyles.nunitoMedium16.copyWith(
                             color: theme.palette.text,
                           ),
@@ -76,11 +76,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   crossAxisAlignment: .stretch,
                   spacing: 5.h,
                   children: [
-                    CustomTextInput(
-                      controller: widget.nameController,
-                      textHint: 'Введите имя',
-                      label: 'Имя',
-                    ),
                     CustomTextInput(
                       controller: widget.emailController,
                       textHint: 'email@example.com',
@@ -105,8 +100,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
               children: [
                 CustomButton.filled(
                   theme: theme,
-                  text: "Зарегистрироваться",
-                  onPressed: () {},
+                  text: "Продолжить",
+                  onPressed: () {
+                    if (role == 'candidate') {
+                      Get.to(RegistrationCandidatePage());
+                    } else if (role == 'company') {
+                      Get.to(RegistrationCompanyPage());
+                    }
+                  },
                   height: 48.h,
                   width: 336.w,
                 ),
