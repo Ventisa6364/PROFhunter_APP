@@ -20,32 +20,34 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: theme.palette.block,
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Главная",
-            style: CustomStyles.nunitoBold32.copyWith(
-              color: theme.palette.text,
-            ),
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: .only(top: 12.h, right: 16.w, left: 16.w),
-        child: SingleChildScrollView(
+      body: Center(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 64.h),
           child: Column(
-            spacing: 12.h,
+            mainAxisAlignment: .center,
+            spacing: 20.h,
             children: [
-              VacancyWidget(
-                vacancy: VacancyPython(),
-                page: VacancyPage(vacancy: VacancyPython()),
+              Text(
+                "Начните работу с приложением",
+                style: CustomStyles.nunitoMedium22.copyWith(
+                  color: theme.palette.text,
+                ),
+                textAlign: .center,
               ),
-              VacancyWidget(
-                vacancy: VacancyFlutter(),
-                page: VacancyPage(vacancy: VacancyFlutter()),
+              SizedBox(height: 8.h),
+              CustomButton.filled(
+                theme: theme,
+                onPressed: _getReg,
+                text: 'Создать аккаунт',
+                height: 48.h,
+                width: 336.w,
+              ),
+              CustomButton.filled(
+                theme: theme,
+                onPressed: null,
+                text: 'Войти в аккаунт',
+                height: 48.h,
+                width: 336.w,
               ),
               Text(
                 'Продолжая, вы соглашаетесь с условиями ',
