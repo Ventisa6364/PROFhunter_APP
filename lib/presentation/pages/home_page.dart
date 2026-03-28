@@ -18,27 +18,21 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text(
-          'Главная',
-          style: CustomStyles.nunitoBold28.copyWith(color: theme.palette.text),
-        ),
-        backgroundColor: theme.palette.block,
-      ),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 64.h),
+          padding: EdgeInsets.symmetric(vertical: 64.h),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: .center,
+            spacing: 20.h,
             children: [
               Text(
-                'Чтобы продолжить работу \nвойдите или создайте аккаунт',
+                "Начните работу с приложением",
                 style: CustomStyles.nunitoMedium22.copyWith(
                   color: theme.palette.text,
                 ),
                 textAlign: .center,
               ),
-              SizedBox(height: 28.h),
+              SizedBox(height: 8.h),
               CustomButton.filled(
                 theme: theme,
                 onPressed: _getReg,
@@ -46,13 +40,18 @@ class _HomePageState extends State<HomePage> {
                 height: 48.h,
                 width: 336.w,
               ),
-              Container(height: 16.h),
               CustomButton.filled(
                 theme: theme,
                 onPressed: null,
                 text: 'Войти в аккаунт',
                 height: 48.h,
                 width: 336.w,
+              ),
+              Text(
+                'Продолжая, вы соглашаетесь с условиями ',
+                style: CustomStyles.nunitoLight14.copyWith(
+                  color: theme.palette.textSecondary,
+                ),
               ),
             ],
           ),

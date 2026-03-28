@@ -29,46 +29,40 @@ class _ChoiceRolePageState extends State<ChoiceRolePage> {
         title: "Создать аккаунт",
         subtitle: "Выберите роль, чтобы продолжить",
       ),
-      body: Padding(
-        padding: .only(
-          top: 16.h,
-          right: 16.w,
-          bottom: 36.h,
-          left: 16.w,
+      body: Center(
+          child: Column(
+              spacing: 4.h,
+              mainAxisAlignment: .center,
+              children: [
+                CustomButton.filled(
+                  onPressed: () {
+                    Get.to(EmailAndPassPage(), arguments: 'candidate');
+                  },
+                  text: 'Я ищу работу',
+                  theme: theme,
+                  height: 52.h,
+                  width: 336.w,
+                ),
+                SizedBox(height: 10.h),
+                CustomButton.filled(
+                  onPressed: () {
+                    Get.to(EmailAndPassPage(), arguments: 'company');
+                  },
+                  text: 'Я ищу сотрудников',
+                  theme: theme,
+                  height: 48.h,
+                  width: 336.w,
+                ),
+                SizedBox(height: 6.h),
+                Text(
+                  'В дальнейшем роль можно изменить',
+                  style: CustomStyles.nunitoLight14.copyWith(
+                    color: theme.palette.textSecondary,
+                  ),
+                ),
+              ],
+            ),
         ),
-        child: Column(
-          spacing: 4.h,
-          mainAxisAlignment: .center,
-          children: [
-            CustomButton.filled(
-              onPressed: () {
-                Get.to(EmailAndPassPage(), arguments: 'candidate');
-              },
-              text: 'Я ищу работу',
-              theme: theme,
-              height: 52.h,
-              width: 336.w,
-            ),
-            SizedBox(height: 10.h),
-            CustomButton.filled(
-              onPressed: () {
-                Get.to(EmailAndPassPage(), arguments: 'company');
-              },
-              text: 'Я ищу сотрудников',
-              theme: theme,
-              height: 48.h,
-              width: 336.w,
-            ),
-            SizedBox(height: 6.h),
-            Text(
-              'В дальнейшем роль можно изменить',
-              style: CustomStyles.nunitoLight14.copyWith(
-                color: theme.palette.textSecondary,
-              ),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
