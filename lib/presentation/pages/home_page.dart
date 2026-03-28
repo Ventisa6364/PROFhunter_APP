@@ -18,6 +18,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        title: Text(
+          'Главная',
+          style: CustomStyles.nunitoBold28.copyWith(color: theme.palette.text),
+        ),
+        backgroundColor: theme.palette.block,
+      ),
       body: Center(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 36.w, vertical: 64.h),
@@ -31,7 +38,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 textAlign: .center,
               ),
-              Container(height: 28.h,),
+              SizedBox(height: 28.h),
               CustomButton.filled(
                 theme: theme,
                 onPressed: _getReg,
@@ -39,7 +46,7 @@ class _HomePageState extends State<HomePage> {
                 height: 48.h,
                 width: 336.w,
               ),
-              Container(height: 16.h,),
+              Container(height: 16.h),
               CustomButton.filled(
                 theme: theme,
                 onPressed: null,

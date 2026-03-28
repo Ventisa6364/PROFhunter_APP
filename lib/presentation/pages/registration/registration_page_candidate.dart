@@ -13,7 +13,8 @@ class RegistrationCandidatePage extends StatefulWidget {
   RegistrationCandidatePage({super.key});
 
   @override
-  State<RegistrationCandidatePage> createState() => _RegistrationCandidatePageState();
+  State<RegistrationCandidatePage> createState() =>
+      _RegistrationCandidatePageState();
 }
 
 class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
@@ -26,50 +27,22 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBarWidget(
+        title: "Создать аккаунт",
+        subtitle: "Заполните основные данные",
+      ),
       body: Padding(
         padding: .only(
-          top: 20.h,
-          right: 15.w,
-          bottom: 30.h,
-          left: 15.w,
-        ).add(MediaQuery.paddingOf(context)),
+          top: 16.h,
+          right: 16.w,
+          bottom: 36.h,
+          left: 16.w,
+        ),
         child: Column(
           mainAxisAlignment: .spaceBetween,
           children: [
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: _getBack,
-                      child: Icon(Icons.arrow_back_rounded, color: theme.palette.icon,),
-                    ),
-                    Column(
-                      spacing: 12.h,
-                      crossAxisAlignment: .end,
-                      mainAxisAlignment: .end,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 3.w, left: 2.w),
-                          child: Text(
-                            "Создать аккаунт",
-                            style: CustomStyles.nunitoBold28.copyWith(
-                              color: theme.palette.text,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "Заполните основные данные",
-                          style: CustomStyles.nunitoMedium16.copyWith(
-                            color: theme.palette.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30),
                 Column(
                   mainAxisAlignment: .center,
                   crossAxisAlignment: .stretch,
@@ -80,21 +53,6 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                       textHint: 'Введите имя',
                       label: 'Имя',
                     ),
-                    // CustomTextInput(
-                    //   controller: widget.emailController,
-                    //   textHint: 'email@example.com',
-                    //   label: 'E-mail',
-                    // ),
-                    // CustomPasswordInput(
-                    //   controller: widget.passwordController,
-                    //   label: 'Пароль',
-                    //   textHint: 'Password',
-                    // ),
-                    // CustomPasswordInput(
-                    //   controller: widget.passwordConfirmController,
-                    //   label: 'Повторите пароль',
-                    //   textHint: ' Confirm password',
-                    // ),
                     CustomSelectorWidget(
                       selectList: [
                         "Республика Адыгея (Адыгея)",
@@ -187,7 +145,8 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                           selectedRegion = value!;
                         });
                       },
-                      width: 400.w, selectedValue: '',
+                      width: 400.w,
+                      selectedValue: '',
                     ),
                   ],
                 ),
@@ -210,6 +169,4 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
       ),
     );
   }
-
-  void _getBack() => Get.back();
 }

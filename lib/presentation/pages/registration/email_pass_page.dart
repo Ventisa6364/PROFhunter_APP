@@ -18,59 +18,29 @@ class EmailAndPassPage extends StatefulWidget {
 
 class _EmailAndPassPageState extends State<EmailAndPassPage> {
   final role = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBarWidget(
+        title: "Создать аккаунт",
+        subtitle: "Введите e-mail и пароль",
+      ),
       body: Padding(
         padding: .only(
-          top: 20.h,
-          right: 15.w,
-          bottom: 30.h,
-          left: 15.w,
-        ).add(MediaQuery.paddingOf(context)),
+          top: 16.h,
+          right: 16.w,
+          bottom: 36.h,
+          left: 16.w,
+        ),
         child: Column(
           mainAxisAlignment: .spaceBetween,
           children: [
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: .spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: _getBack,
-                      child: Icon(
-                        Icons.arrow_back_rounded,
-                        color: theme.palette.icon,
-                      ),
-                    ),
-                    Column(
-                      spacing: 12.h,
-                      crossAxisAlignment: .end,
-                      mainAxisAlignment: .end,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 3.w, left: 2.w),
-                          child: Text(
-                            "Создать аккаунт",
-                            style: CustomStyles.nunitoBold28.copyWith(
-                              color: theme.palette.text,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "Введите e-mail и придумайте пароль",
-                          style: CustomStyles.nunitoMedium16.copyWith(
-                            color: theme.palette.text,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30),
                 Column(
                   mainAxisAlignment: .center,
                   crossAxisAlignment: .stretch,
@@ -118,6 +88,4 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
       ),
     );
   }
-
-  void _getBack() => Get.back();
 }
