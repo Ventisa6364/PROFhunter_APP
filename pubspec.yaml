@@ -19,7 +19,7 @@ dependencies:
   profhunteruikit:
     git:
       url: https://github.com/xchizhx/UiKit
-      ref: features/vacancy_ui
+      ref: features/refactoring
 
 dev_dependencies:
   flutter_test:

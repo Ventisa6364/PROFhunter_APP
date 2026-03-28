@@ -47,6 +47,12 @@ class _HomePageState extends State<HomePage> {
                 vacancy: VacancyFlutter(),
                 page: VacancyPage(vacancy: VacancyFlutter()),
               ),
+              Text(
+                'Продолжая, вы соглашаетесь с условиями ',
+                style: CustomStyles.nunitoLight14.copyWith(
+                  color: theme.palette.textSecondary,
+                ),
+              ),
             ],
           ),
         ),
