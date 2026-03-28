@@ -30,12 +30,7 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
         subtitle: "Введите e-mail и пароль",
       ),
       body: Padding(
-        padding: .only(
-          top: 16.h,
-          right: 16.w,
-          bottom: 36.h,
-          left: 16.w,
-        ),
+        padding: .only(top: 16.h, right: 16.w, bottom: 36.h, left: 16.w),
         child: Column(
           mainAxisAlignment: .spaceBetween,
           children: [
@@ -50,16 +45,19 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
                       controller: widget.emailController,
                       textHint: 'email@example.com',
                       label: 'E-mail',
+                      onChanged: (_) => setState(() {}),
                     ),
                     CustomPasswordInput(
                       controller: widget.passwordController,
                       label: 'Пароль',
                       textHint: 'Password',
+                      onChanged: (_) => setState(() {}),
                     ),
                     CustomPasswordInput(
                       controller: widget.passwordConfirmController,
                       label: 'Повторите пароль',
                       textHint: ' Confirm password',
+                      onChanged: (_) => setState(() {}),
                     ),
                   ],
                 ),
@@ -71,13 +69,18 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Продолжить",
-                  onPressed: () {
-                    if (role == 'candidate') {
-                      Get.to(RegistrationCandidatePage());
-                    } else if (role == 'company') {
-                      Get.to(RegistrationCompanyPage());
-                    }
-                  },
+                  onPressed:
+                      (widget.emailController.text.isNotEmpty &&
+                          widget.passwordController.text.isNotEmpty &&
+                          widget.passwordConfirmController.text.isNotEmpty)
+                      ? () {
+                          if (role == 'candidate') {
+                            Get.to(RegistrationCandidatePage());
+                          } else if (role == 'company') {
+                            Get.to(RegistrationCompanyPage());
+                          }
+                        }
+                      : null,
                   height: 48.h,
                   width: 336.w,
                 ),
