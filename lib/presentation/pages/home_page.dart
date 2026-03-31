@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/presentation/pages/registration/choice_role.dart';
+import 'package:profhunterapp/presentation/pages/auth_page.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_model.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
@@ -20,40 +20,53 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 64.h),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        titleSpacing: 16.w,
+        scrolledUnderElevation: 0,
+        backgroundColor: theme.palette.block,
+        title: Row(
+          mainAxisAlignment: .spaceBetween,
+          children: [
+            Text(
+              "Главная",
+              style: CustomStyles.nunitoBold32.copyWith(
+                color: theme.palette.text,
+              ),
+            ),
+            GestureDetector(
+              onTap: _getAuth,
+              child: Icon(
+                Icons.person_outlined,
+                color: theme.palette.icon,
+                size: 32.sp,
+              ),
+            ),
+          ],
+        ),
+      ),
+      body: Padding(
+        padding: .only(right: 16.w, left: 16.w),
+        child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: .center,
-            spacing: 20.h,
+            spacing: 12.h,
             children: [
-              Text(
-                "Начните работу с приложением",
-                style: CustomStyles.nunitoMedium22.copyWith(
-                  color: theme.palette.text,
-                ),
-                textAlign: .center,
+              SizedBox(),
+              VacancyWidget(
+                vacancy: VacancyPython(),
+                page: VacancyPage(vacancy: VacancyPython()),
               ),
-              SizedBox(height: 8.h),
-              CustomButton.filled(
-                theme: theme,
-                onPressed: _getReg,
-                text: 'Создать аккаунт',
-                height: 48.h,
-                width: 336.w,
+              VacancyWidget(
+                vacancy: VacancyFlutter(),
+                page: VacancyPage(vacancy: VacancyFlutter()),
               ),
-              CustomButton.filled(
-                theme: theme,
-                onPressed: null,
-                text: 'Войти в аккаунт',
-                height: 48.h,
-                width: 336.w,
+              VacancyWidget(
+                vacancy: VacancyBackend(),
+                page: VacancyPage(vacancy: VacancyBackend()),
               ),
-              Text(
-                'Продолжая, вы соглашаетесь с условиями ',
-                style: CustomStyles.nunitoLight14.copyWith(
-                  color: theme.palette.textSecondary,
-                ),
+              VacancyWidget(
+                vacancy: VacancyUIUX(),
+                page: VacancyPage(vacancy: VacancyUIUX()),
               ),
             ],
           ),
@@ -62,5 +75,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _getReg() => Get.to(ChoiceRolePage());
+  void _getAuth() => Get.to(AuthPage());
 }

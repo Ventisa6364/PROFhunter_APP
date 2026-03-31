@@ -30,7 +30,7 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
         subtitle: "Введите e-mail и пароль",
       ),
       body: Padding(
-        padding: .only(top: 16.h, right: 16.w, bottom: 36.h, left: 16.w),
+        padding: .fromLTRB(16.h, 16.w, 16.w, 36.h),
         child: Column(
           mainAxisAlignment: .spaceBetween,
           children: [

@@ -160,7 +160,7 @@ packages:
     description:
       path: "."
       ref: "features/refactoring"
-      resolved-ref: dfbea3723f61626acfdfbbf18078169f6e3352d0
+      resolved-ref: "1bf035e378256a13453acd63d9a535f92af52728"
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"
