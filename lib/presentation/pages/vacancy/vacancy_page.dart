@@ -14,23 +14,7 @@ class VacancyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: theme.palette.block,
-        leading: GestureDetector(
-          onTap: _getBack,
-          child: Icon(Icons.arrow_back_rounded, color: theme.palette.icon),
-        ),
-        title: Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            "Вакансия",
-            style: CustomStyles.nunitoBold32.copyWith(
-              color: theme.palette.text,
-            ),
-          ),
-        ),
-      ),
+      appBar: CustomAppBarWidget(title: 'Вакансия'),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -41,13 +25,19 @@ class VacancyPage extends StatelessWidget {
               textChipsEmploymentType: vacancy.employmentType,
               textChipsPlace: vacancy.place,
             ),
-            SizedBox(height: 12.h,),
+            SizedBox(height: 12.h),
             Padding(
               padding: .all(16.r),
               child: Column(
                 spacing: 16.h,
                 children: [
-                  InfoCard(title: 'О компании', child: CompanyInfoContent(address: vacancy.address, orgName: vacancy.orgName,)),
+                  InfoCard(
+                    title: 'О компании',
+                    child: CompanyInfoContent(
+                      address: vacancy.address,
+                      orgName: vacancy.orgName,
+                    ),
+                  ),
                   InfoCard(
                     title: 'Обязанности',
                     child: BulletList(items: vacancy.duties),
