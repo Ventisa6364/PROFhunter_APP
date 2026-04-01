@@ -6,6 +6,7 @@ import 'package:profhunteruikit/uikit.dart';
 class RegistrationCandidatePage extends StatefulWidget {
   final nameController = TextEditingController();
   final role = Get.arguments;
+  final _formKey = GlobalKey<FormState>();
 
   RegistrationCandidatePage({super.key});
 
@@ -32,29 +33,28 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
         child: Column(
           mainAxisAlignment: .spaceBetween,
           children: [
-            Column(
-              children: [
-                Column(
-                  mainAxisAlignment: .center,
-                  crossAxisAlignment: .stretch,
-                  spacing: 5.h,
-                  children: [
-                    CustomTextInput(
-                      controller: widget.nameController,
-                      textHint: 'Введите имя',
-                      label: 'Имя',
-                      onChanged: (_) => setState(() {}),
-                    ),
-                    CustomSelectorRegionWidget(
-                      onChanged: (value) {
-                        setState(() {
-                          selectedRegion = value!;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ],
+            Form(
+              key: widget._formKey,
+              child: Column(
+                mainAxisAlignment: .center,
+                crossAxisAlignment: .stretch,
+                spacing: 4.h,
+                children: [
+                  CustomTextInput.text(
+                    controller: widget.nameController,
+                    textHint: 'Введите имя',
+                    label: 'Имя',
+                    onChanged: (_) => setState(() {}),
+                  ),
+                  CustomSelectorRegionWidget(
+                    onChanged: (value) {
+                      setState(() {
+                        selectedRegion = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
             Column(
               spacing: 15.h,
@@ -62,9 +62,13 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Зарегистрироваться",
-                  onPressed: (widget.nameController.text.isNotEmpty &&
-                      selectedRegion.isNotEmpty)
-                      ? () {} : null,
+                  onPressed: () {
+                    if (widget._formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Обработка данных')),
+                      );
+                    }
+                  },
                   height: 48.h,
                   width: 336.w,
                 ),

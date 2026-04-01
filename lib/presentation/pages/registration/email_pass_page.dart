@@ -9,6 +9,7 @@ class EmailAndPassPage extends StatefulWidget {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final passwordConfirmController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   EmailAndPassPage({super.key});
 
@@ -18,6 +19,14 @@ class EmailAndPassPage extends StatefulWidget {
 
 class _EmailAndPassPageState extends State<EmailAndPassPage> {
   final role = Get.arguments;
+  final emailKey = GlobalKey<CustomTextInputState>();
+  final passwordKey = GlobalKey<CustomPasswordInputState>();
+  final confirmPasswordKey = GlobalKey<CustomPasswordInputState>();
+
+  late var isEmailValid = emailKey.currentState?.validate() ?? false;
+  late var isPasswordValid = passwordKey.currentState?.validate() ?? false;
+  late var isConfirmPasswordValid =
+      confirmPasswordKey.currentState?.validate() ?? false;
 
   @override
   Widget build(BuildContext context) {
@@ -36,30 +45,37 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
           children: [
             Column(
               children: [
-                Column(
-                  mainAxisAlignment: .center,
-                  crossAxisAlignment: .stretch,
-                  spacing: 5.h,
-                  children: [
-                    CustomTextInput(
-                      controller: widget.emailController,
-                      textHint: 'email@example.com',
-                      label: 'E-mail',
-                      onChanged: (_) => setState(() {}),
-                    ),
-                    CustomPasswordInput(
-                      controller: widget.passwordController,
-                      label: 'Пароль',
-                      textHint: 'Password',
-                      onChanged: (_) => setState(() {}),
-                    ),
-                    CustomPasswordInput(
-                      controller: widget.passwordConfirmController,
-                      label: 'Повторите пароль',
-                      textHint: ' Confirm password',
-                      onChanged: (_) => setState(() {}),
-                    ),
-                  ],
+                Form(
+                  key: widget._formKey,
+                  child: Column(
+                    mainAxisAlignment: .center,
+                    crossAxisAlignment: .stretch,
+                    spacing: 5.h,
+                    children: [
+                      CustomTextInput.email(
+                        key: emailKey,
+                        controller: widget.emailController,
+                        textHint: 'email@example.com',
+                        label: 'E-mail',
+                        onChanged: (_) => _updateFormValidity(),
+                      ),
+                      CustomPasswordInput(
+                        key: passwordKey,
+                        controller: widget.passwordController,
+                        label: 'Пароль',
+                        textHint: 'Password',
+                        onChanged: (_) => _updateFormValidity(),
+                      ),
+                      CustomPasswordInput(
+                        key: confirmPasswordKey,
+                        controller: widget.passwordConfirmController,
+                        label: 'Повторите пароль',
+                        textHint: ' Confirm password',
+                        onChanged: (_) => _updateFormValidity(),
+                        confirmController: widget.passwordController,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -69,18 +85,13 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Продолжить",
-                  onPressed:
-                      (widget.emailController.text.isNotEmpty &&
-                          widget.passwordController.text.isNotEmpty &&
-                          widget.passwordConfirmController.text.isNotEmpty)
-                      ? () {
-                          if (role == 'candidate') {
+                  onPressed: (isEmailValid && isPasswordValid && isConfirmPasswordValid) ? () {
+                        if (role == 'candidate') {
                             Get.to(RegistrationCandidatePage());
                           } else if (role == 'company') {
                             Get.to(RegistrationCompanyPage());
                           }
-                        }
-                      : null,
+                      } : null,
                   height: 48.h,
                   width: 336.w,
                 ),
@@ -90,5 +101,18 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
         ),
       ),
     );
+  }
+
+  void _updateFormValidity() {
+    final nextEmailValid = emailKey.currentState?.validate() ?? false;
+    final nextPasswordValid = passwordKey.currentState?.validate() ?? false;
+    final nextConfirmPasswordValid =
+        confirmPasswordKey.currentState?.validate() ?? false;
+
+    setState(() {
+      isEmailValid = nextEmailValid;
+      isPasswordValid = nextPasswordValid;
+      isConfirmPasswordValid = nextConfirmPasswordValid;
+    });
   }
 }
