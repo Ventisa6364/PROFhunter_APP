@@ -16,8 +16,13 @@ class RegistrationCompanyPage extends StatefulWidget {
 }
 
 class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
-  // String selectedRole = Get.arguments;
-  String selectedRegion = '';
+  String? selectedRegion;
+  final nameKey = GlobalKey<CustomTextInputState>();
+  final companyNameKey = GlobalKey<CustomTextInputState>();
+
+  late var isNameValid = nameKey.currentState?.validate() ?? false;
+  late var isCompanyNameValid = companyNameKey.currentState?.validate() ?? false;
+  late bool? isSelectedRegionValid = (selectedRegion != null);
 
   @override
   Widget build(BuildContext context) {
@@ -42,19 +47,22 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                 spacing: 5.h,
                 children: [
                   CustomTextInput.text(
+                    key: companyNameKey,
                     controller: widget.companyNameController,
                     textHint: 'Введите название компании',
                     label: 'Название',
-                    onChanged: (_) => setState(() {}),
+                    onChanged: (_) =>  _updateFormValidity()
                   ),
                   CustomTextInput.text(
+                    key: nameKey,
                     controller: widget.nameController,
                     textHint: 'Введите имя',
                     label: 'Имя',
-                    onChanged: (_) => setState(() {}),
+                    onChanged: (_) =>  _updateFormValidity(),
                   ),
                   CustomSelectorRegionWidget(
                     onChanged: (value) {
+                      _updateFormValidity();
                       setState(() {
                         selectedRegion = value!;
                       });
@@ -69,13 +77,11 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Зарегистрироваться",
-                  onPressed: () {
-                    if (widget._formKey.currentState!.validate()) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Обработка данных')),
-                      );
-                    }
-                  },
+                  onPressed: (isNameValid && isCompanyNameValid && isSelectedRegionValid!) ? () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Обработка данных')),
+                    );
+                  } : null,
                   height: 48.h,
                   width: 336.w,
                 ),
@@ -85,5 +91,17 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
         ),
       ),
     );
+  }
+
+  void _updateFormValidity() {
+    final nextNameValid = nameKey.currentState?.validate() ?? false;
+    final nextCompanyNameValid = companyNameKey.currentState?.validate() ?? false;
+    final nextSelectedRegionValid = selectedRegion != null;
+
+    setState(() {
+      isNameValid = nextNameValid;
+      isCompanyNameValid = nextCompanyNameValid;
+      isSelectedRegionValid = nextSelectedRegionValid as bool?;
+    });
   }
 }

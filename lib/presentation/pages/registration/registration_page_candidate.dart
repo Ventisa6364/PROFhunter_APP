@@ -16,7 +16,11 @@ class RegistrationCandidatePage extends StatefulWidget {
 }
 
 class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
-  String selectedRegion = '';
+  String? selectedRegion;
+  final nameKey = GlobalKey<CustomTextInputState>();
+
+  late var isNameValid = nameKey.currentState?.validate() ?? false;
+  late bool? isSelectedRegionValid = (selectedRegion != null);
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +45,15 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                 spacing: 4.h,
                 children: [
                   CustomTextInput.text(
+                    key: nameKey,
                     controller: widget.nameController,
                     textHint: 'Введите имя',
                     label: 'Имя',
-                    onChanged: (_) => setState(() {}),
+                    onChanged: (_) => _updateFormValidity(),
                   ),
                   CustomSelectorRegionWidget(
                     onChanged: (value) {
+                      _updateFormValidity();
                       setState(() {
                         selectedRegion = value!;
                       });
@@ -62,13 +68,11 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Зарегистрироваться",
-                  onPressed: () {
-                    if (widget._formKey.currentState!.validate()) {
+                  onPressed: (isNameValid && isSelectedRegionValid!) ? () {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Обработка данных')),
                       );
-                    }
-                  },
+                    } : null,
                   height: 48.h,
                   width: 336.w,
                 ),
@@ -78,5 +82,15 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
         ),
       ),
     );
+  }
+
+  void _updateFormValidity() {
+    final nextNameValid = nameKey.currentState?.validate() ?? false;
+    final nextSelectedRegionValid = selectedRegion != null;
+
+    setState(() {
+      isNameValid = nextNameValid;
+      isSelectedRegionValid = nextSelectedRegionValid as bool?;
+    });
   }
 }
