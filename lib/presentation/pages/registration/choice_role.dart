@@ -36,7 +36,7 @@ class _ChoiceRolePageState extends State<ChoiceRolePage> {
           children: [
             CustomButton.filled(
               onPressed: () {
-                Get.to(EmailAndPassPage(), arguments: 'candidate');
+                Get.to(() => EmailAndPassPage(), arguments: 'candidate');
               },
               text: 'Я ищу работу',
               theme: theme,
@@ -46,7 +46,7 @@ class _ChoiceRolePageState extends State<ChoiceRolePage> {
             SizedBox(height: 10.h),
             CustomButton.filled(
               onPressed: () {
-                Get.to(EmailAndPassPage(), arguments: 'company');
+                Get.to(() => EmailAndPassPage(), arguments: 'company');
               },
               text: 'Я ищу сотрудников',
               theme: theme,

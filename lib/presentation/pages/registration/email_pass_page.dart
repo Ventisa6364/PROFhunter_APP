@@ -85,13 +85,32 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Продолжить",
-                  onPressed: (isEmailValid && isPasswordValid && isConfirmPasswordValid) ? () {
-                        if (role == 'candidate') {
-                            Get.to(RegistrationCandidatePage());
+                  onPressed:
+                      (isEmailValid &&
+                          isPasswordValid &&
+                          isConfirmPasswordValid)
+                      ? () {
+                          if (role == 'candidate') {
+                            Get.to(
+                              () => RegistrationCandidatePage(
+                                email: widget.emailController.text,
+                                password: widget.passwordController.text,
+                                confirmPassword:
+                                    widget.passwordConfirmController.text,
+                              ),
+                            );
                           } else if (role == 'company') {
-                            Get.to(RegistrationCompanyPage());
+                            Get.to(
+                              () => RegistrationCompanyPage(
+                                email: widget.emailController.text,
+                                password: widget.passwordController.text,
+                                confirmPassword:
+                                    widget.passwordConfirmController.text,
+                              ),
+                            );
                           }
-                      } : null,
+                        }
+                      : null,
                   height: 48.h,
                   width: 336.w,
                 ),

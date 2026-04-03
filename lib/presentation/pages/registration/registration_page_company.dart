@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:profhunterapp/auth/auth_controller.dart';
+import 'package:profhunterapp/presentation/pages/profile.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class RegistrationCompanyPage extends StatefulWidget {
@@ -8,7 +10,18 @@ class RegistrationCompanyPage extends StatefulWidget {
   final companyNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  RegistrationCompanyPage({super.key});
+  final controller = Get.find<AuthController>();
+
+  final String email;
+  final String password;
+  final String confirmPassword;
+
+  RegistrationCompanyPage({
+    super.key,
+    required this.email,
+    required this.password,
+    required this.confirmPassword,
+  });
 
   @override
   State<RegistrationCompanyPage> createState() =>
@@ -21,7 +34,8 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
   final companyNameKey = GlobalKey<CustomTextInputState>();
 
   late var isNameValid = nameKey.currentState?.validate() ?? false;
-  late var isCompanyNameValid = companyNameKey.currentState?.validate() ?? false;
+  late var isCompanyNameValid =
+      companyNameKey.currentState?.validate() ?? false;
   late bool? isSelectedRegionValid = (selectedRegion != null);
 
   @override
@@ -51,14 +65,14 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                     controller: widget.companyNameController,
                     textHint: 'Введите название компании',
                     label: 'Название',
-                    onChanged: (_) =>  _updateFormValidity()
+                    onChanged: (_) => _updateFormValidity(),
                   ),
                   CustomTextInput.text(
                     key: nameKey,
                     controller: widget.nameController,
                     textHint: 'Введите имя',
                     label: 'Имя',
-                    onChanged: (_) =>  _updateFormValidity(),
+                    onChanged: (_) => _updateFormValidity(),
                   ),
                   CustomSelectorRegionWidget(
                     onChanged: (value) {
@@ -77,11 +91,28 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Зарегистрироваться",
-                  onPressed: (isNameValid && isCompanyNameValid && isSelectedRegionValid!) ? () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Обработка данных')),
-                    );
-                  } : null,
+                  onPressed:
+                      (isNameValid &&
+                          isCompanyNameValid &&
+                          isSelectedRegionValid!)
+                      ? () async {
+                          await widget.controller.signUp(
+                            email: widget.email,
+                            password: widget.password,
+                            passwordConfirm: widget.confirmPassword,
+                            name: widget.nameController.text,
+                            selectedRegion: selectedRegion!,
+                            companyName: widget.companyNameController.text,
+                          );
+
+                          await widget.controller.signIn(
+                            email: widget.email,
+                            password: widget.password,
+                          );
+
+                          Get.to(() => ProfileScreen());
+                        }
+                      : null,
                   height: 48.h,
                   width: 336.w,
                 ),
@@ -95,7 +126,8 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
 
   void _updateFormValidity() {
     final nextNameValid = nameKey.currentState?.validate() ?? false;
-    final nextCompanyNameValid = companyNameKey.currentState?.validate() ?? false;
+    final nextCompanyNameValid =
+        companyNameKey.currentState?.validate() ?? false;
     final nextSelectedRegionValid = selectedRegion != null;
 
     setState(() {

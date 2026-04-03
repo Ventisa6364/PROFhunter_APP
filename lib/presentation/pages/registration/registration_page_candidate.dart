@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:profhunterapp/auth/auth_controller.dart';
+import 'package:profhunterapp/presentation/pages/profile.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class RegistrationCandidatePage extends StatefulWidget {
   final nameController = TextEditingController();
-  final role = Get.arguments;
   final _formKey = GlobalKey<FormState>();
 
-  RegistrationCandidatePage({super.key});
+  final controller = Get.find<AuthController>();
+
+  final String email;
+  final String password;
+  final String confirmPassword;
+
+  RegistrationCandidatePage({
+    super.key,
+    required this.email,
+    required this.password,
+    required this.confirmPassword,
+  });
 
   @override
   State<RegistrationCandidatePage> createState() =>
@@ -68,11 +80,25 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Зарегистрироваться",
-                  onPressed: (isNameValid && isSelectedRegionValid!) ? () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Обработка данных')),
-                      );
-                    } : null,
+                  onPressed: (isNameValid && isSelectedRegionValid!)
+                      ? () async {
+                          await widget.controller.signUp(
+                            email: widget.email,
+                            password: widget.password,
+                            passwordConfirm: widget.confirmPassword,
+                            name: widget.nameController.text,
+                            selectedRegion: selectedRegion!,
+                            companyName: '',
+                          );
+
+                          await widget.controller.signIn(
+                            email: widget.email,
+                            password: widget.password,
+                          );
+
+                          Get.to(() => ProfileScreen());
+                        }
+                      : null,
                   height: 48.h,
                   width: 336.w,
                 ),
