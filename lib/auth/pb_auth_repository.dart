@@ -8,6 +8,7 @@ class PocketBaseAuthRepository implements AuthRepository {
   PocketBaseAuthRepository(this.pb);
 
   @override
+  @override
   Future<AppUser> signUp({
     required String email,
     required String password,
@@ -16,54 +17,45 @@ class PocketBaseAuthRepository implements AuthRepository {
     required String companyName,
     required String selectedRegion,
   }) async {
-    final record = await pb
-        .collection('users')
-        .create(
-          body: {
-            'email': email,
-            'password': password,
-            'passwordConfirm': passwordConfirm,
-            'name': name,
-            'selectedRegion': selectedRegion,
-            'companyName': companyName,
-          },
-        );
+    final record = await pb.collection('users').create(
+      body: {
+        'email': email,
+        'password': password,
+        'passwordConfirm': passwordConfirm,
+        'name': name,
+        'companyName': companyName,
+        'selectedRegion': selectedRegion,
+      },
+    );
 
     return AppUser(
       id: record.id,
-      email: record.data['email'],
-      name: record.data['name'],
+      email: record.data['email'] as String? ?? '',
+      name: record.data['name'] as String? ?? '',
+      companyName: record.data['companyName'] as String? ?? '',
+      selectedRegion: record.data['selectedRegion'] as String? ?? '',
     );
   }
 
+  @override
   @override
   Future<AppUser> signIn({
     required String email,
     required String password,
   }) async {
-    final authData = await pb
-        .collection('users')
-        .authWithPassword(email, password);
+    final authData = await pb.collection('users').authWithPassword(
+      email,
+      password,
+    );
 
     final user = authData.record;
 
     return AppUser(
       id: user.id,
-      email: user.data['email'],
-      name: user.data['name'],
-    );
-  }
-
-  @override
-  AppUser? get currentUser {
-    final user = pb.authStore.record;
-
-    if (user == null) return null;
-
-    return AppUser(
-      id: user.id,
-      email: user.data['email'],
-      name: user.data['name'],
+      email: user.data['email'] as String? ?? '',
+      name: user.data['name'] as String? ?? '',
+      companyName: user.data['companyName'] as String? ?? '',
+      selectedRegion: user.data['selectedRegion'] as String? ?? '',
     );
   }
 
@@ -74,4 +66,18 @@ class PocketBaseAuthRepository implements AuthRepository {
 
   @override
   bool get isLoggedIn => pb.authStore.isValid;
+
+  @override
+  AppUser? get currentUser {
+    final user = pb.authStore.record;
+    if (user == null) return null;
+
+    return AppUser(
+      id: user.id,
+      email: user.data['email'] as String? ?? '',
+      name: user.data['name'] as String? ?? '',
+      companyName: user.data['companyName'] as String? ?? '',
+      selectedRegion: user.data['selectedRegion'] as String? ?? '',
+    );
+  }
 }

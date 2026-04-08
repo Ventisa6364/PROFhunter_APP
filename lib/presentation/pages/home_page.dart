@@ -72,6 +72,7 @@ class _HomePageState extends State<HomePage> {
                 vacancy: VacancyUIUX(),
                 page: VacancyPage(vacancy: VacancyUIUX()),
               ),
+              SizedBox(height: 12.h),
             ],
           ),
         ),
@@ -79,7 +80,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  void _getProfile() => (controller.isLoggedIn)
-      ? {Get.to(() => ProfileScreen())}
-      : {Get.to(() => AuthPage())};
+  void _getProfile() {
+    if (controller.isLoggedIn) {
+      Get.to(() => ProfileScreen());
+    } else {
+      Get.to(() => AuthPage());
+    }
+  }
 }

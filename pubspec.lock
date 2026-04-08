@@ -215,8 +215,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "features/refactoring"
-      resolved-ref: "15be5d0e1ea2a26a3cbeefe38ed2bd5efc9fedb3"
+      ref: "features/profile_ui"
+      resolved-ref: "91da7c7fb28e47799540502b892951aaf4788260"
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"

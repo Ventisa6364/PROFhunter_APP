@@ -9,8 +9,6 @@ class RegistrationCandidatePage extends StatefulWidget {
   final nameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  final controller = Get.find<AuthController>();
-
   final String email;
   final String password;
   final String confirmPassword;
@@ -30,6 +28,8 @@ class RegistrationCandidatePage extends StatefulWidget {
 class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
   String? selectedRegion;
   final nameKey = GlobalKey<CustomTextInputState>();
+
+  final controller = Get.find<AuthController>();
 
   late var isNameValid = nameKey.currentState?.validate() ?? false;
   late bool? isSelectedRegionValid = (selectedRegion != null);
@@ -82,18 +82,13 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                   text: "Зарегистрироваться",
                   onPressed: (isNameValid && isSelectedRegionValid!)
                       ? () async {
-                          await widget.controller.signUp(
+                          await controller.signUp(
                             email: widget.email,
                             password: widget.password,
                             passwordConfirm: widget.confirmPassword,
                             name: widget.nameController.text,
                             selectedRegion: selectedRegion!,
                             companyName: '',
-                          );
-
-                          await widget.controller.signIn(
-                            email: widget.email,
-                            password: widget.password,
                           );
 
                           Get.to(() => ProfileScreen());

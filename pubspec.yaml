@@ -21,7 +21,7 @@ dependencies:
   profhunteruikit:
     git:
       url: https://github.com/xchizhx/UiKit
-      ref: features/refactoring
+      ref: features/profile_ui
 
 dev_dependencies:
   flutter_test:

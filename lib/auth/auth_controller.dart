@@ -20,11 +20,7 @@ class AuthController extends ChangeNotifier {
     required String selectedRegion,
   }) async {
     try {
-      isLoading = true;
-      error = null;
-      notifyListeners();
-
-      user = await repository.signUp(
+      await repository.signUp(
         email: email,
         password: password,
         passwordConfirm: passwordConfirm,
@@ -32,11 +28,14 @@ class AuthController extends ChangeNotifier {
         companyName: companyName,
         selectedRegion: selectedRegion,
       );
-    } catch (e) {
-      error = e.toString();
-    } finally {
-      isLoading = false;
-      notifyListeners();
+
+      user = await repository.signIn(
+        email: email,
+        password: password,
+      );
+    } catch (e, s) {
+      print('AUTH ERROR: $e');
+      print('STACKTRACE:\n$s');
     }
   }
 

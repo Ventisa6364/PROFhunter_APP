@@ -10,8 +10,6 @@ class RegistrationCompanyPage extends StatefulWidget {
   final companyNameController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  final controller = Get.find<AuthController>();
-
   final String email;
   final String password;
   final String confirmPassword;
@@ -32,6 +30,8 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
   String? selectedRegion;
   final nameKey = GlobalKey<CustomTextInputState>();
   final companyNameKey = GlobalKey<CustomTextInputState>();
+
+  final controller = Get.find<AuthController>();
 
   late var isNameValid = nameKey.currentState?.validate() ?? false;
   late var isCompanyNameValid =
@@ -96,7 +96,7 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                           isCompanyNameValid &&
                           isSelectedRegionValid!)
                       ? () async {
-                          await widget.controller.signUp(
+                          await controller.signUp(
                             email: widget.email,
                             password: widget.password,
                             passwordConfirm: widget.confirmPassword,
@@ -105,12 +105,7 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                             companyName: widget.companyNameController.text,
                           );
 
-                          await widget.controller.signIn(
-                            email: widget.email,
-                            password: widget.password,
-                          );
-
-                          Get.to(() => ProfileScreen());
+                          if (controller.isLoggedIn) {Get.to(() => ProfileScreen());}
                         }
                       : null,
                   height: 48.h,

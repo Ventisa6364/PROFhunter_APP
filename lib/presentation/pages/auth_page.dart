@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/presentation/pages/auth_page.dart';
+import 'package:profhunterapp/presentation/pages/sign_in_page.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/registration/choice_role.dart';
 import 'package:profhunteruikit/uikit.dart';
@@ -22,7 +22,7 @@ class _AuthPageState extends State<AuthPage> {
       resizeToAvoidBottomInset: false,
       body: Center(
         child: Padding(
-          padding: EdgeInsets.symmetric(vertical: 64.h),
+          padding: .symmetric(vertical: 64.h),
           child: Column(
             mainAxisAlignment: .center,
             spacing: 20.h,
@@ -44,7 +44,7 @@ class _AuthPageState extends State<AuthPage> {
               ),
               CustomButton.filled(
                 theme: theme,
-                onPressed: null,
+                onPressed: _getSignIn,
                 text: 'Войти в аккаунт',
                 height: 48.h,
                 width: 336.w,
@@ -70,6 +70,8 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   void _getReg() => Get.to(ChoiceRolePage());
+
+  void _getSignIn() => Get.to(SignInPage());
 
   void _getHome() => Get.to(HomePage());
 }

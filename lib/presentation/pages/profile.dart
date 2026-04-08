@@ -1,344 +1,189 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:profhunterapp/auth/auth_controller.dart';
+import 'package:profhunterapp/presentation/pages/home_page.dart';
+import 'package:profhunteruikit/uikit.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const bgColor = Color(0xFFF5F6FA);
-    const primaryColor = Color(0xFF1565D8);
-    const textColor = Color(0xFF1C2230);
-    const subTextColor = Color(0xFF6B7280);
-    const borderColor = Color(0xFFD9DDE5);
-
+    var theme = CustomTheme.of(context);
+    final controller = Get.find<AuthController>();
+    final user = controller.user ?? controller.repository.currentUser;
     return Scaffold(
-      backgroundColor: bgColor,
-      body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 10),
-              child: Row(
+      backgroundColor: theme.palette.background,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        titleSpacing: 16.w,
+        scrolledUnderElevation: 0,
+        backgroundColor: theme.palette.block,
+        title: Text(
+          'Профиль',
+          style: CustomStyles.nunitoBold32.copyWith(color: theme.palette.text),
+        ),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.close, size: 32.sp),
+            onPressed: () => Get.to(() => HomePage()),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              padding: .symmetric(horizontal: 20.w, vertical: 8.h),
+              child: Column(
                 children: [
-                  IconButton(
-                    onPressed: () => Navigator.pop(context),
-                    icon: const Icon(Icons.arrow_back_ios_new, color: textColor),
+                  Container(
+                    width: double.infinity,
+                    padding: .all(20.r),
+                    decoration: BoxDecoration(
+                      color: theme.palette.block,
+                      borderRadius: .circular(24.r),
+                      border: .all(color: theme.palette.border),
+                    ),
+                    child: Column(
+                      children: [
+                        CircleAvatar(
+                          radius: 32.r,
+                          backgroundColor: theme.palette.blue.withAlpha(0x1f),
+                          child: Icon(
+                            Icons.person_outline,
+                            size: 32.r,
+                            color: theme.palette.blue,
+                          ),
+                        ),
+                        SizedBox(height: 14.h),
+                        Text(
+                          user?.name ?? '',
+                          style: CustomStyles.nunitoMedium18.copyWith(
+                            color: theme.palette.text,
+                          ),
+                        ),
+                        SizedBox(height: 6.h),
+                        Text(
+                          user?.email ?? '',
+                          style: CustomStyles.nunitoMedium14.copyWith(
+                            color: theme.palette.textSecondary,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        Container(
+                          padding: .symmetric(horizontal: 14.w, vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: theme.palette.blue.withAlpha(0x1f),
+                            borderRadius: .circular(14.r),
+                          ),
+                          child: Text(
+                            'Я ищу работу',
+                            style: CustomStyles.nunitoMedium14.copyWith(
+                              color: theme.palette.blue,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  const Expanded(
+
+                  SizedBox(height: 18.h),
+
+                  ProfileCard(
+                    title: 'Основная информация',
+                    child: Column(
+                      spacing: 16.h,
+                      children: [
+                        ProfileRow(
+                          icon: Icons.person_outline,
+                          title: 'Имя',
+                          value: user?.name ?? '',
+                        ),
+                        ProfileRow(
+                          icon: Icons.location_on_outlined,
+                          title: 'Регион',
+                          value: user?.selectedRegion ?? '',
+                        ),
+                        ProfileRow(
+                          icon: Icons.email_outlined,
+                          title: 'E-mail',
+                          value: user?.email ?? '',
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 18.h),
+
+                  ProfileCard(
+                    title: 'Мои навыки',
+                    child: Wrap(
+                      spacing: 10.w,
+                      runSpacing: 10.w,
+                      children: [
+                        SkillChip(label: 'Flutter'),
+                        SkillChip(label: 'Dart'),
+                        SkillChip(label: 'Firebase'),
+                        SkillChip(label: 'REST API'),
+                      ],
+                    ),
+                  ),
+
+                  SizedBox(height: 18.h),
+
+                  ProfileCard(
+                    title: 'О себе',
                     child: Text(
-                      'Профиль',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.w800,
-                        color: textColor,
+                      'Начинающий mobile-разработчик. Ищу возможности для роста и участия в интересных проектах.',
+                      style: CustomStyles.nunitoMedium16.copyWith(
+                        color: theme.palette.text,
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.edit_outlined, color: textColor),
+
+                  SizedBox(height: 28.h),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58.h,
+                    child: CustomButton.filled(
+                      onPressed: () {},
+                      text: 'Редактировать профиль',
+                      theme: CustomTheme.of(context),
+                      height: 48.h,
+                      width: 336.w,
+                    ),
                   ),
+
+                  SizedBox(height: 14.h),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58.h,
+                    child: CustomButton.simple(
+                      onPressed: () {
+                        controller.signOut();
+                        Get.to(() => HomePage());
+                      },
+                      text: 'Выйти из аккаунта',
+                      theme: theme,
+                      height: 48.h,
+                      width: 336.w,
+                    ),
+                  ),
+
+                  SizedBox(height: 24.h),
                 ],
               ),
             ),
-
-            Expanded(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                child: Column(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: borderColor),
-                      ),
-                      child: Column(
-                        children: [
-                          CircleAvatar(
-                            radius: 42,
-                            backgroundColor: primaryColor.withOpacity(0.12),
-                            child: const Icon(
-                              Icons.person_outline,
-                              size: 42,
-                              color: primaryColor,
-                            ),
-                          ),
-                          const SizedBox(height: 14),
-                          const Text(
-                            'Лоло',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w800,
-                              color: textColor,
-                            ),
-                          ),
-                          const SizedBox(height: 6),
-                          const Text(
-                            'cerkgosa@gmail.com',
-                            style: TextStyle(
-                              fontSize: 15,
-                              color: subTextColor,
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14,
-                              vertical: 8,
-                            ),
-                            decoration: BoxDecoration(
-                              color: primaryColor.withOpacity(0.10),
-                              borderRadius: BorderRadius.circular(14),
-                            ),
-                            child: const Text(
-                              'Я ищу работу',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: primaryColor,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    _ProfileCard(
-                      title: 'Основная информация',
-                      child: Column(
-                        children: const [
-                          _ProfileRow(
-                            icon: Icons.person_outline,
-                            title: 'Имя',
-                            value: 'Лоло',
-                          ),
-                          SizedBox(height: 16),
-                          _ProfileRow(
-                            icon: Icons.location_on_outlined,
-                            title: 'Регион',
-                            value: 'Кабардино-Балкарская Республика',
-                          ),
-                          SizedBox(height: 16),
-                          _ProfileRow(
-                            icon: Icons.email_outlined,
-                            title: 'E-mail',
-                            value: 'cerkgosa@gmail.com',
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    _ProfileCard(
-                      title: 'Мои навыки',
-                      child: Wrap(
-                        spacing: 10,
-                        runSpacing: 10,
-                        children: const [
-                          _SkillChip(label: 'Flutter'),
-                          _SkillChip(label: 'Dart'),
-                          _SkillChip(label: 'Firebase'),
-                          _SkillChip(label: 'REST API'),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(height: 18),
-
-                    _ProfileCard(
-                      title: 'О себе',
-                      child: const Text(
-                        'Начинающий mobile-разработчик. Ищу возможности для роста и участия в интересных проектах.',
-                        style: TextStyle(
-                          fontSize: 15,
-                          height: 1.5,
-                          color: textColor,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 28),
-
-                    SizedBox(
-                      width: double.infinity,
-                      height: 58,
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: primaryColor,
-                          elevation: 2,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: const Text(
-                          'Редактировать профиль',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 14),
-
-                    SizedBox(
-                      width: double.infinity,
-                      height: 58,
-                      child: OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(color: borderColor),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          backgroundColor: Colors.white,
-                        ),
-                        child: const Text(
-                          'Выйти из аккаунта',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500,
-                            color: textColor,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 24),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ProfileCard extends StatelessWidget {
-  final String title;
-  final Widget child;
-
-  const _ProfileCard({
-    required this.title,
-    required this.child,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const borderColor = Color(0xFFD9DDE5);
-    const textColor = Color(0xFF1C2230);
-
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: borderColor),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: textColor,
-            ),
           ),
-          const SizedBox(height: 16),
-          child,
         ],
       ),
     );
   }
-}
 
-class _ProfileRow extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String value;
-
-  const _ProfileRow({
-    required this.icon,
-    required this.title,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    const textColor = Color(0xFF1C2230);
-    const subTextColor = Color(0xFF6B7280);
-
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Icon(icon, color: subTextColor, size: 22),
-        const SizedBox(width: 12),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: subTextColor,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: textColor,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SkillChip extends StatelessWidget {
-  final String label;
-
-  const _SkillChip({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    const primaryColor = Color(0xFF1565D8);
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-      decoration: BoxDecoration(
-        color: primaryColor.withOpacity(0.08),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Text(
-        label,
-        style: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: primaryColor,
-        ),
-      ),
-    );
-  }
+  void _getHome() => Get.to(HomePage());
 }
