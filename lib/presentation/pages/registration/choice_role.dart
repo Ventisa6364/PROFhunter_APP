@@ -28,6 +28,8 @@ class _ChoiceRolePageState extends State<ChoiceRolePage> {
       appBar: CustomAppBarWidget(
         title: "Создать аккаунт",
         subtitle: "Выберите роль, чтобы продолжить",
+        iconBtn: Icons.arrow_back_rounded,
+        onPressed: _getBack,
       ),
       body: Center(
         child: Column(
@@ -65,4 +67,6 @@ class _ChoiceRolePageState extends State<ChoiceRolePage> {
       ),
     );
   }
+
+  void _getBack() => Get.back();
 }

@@ -14,7 +14,11 @@ class VacancyPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBarWidget(title: 'Вакансия'),
+      appBar: CustomAppBarWidget(
+        title: 'Вакансия',
+        iconBtn: Icons.arrow_back_rounded,
+        onPressed: _getBack,
+      ),
       body: SingleChildScrollView(
         child: Column(
           children: [

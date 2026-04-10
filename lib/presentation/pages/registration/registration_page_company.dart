@@ -47,6 +47,8 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
       appBar: CustomAppBarWidget(
         title: "Создать аккаунт",
         subtitle: "Укажите данные компании",
+        iconBtn: Icons.arrow_back_rounded,
+        onPressed: _getBack,
       ),
       body: Padding(
         padding: .fromLTRB(16.h, 16.w, 16.w, 36.h),
@@ -105,7 +107,9 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                             companyName: widget.companyNameController.text,
                           );
 
-                          if (controller.isLoggedIn) {Get.to(() => ProfileScreen());}
+                          if (controller.isLoggedIn) {
+                            Get.to(() => ProfileScreen());
+                          }
                         }
                       : null,
                   height: 48.h,
@@ -131,4 +135,6 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
       isSelectedRegionValid = nextSelectedRegionValid as bool?;
     });
   }
+
+  void _getBack() => Get.back();
 }

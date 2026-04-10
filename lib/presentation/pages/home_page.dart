@@ -24,30 +24,10 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        titleSpacing: 16.w,
-        scrolledUnderElevation: 0,
-        backgroundColor: theme.palette.block,
-        title: Row(
-          mainAxisAlignment: .spaceBetween,
-          children: [
-            Text(
-              "Главная",
-              style: CustomStyles.nunitoBold32.copyWith(
-                color: theme.palette.text,
-              ),
-            ),
-            GestureDetector(
-              onTap: _getProfile,
-              child: Icon(
-                Icons.person_outlined,
-                color: theme.palette.icon,
-                size: 32.sp,
-              ),
-            ),
-          ],
-        ),
+      appBar: CustomAppBarWidget(
+        title: 'Главная',
+        iconBtn: Icons.person_outlined,
+        onPressed: _getProfile,
       ),
       body: Padding(
         padding: .only(right: 16.w, left: 16.w),

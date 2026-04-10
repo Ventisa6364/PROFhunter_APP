@@ -37,6 +37,8 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
       appBar: CustomAppBarWidget(
         title: "Создать аккаунт",
         subtitle: "Введите e-mail и пароль",
+        iconBtn: Icons.arrow_back_rounded,
+        onPressed: _getBack,
       ),
       body: Padding(
         padding: .fromLTRB(16.h, 16.w, 16.w, 36.h),
@@ -134,4 +136,6 @@ class _EmailAndPassPageState extends State<EmailAndPassPage> {
       isConfirmPasswordValid = nextConfirmPasswordValid;
     });
   }
+
+  void _getBack() => Get.back();
 }

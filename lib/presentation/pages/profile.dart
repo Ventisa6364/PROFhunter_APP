@@ -15,22 +15,10 @@ class ProfileScreen extends StatelessWidget {
     final user = controller.user ?? controller.repository.currentUser;
     return Scaffold(
       backgroundColor: theme.palette.background,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        titleSpacing: 16.w,
-        scrolledUnderElevation: 0,
-        backgroundColor: theme.palette.block,
-        title: Text(
-          'Профиль',
-          style: CustomStyles.nunitoBold32.copyWith(color: theme.palette.text),
-        ),
-        centerTitle: false,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.close, size: 32.sp),
-            onPressed: () => Get.to(() => HomePage()),
-          ),
-        ],
+      appBar: CustomAppBarWidget(
+        title: 'Профиль',
+        iconBtn: Icons.close,
+        onPressed: () => Get.to(() => HomePage()),
       ),
       body: Column(
         children: [

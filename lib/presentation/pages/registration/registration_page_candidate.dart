@@ -43,6 +43,8 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
       appBar: CustomAppBarWidget(
         title: "Создать аккаунт",
         subtitle: "Заполните основные данные",
+        iconBtn: Icons.arrow_back_rounded,
+        onPressed: _getBack,
       ),
       body: Padding(
         padding: .fromLTRB(16.h, 16.w, 16.w, 36.h),
@@ -114,4 +116,6 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
       isSelectedRegionValid = nextSelectedRegionValid as bool?;
     });
   }
+
+  void _getBack() => Get.back();
 }

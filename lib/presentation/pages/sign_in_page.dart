@@ -33,7 +33,11 @@ class _SignInPageState extends State<SignInPage> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: false,
-      appBar: CustomAppBarWidget(title: 'Вход'),
+      appBar: CustomAppBarWidget(
+        title: 'Вход',
+        iconBtn: Icons.arrow_back_rounded,
+        onPressed: _getBack,
+      ),
       body: Padding(
         padding: .fromLTRB(16.h, 16.w, 16.w, 36.h),
         child: Column(
@@ -95,6 +99,8 @@ class _SignInPageState extends State<SignInPage> {
       ),
     );
   }
+
+  void _getBack() => Get.back();
 
   void _updateFormValidity() {
     final nextEmailValid = emailKey.currentState?.validate() ?? false;
