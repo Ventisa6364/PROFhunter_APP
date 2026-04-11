@@ -26,6 +26,7 @@ class ProfileScreen extends StatelessWidget {
             child: SingleChildScrollView(
               padding: .symmetric(horizontal: 20.w, vertical: 8.h),
               child: Column(
+                spacing: 8.h,
                 children: [
                   Container(
                     width: double.infinity,
@@ -77,9 +78,6 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-
-                  SizedBox(height: 18.h),
-
                   ProfileCard(
                     title: 'Основная информация',
                     child: Column(
@@ -103,25 +101,35 @@ class ProfileScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-
-                  SizedBox(height: 18.h),
-
                   ProfileCard(
                     title: 'Мои навыки',
                     child: Wrap(
                       spacing: 10.w,
                       runSpacing: 10.w,
                       children: [
-                        SkillChip(label: 'Flutter'),
-                        SkillChip(label: 'Dart'),
-                        SkillChip(label: 'Firebase'),
-                        SkillChip(label: 'REST API'),
+                        ChipsWidget(
+                          backgroundColor: theme.palette.blue.withAlpha(0x1f),
+                          textColor: theme.palette.blue,
+                          text: 'Flutter',
+                        ),
+                        ChipsWidget(
+                          backgroundColor: theme.palette.blue.withAlpha(0x1f),
+                          textColor: theme.palette.blue,
+                          text: 'Dart',
+                        ),
+                        ChipsWidget(
+                          backgroundColor: theme.palette.blue.withAlpha(0x1f),
+                          textColor: theme.palette.blue,
+                          text: 'Firebase',
+                        ),
+                        ChipsWidget(
+                          backgroundColor: theme.palette.blue.withAlpha(0x1f),
+                          textColor: theme.palette.blue,
+                          text: 'REST API',
+                        ),
                       ],
                     ),
                   ),
-
-                  SizedBox(height: 18.h),
-
                   ProfileCard(
                     title: 'О себе',
                     child: Text(
@@ -131,9 +139,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 28.h),
-
+                  SizedBox(height: 10.h),
                   SizedBox(
                     width: double.infinity,
                     height: 58.h,
@@ -145,9 +151,6 @@ class ProfileScreen extends StatelessWidget {
                       width: 336.w,
                     ),
                   ),
-
-                  SizedBox(height: 14.h),
-
                   SizedBox(
                     width: double.infinity,
                     height: 58.h,
@@ -162,8 +165,7 @@ class ProfileScreen extends StatelessWidget {
                       width: 336.w,
                     ),
                   ),
-
-                  SizedBox(height: 24.h),
+                  SizedBox(height: 10.h),
                 ],
               ),
             ),
