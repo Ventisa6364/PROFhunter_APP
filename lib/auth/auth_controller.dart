@@ -18,6 +18,7 @@ class AuthController extends ChangeNotifier {
     required String name,
     required String companyName,
     required String selectedRegion,
+    required String role,
   }) async {
     try {
       await repository.signUp(
@@ -27,6 +28,7 @@ class AuthController extends ChangeNotifier {
         name: name,
         companyName: companyName,
         selectedRegion: selectedRegion,
+        role: role,
       );
 
       user = await repository.signIn(

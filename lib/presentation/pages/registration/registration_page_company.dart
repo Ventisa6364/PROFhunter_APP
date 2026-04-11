@@ -105,6 +105,7 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                             name: widget.nameController.text,
                             selectedRegion: selectedRegion!,
                             companyName: widget.companyNameController.text,
+                            role: 'company',
                           );
 
                           if (controller.isLoggedIn) {

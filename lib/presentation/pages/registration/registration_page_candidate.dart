@@ -91,6 +91,7 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                             name: widget.nameController.text,
                             selectedRegion: selectedRegion!,
                             companyName: '',
+                            role: 'candidate'
                           );
 
                           Get.to(() => ProfileScreen());

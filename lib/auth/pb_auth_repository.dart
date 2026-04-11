@@ -16,6 +16,7 @@ class PocketBaseAuthRepository implements AuthRepository {
     required String name,
     required String companyName,
     required String selectedRegion,
+    required String role,
   }) async {
     final record = await pb.collection('users').create(
       body: {
@@ -25,6 +26,7 @@ class PocketBaseAuthRepository implements AuthRepository {
         'name': name,
         'companyName': companyName,
         'selectedRegion': selectedRegion,
+        'role': role,
       },
     );
 
@@ -34,6 +36,7 @@ class PocketBaseAuthRepository implements AuthRepository {
       name: record.data['name'] as String? ?? '',
       companyName: record.data['companyName'] as String? ?? '',
       selectedRegion: record.data['selectedRegion'] as String? ?? '',
+      role: record.data['role'] as String? ?? '',
     );
   }
 
@@ -56,6 +59,7 @@ class PocketBaseAuthRepository implements AuthRepository {
       name: user.data['name'] as String? ?? '',
       companyName: user.data['companyName'] as String? ?? '',
       selectedRegion: user.data['selectedRegion'] as String? ?? '',
+      role: user.data['role'] as String? ?? '',
     );
   }
 
@@ -78,6 +82,7 @@ class PocketBaseAuthRepository implements AuthRepository {
       name: user.data['name'] as String? ?? '',
       companyName: user.data['companyName'] as String? ?? '',
       selectedRegion: user.data['selectedRegion'] as String? ?? '',
+      role: user.data['role'] as String? ?? '',
     );
   }
 }

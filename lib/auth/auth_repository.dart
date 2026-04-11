@@ -9,6 +9,7 @@ abstract class AuthRepository {
     required String name,
     required String companyName,
     required String selectedRegion,
+    required String role,
   });
 
   Future<AppUser> signIn({
