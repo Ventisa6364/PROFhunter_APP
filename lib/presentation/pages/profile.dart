@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
       appBar: CustomAppBarWidget(
         title: 'Профиль',
         iconBtn: Icons.close,
-        onPressed: () => Get.to(() => HomePage()),
+        onPressed: _getHome,
       ),
       body: Column(
         children: [
@@ -69,7 +69,11 @@ class ProfileScreen extends StatelessWidget {
                             borderRadius: .circular(14.r),
                           ),
                           child: Text(
-                            'Я ищу работу',
+                            (user?.role == 'candidate')
+                                ? 'Я ищу работу'
+                                : (user?.role == 'company')
+                                ? 'Я ищу сотрудников'
+                                : 'Не указано',
                             style: CustomStyles.nunitoMedium14.copyWith(
                               color: theme.palette.blue,
                             ),
