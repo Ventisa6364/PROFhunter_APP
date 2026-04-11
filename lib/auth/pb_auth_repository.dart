@@ -1,13 +1,33 @@
+
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/auth/app_user.dart';
 import 'package:profhunterapp/auth/auth_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PocketBaseAuthRepository implements AuthRepository {
-  final PocketBase pb;
+  late final PocketBase pb;
 
-  PocketBaseAuthRepository(this.pb);
+  Future<void> initPocketBase() async {
+    final prefs = await SharedPreferences.getInstance();
 
-  @override
+    pb = PocketBase(
+      'http://10.0.2.2:8090',
+      authStore: AsyncAuthStore(
+        initial: prefs.getString('pb_auth'),
+        save: (data) async => prefs.setString('pb_auth', data),
+        clear: () async => prefs.remove('pb_auth'),
+      ),
+    );
+
+    if (pb.authStore.isValid) {
+      try {
+        await pb.collection('users').authRefresh();
+      } catch (_) {
+        pb.authStore.clear();
+      }
+    }
+  }
+
   @override
   Future<AppUser> signUp({
     required String email,
@@ -40,7 +60,6 @@ class PocketBaseAuthRepository implements AuthRepository {
     );
   }
 
-  @override
   @override
   Future<AppUser> signIn({
     required String email,

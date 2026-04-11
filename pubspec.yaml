@@ -18,6 +18,8 @@ dependencies:
   pocketbase: ^0.23.2
   dio: ^5.9.2
 
+  shared_preferences: ^2.5.5
+
   profhunteruikit:
     git:
       url: https://github.com/xchizhx/UiKit

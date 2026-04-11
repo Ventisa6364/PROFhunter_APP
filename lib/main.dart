@@ -6,10 +6,11 @@ import 'package:profhunterapp/auth/auth_repository.dart';
 import 'package:profhunterapp/auth/pb_auth_repository.dart';
 import 'package:profhunterapp/presentation/widget/application.dart';
 
-void main() {
-  final pb = PocketBase('http://10.0.2.2:8090');
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  final authRepository = PocketBaseAuthRepository(pb);
+  final authRepository = PocketBaseAuthRepository();
+  await authRepository.initPocketBase();
 
   Get.put<AuthRepository>(authRepository);
   Get.put(AuthController(authRepository));
