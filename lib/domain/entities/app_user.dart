@@ -10,7 +10,7 @@ class AppUser {
   final String aboutCompany;
   final List<String> skills;
 
-  AppUser({
+  const AppUser({
     required this.id,
     required this.email,
     required this.name,

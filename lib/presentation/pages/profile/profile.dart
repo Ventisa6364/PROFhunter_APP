@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/auth/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile_edit_page.dart';
 import 'package:profhunteruikit/uikit.dart';
@@ -13,7 +13,7 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
     final controller = Get.find<AuthController>();
-    final user = controller.user ?? controller.repository.currentUser;
+    final user = controller.user;
     return Scaffold(
       backgroundColor: theme.palette.background,
       appBar: CustomAppBarWidget(

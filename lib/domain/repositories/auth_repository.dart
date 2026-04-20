@@ -1,4 +1,4 @@
-import 'package:profhunterapp/auth/app_user.dart';
+import 'package:profhunterapp/domain/entities/app_user.dart';
 
 abstract class AuthRepository {
 
@@ -15,9 +15,9 @@ abstract class AuthRepository {
   Future<AppUser> signIn({
     required String email,
     required String password,
-});
+  });
 
-  void signOut();
+  Future<void> signOut();
 
   AppUser? get currentUser;
 

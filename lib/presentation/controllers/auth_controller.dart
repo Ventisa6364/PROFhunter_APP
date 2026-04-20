@@ -1,11 +1,19 @@
 import 'package:flutter/cupertino.dart';
-import 'package:profhunterapp/auth/app_user.dart';
-import 'package:profhunterapp/auth/auth_repository.dart';
+import 'package:profhunterapp/domain/entities/app_user.dart';
+import 'package:profhunterapp/domain/usecases/sign_in.dart';
+import 'package:profhunterapp/domain/usecases/sign_out.dart';
+import 'package:profhunterapp/domain/usecases/sign_up.dart';
 
 class AuthController extends ChangeNotifier {
-  final AuthRepository repository;
+  final SignIn signInUseCase;
+  final SignUp signUpUseCase;
+  final SignOut signOutUseCase;
 
-  AuthController(this.repository);
+  AuthController({
+    required this.signInUseCase,
+    required this.signUpUseCase,
+    required this.signOutUseCase,
+  });
 
   bool isLoading = false;
   String? error;
@@ -21,7 +29,11 @@ class AuthController extends ChangeNotifier {
     required String role,
   }) async {
     try {
-      await repository.signUp(
+      isLoading = true;
+      error = null;
+      notifyListeners();
+
+      await signUpUseCase(
         email: email,
         password: password,
         passwordConfirm: passwordConfirm,
@@ -31,13 +43,13 @@ class AuthController extends ChangeNotifier {
         role: role,
       );
 
-      user = await repository.signIn(
-        email: email,
-        password: password,
-      );
-    } catch (e, s) {
-      print('AUTH ERROR: $e');
-      print('STACKTRACE:\n$s');
+      user = await signInUseCase(email: email, password: password);
+    } catch (e) {
+      error = e.toString();
+      print(error);
+    } finally {
+      isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -47,20 +59,21 @@ class AuthController extends ChangeNotifier {
       error = null;
       notifyListeners();
 
-      user = await repository.signIn(email: email, password: password);
+      user = await signInUseCase(email: email, password: password);
     } catch (e) {
       error = e.toString();
+      print(error);
     } finally {
       isLoading = false;
       notifyListeners();
     }
   }
 
-  void signOut() {
-    repository.signOut();
+  Future<void> signOut() async {
+    signOutUseCase;
     user = null;
     notifyListeners();
   }
 
-  bool get isLoggedIn => repository.isLoggedIn;
+  bool get isLoggedIn => user != null;
 }
