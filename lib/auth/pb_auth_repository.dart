@@ -1,4 +1,3 @@
-
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/auth/app_user.dart';
 import 'package:profhunterapp/auth/auth_repository.dart';
@@ -38,17 +37,19 @@ class PocketBaseAuthRepository implements AuthRepository {
     required String selectedRegion,
     required String role,
   }) async {
-    final record = await pb.collection('users').create(
-      body: {
-        'email': email,
-        'password': password,
-        'passwordConfirm': passwordConfirm,
-        'name': name,
-        'companyName': companyName,
-        'selectedRegion': selectedRegion,
-        'role': role,
-      },
-    );
+    final record = await pb
+        .collection('users')
+        .create(
+          body: {
+            'email': email,
+            'password': password,
+            'passwordConfirm': passwordConfirm,
+            'name': name,
+            'companyName': companyName,
+            'selectedRegion': selectedRegion,
+            'role': role,
+          },
+        );
 
     return AppUser(
       id: record.id,
@@ -57,6 +58,10 @@ class PocketBaseAuthRepository implements AuthRepository {
       companyName: record.data['companyName'] as String? ?? '',
       selectedRegion: record.data['selectedRegion'] as String? ?? '',
       role: record.data['role'] as String? ?? '',
+      avatar: '',
+      aboutMyself: '',
+      aboutCompany: '',
+      skills: [],
     );
   }
 
@@ -65,10 +70,9 @@ class PocketBaseAuthRepository implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    final authData = await pb.collection('users').authWithPassword(
-      email,
-      password,
-    );
+    final authData = await pb
+        .collection('users')
+        .authWithPassword(email, password);
 
     final user = authData.record;
 
@@ -79,6 +83,10 @@ class PocketBaseAuthRepository implements AuthRepository {
       companyName: user.data['companyName'] as String? ?? '',
       selectedRegion: user.data['selectedRegion'] as String? ?? '',
       role: user.data['role'] as String? ?? '',
+      avatar: '',
+      aboutMyself: '',
+      aboutCompany: '',
+      skills: [],
     );
   }
 
@@ -102,6 +110,10 @@ class PocketBaseAuthRepository implements AuthRepository {
       companyName: user.data['companyName'] as String? ?? '',
       selectedRegion: user.data['selectedRegion'] as String? ?? '',
       role: user.data['role'] as String? ?? '',
+      avatar: '',
+      aboutMyself: '',
+      aboutCompany: '',
+      skills: [],
     );
   }
 }

@@ -5,6 +5,10 @@ class AppUser {
   final String companyName;
   final String selectedRegion;
   final String role;
+  final String avatar;
+  final String aboutMyself;
+  final String aboutCompany;
+  final List<String> skills;
 
   AppUser({
     required this.id,
@@ -13,5 +17,9 @@ class AppUser {
     required this.companyName,
     required this.selectedRegion,
     required this.role,
+    required this.avatar,
+    required this.aboutMyself,
+    required this.aboutCompany,
+    required this.skills,
   });
 }
