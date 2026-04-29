@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/datasources/auth_remote_data_source.dart';
 import 'package:profhunterapp/data/repositories/auth_repository_impl.dart';
 import 'package:profhunterapp/domain/repositories/auth_repository.dart';
@@ -6,15 +7,31 @@ import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthBinding extends Bindings {
+  final SharedPreferences prefs;
+  AuthBinding(this.prefs);
+
   @override
   void dependencies() {
-    Get.putAsync<AuthRemoteDataSource>(() async {
-      final ds = AuthRemoteDataSource();
-      await ds.initPocketBase();
-      return ds;
-    });
+    final pb = PocketBase(
+      'http://10.0.2.2:8090',
+      authStore: AsyncAuthStore(
+        initial: prefs.getString('pb_auth'),
+        save: (data) async => prefs.setString('pb_auth', data),
+        clear: () async => prefs.remove('pb_auth'),
+      ),
+    );
+
+    Get.put<PocketBase>(pb, permanent: true);
+
+    Get.put(AuthRemoteDataSource(pb));
+
+    Get.put<AuthRepository>(
+      AuthRepositoryImpl(Get.find<AuthRemoteDataSource>()),
+      permanent: true,
+    );
 
     Get.lazyPut<AuthRepository>(
           () => AuthRepositoryImpl(Get.find()),
@@ -33,11 +50,12 @@ class AuthBinding extends Bindings {
     );
 
     Get.lazyPut<AuthController>(
-          () => AuthController(
-        signInUseCase: Get.find<SignIn>(),
-        signUpUseCase: Get.find<SignUp>(),
-        signOutUseCase: Get.find<SignOut>(),
-      ),
+          () =>
+          AuthController(
+            signInUseCase: Get.find<SignIn>(),
+            signUpUseCase: Get.find<SignUp>(),
+            signOutUseCase: Get.find<SignOut>(),
+          ),
     );
   }
 }

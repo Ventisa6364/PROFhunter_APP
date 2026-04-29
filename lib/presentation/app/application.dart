@@ -4,9 +4,11 @@ import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/bindings/auth_binding.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunteruikit/uikit.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Application extends StatefulWidget {
-  const Application({super.key});
+  final SharedPreferences prefs;
+  Application({super.key, required this.prefs});
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -19,7 +21,7 @@ class _ApplicationState extends State<Application> {
       designSize: const Size(376, 832),
       builder: (context, child) {
         return GetMaterialApp(
-          initialBinding: AuthBinding(),
+          initialBinding: AuthBinding(widget.prefs),
           theme: ThemeData().copyWith(
             extensions: [CustomTheme(palette: LightPalette())],
           ),

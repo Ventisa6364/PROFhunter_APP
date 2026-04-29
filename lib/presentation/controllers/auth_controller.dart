@@ -46,7 +46,7 @@ class AuthController extends ChangeNotifier {
       user = await signInUseCase(email: email, password: password);
     } catch (e) {
       error = e.toString();
-      print(error);
+      rethrow;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -62,7 +62,7 @@ class AuthController extends ChangeNotifier {
       user = await signInUseCase(email: email, password: password);
     } catch (e) {
       error = e.toString();
-      print(error);
+      rethrow;
     } finally {
       isLoading = false;
       notifyListeners();
@@ -70,7 +70,7 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<void> signOut() async {
-    signOutUseCase;
+    await signOutUseCase();
     user = null;
     notifyListeners();
   }

@@ -69,9 +69,9 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  void _getReg() => Get.to(ChoiceRolePage());
+  void _getReg() => Get.to(() => ChoiceRolePage());
 
-  void _getSignIn() => Get.to(SignInPage());
+  void _getSignIn() => Get.to(() => SignInPage());
 
-  void _getHome() => Get.to(HomePage());
+  void _getHome() => Get.to(() => HomePage());
 }

@@ -31,8 +31,15 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
 
   final controller = Get.find<AuthController>();
 
-  late var isNameValid = nameKey.currentState?.validate() ?? false;
-  late bool? isSelectedRegionValid = (selectedRegion != null);
+  bool isNameValid = false;
+  bool isSelectedRegionValid = false;
+
+  void _updateFormValidity() {
+    setState(() {
+      isNameValid = nameKey.currentState?.validate() ?? false;
+      isSelectedRegionValid = selectedRegion != null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,10 +74,10 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                   ),
                   CustomSelectorRegionWidget(
                     onChanged: (value) {
-                      _updateFormValidity();
                       setState(() {
                         selectedRegion = value!;
                       });
+                      _updateFormValidity();
                     },
                   ),
                 ],
@@ -82,19 +89,28 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                 CustomButton.filled(
                   theme: theme,
                   text: "Зарегистрироваться",
-                  onPressed: (isNameValid && isSelectedRegionValid!)
+                  onPressed: (isNameValid && isSelectedRegionValid)
                       ? () async {
-                          await controller.signUp(
-                            email: widget.email,
-                            password: widget.password,
-                            passwordConfirm: widget.confirmPassword,
-                            name: widget.nameController.text,
-                            selectedRegion: selectedRegion!,
-                            companyName: '',
-                            role: 'candidate'
-                          );
+                          showBottomLoader(context);
+                          try {
+                            await controller.signUp(
+                              email: widget.email,
+                              password: widget.password,
+                              passwordConfirm: widget.confirmPassword,
+                              name: widget.nameController.text,
+                              selectedRegion: selectedRegion!,
+                              companyName: '',
+                              role: 'candidate',
+                            );
 
-                          Get.to(() => ProfileScreen());
+                            if (controller.isLoggedIn) {
+                              Get.to(() => ProfileScreen());
+                            }
+                          } catch (e) {
+                            await showErrorDialog(context, e.toString());
+                          } finally {
+                            hideLoader(context);
+                          }
                         }
                       : null,
                   height: 48.h,
@@ -106,16 +122,6 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
         ),
       ),
     );
-  }
-
-  void _updateFormValidity() {
-    final nextNameValid = nameKey.currentState?.validate() ?? false;
-    final nextSelectedRegionValid = selectedRegion != null;
-
-    setState(() {
-      isNameValid = nextNameValid;
-      isSelectedRegionValid = nextSelectedRegionValid as bool?;
-    });
   }
 
   void _getBack() => Get.back();

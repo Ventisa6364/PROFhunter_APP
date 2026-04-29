@@ -78,10 +78,10 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                   ),
                   CustomSelectorRegionWidget(
                     onChanged: (value) {
-                      _updateFormValidity();
                       setState(() {
                         selectedRegion = value!;
                       });
+                      _updateFormValidity();
                     },
                   ),
                 ],
@@ -98,18 +98,25 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                           isCompanyNameValid &&
                           isSelectedRegionValid!)
                       ? () async {
-                          await controller.signUp(
-                            email: widget.email,
-                            password: widget.password,
-                            passwordConfirm: widget.confirmPassword,
-                            name: widget.nameController.text,
-                            selectedRegion: selectedRegion!,
-                            companyName: widget.companyNameController.text,
-                            role: 'company',
-                          );
+                          showBottomLoader(context);
+                          try {
+                            await controller.signUp(
+                              email: widget.email,
+                              password: widget.password,
+                              passwordConfirm: widget.confirmPassword,
+                              name: widget.nameController.text,
+                              selectedRegion: selectedRegion!,
+                              companyName: widget.companyNameController.text,
+                              role: 'company',
+                            );
 
-                          if (controller.isLoggedIn) {
-                            Get.to(() => ProfileScreen());
+                            if (controller.isLoggedIn) {
+                              Get.to(() => ProfileScreen());
+                            }
+                          } catch (e) {
+                            await showErrorDialog(context, e.toString());
+                          } finally {
+                            hideLoader(context);
                           }
                         }
                       : null,

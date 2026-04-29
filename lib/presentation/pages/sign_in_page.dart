@@ -78,13 +78,20 @@ class _SignInPageState extends State<SignInPage> {
                   text: "Продолжить",
                   onPressed: (isEmailValid && isPasswordValid)
                       ? () async {
-                          await controller.signIn(
-                            email: widget.emailController.text,
-                            password: widget.passwordController.text,
-                          );
+                          showBottomLoader(context);
+                          try {
+                            await controller.signIn(
+                              email: widget.emailController.text,
+                              password: widget.passwordController.text,
+                            );
 
-                          if (controller.isLoggedIn) {
-                            Get.to(() => ProfileScreen());
+                            if (controller.isLoggedIn) {
+                              Get.to(() => ProfileScreen());
+                            }
+                          } catch (e) {
+                            await showErrorDialog(context, e.toString());
+                          } finally {
+                            hideLoader(context);
                           }
                         }
                       : null,

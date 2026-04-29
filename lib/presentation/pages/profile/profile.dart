@@ -222,5 +222,5 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void _getHome() => Get.to(HomePage());
+  void _getHome() => Get.offAll(() => HomePage());
 }
