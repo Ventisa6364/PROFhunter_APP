@@ -19,6 +19,15 @@ abstract class AuthRepository {
 
   Future<void> signOut();
 
+  Future<AppUser> updateUser({
+    required String id,
+    required String email,
+    required String name,
+    required String companyName,
+    required String selectedRegion,
+    required String role,
+  });
+
   AppUser? get currentUser;
 
   bool get isLoggedIn;

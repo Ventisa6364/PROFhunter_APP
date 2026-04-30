@@ -6,11 +6,13 @@ import 'package:profhunterapp/domain/repositories/auth_repository.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
+import 'package:profhunterapp/domain/usecases/update_profile.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthBinding extends Bindings {
   final SharedPreferences prefs;
+
   AuthBinding(this.prefs);
 
   @override
@@ -33,29 +35,23 @@ class AuthBinding extends Bindings {
       permanent: true,
     );
 
-    Get.lazyPut<AuthRepository>(
-          () => AuthRepositoryImpl(Get.find()),
-    );
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()));
 
-    Get.lazyPut<SignIn>(
-          () => SignIn(Get.find<AuthRepository>()),
-    );
+    Get.lazyPut<SignIn>(() => SignIn(Get.find<AuthRepository>()));
 
-    Get.lazyPut<SignUp>(
-          () => SignUp(Get.find<AuthRepository>()),
-    );
+    Get.lazyPut<SignUp>(() => SignUp(Get.find<AuthRepository>()));
 
-    Get.lazyPut<SignOut>(
-          () => SignOut(Get.find<AuthRepository>()),
-    );
+    Get.lazyPut<SignOut>(() => SignOut(Get.find<AuthRepository>()));
+
+    Get.lazyPut<UpdateUser>(() => UpdateUser(Get.find<AuthRepository>()));
 
     Get.lazyPut<AuthController>(
-          () =>
-          AuthController(
-            signInUseCase: Get.find<SignIn>(),
-            signUpUseCase: Get.find<SignUp>(),
-            signOutUseCase: Get.find<SignOut>(),
-          ),
+      () => AuthController(
+        signInUseCase: Get.find<SignIn>(),
+        signUpUseCase: Get.find<SignUp>(),
+        signOutUseCase: Get.find<SignOut>(),
+        updateUserUseCase: Get.find<UpdateUser>(),
+      ),
     );
   }
 }

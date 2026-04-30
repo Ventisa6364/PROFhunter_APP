@@ -1,5 +1,4 @@
 import 'package:pocketbase/pocketbase.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRemoteDataSource {
   final PocketBase pb;
@@ -40,6 +39,32 @@ class AuthRemoteDataSource {
         .authWithPassword(email, password);
 
     return {'id': authData.record.id, ...authData.record.data};
+  }
+
+  Future<Map<String, dynamic>> updateUser({
+    required String id,
+    required String email,
+    required String name,
+    required String companyName,
+    required String selectedRegion,
+    required String role,
+  }) async {
+    final record = await pb
+        .collection('users')
+        .update(
+      id,
+      body: {
+        'email': email,
+        'name': name,
+        'companyName': companyName,
+        'selectedRegion': selectedRegion,
+        'role': role,
+      },
+    );
+
+    pb.authStore.save(pb.authStore.token, record);
+
+    return {'id': record.id, ...record.data};
   }
 
   Future<void> signOut() async {

@@ -50,6 +50,27 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AppUser> updateUser({
+    required String id,
+    required String email,
+    required String name,
+    required String companyName,
+    required String selectedRegion,
+    required String role,
+  }) async {
+    final data = await remoteDataSource.updateUser(
+      id: id,
+      email: email,
+      name: name,
+      companyName: companyName,
+      selectedRegion: selectedRegion,
+      role: role,
+    );
+
+    return AppUserModel.fromMap(data);
+  }
+
+  @override
   AppUser? get currentUser {
     final data = remoteDataSource.currentUserMap;
     if (data == null) return null;
