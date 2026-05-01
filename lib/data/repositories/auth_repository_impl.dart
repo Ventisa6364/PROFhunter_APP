@@ -57,6 +57,10 @@ class AuthRepositoryImpl implements AuthRepository {
     required String companyName,
     required String selectedRegion,
     required String role,
+    required String avatar,
+    required String aboutMyself,
+    required String aboutCompany,
+    required List<String> skills,
   }) async {
     final data = await remoteDataSource.updateUser(
       id: id,
@@ -65,6 +69,10 @@ class AuthRepositoryImpl implements AuthRepository {
       companyName: companyName,
       selectedRegion: selectedRegion,
       role: role,
+      avatar: avatar,
+      aboutMyself: aboutMyself,
+      aboutCompany: aboutCompany,
+      skills: skills,
     );
 
     return AppUserModel.fromMap(data);

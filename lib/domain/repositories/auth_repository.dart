@@ -26,6 +26,10 @@ abstract class AuthRepository {
     required String companyName,
     required String selectedRegion,
     required String role,
+    required String avatar,
+    required String aboutMyself,
+    required String aboutCompany,
+    required List<String> skills,
   });
 
   AppUser? get currentUser;

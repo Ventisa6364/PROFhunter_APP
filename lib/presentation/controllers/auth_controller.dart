@@ -3,7 +3,7 @@ import 'package:profhunterapp/domain/entities/app_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
-import 'package:profhunterapp/domain/usecases/update_profile.dart';
+import 'package:profhunterapp/domain/usecases/update_user.dart';
 
 class AuthController extends ChangeNotifier {
   final SignIn signInUseCase;
@@ -85,6 +85,10 @@ class AuthController extends ChangeNotifier {
     required String companyName,
     required String selectedRegion,
     required String role,
+    required String avatar,
+    required String aboutMyself,
+    required String aboutCompany,
+    required List<String> skills,
   }) async {
     try {
       isLoading = true;
@@ -98,8 +102,11 @@ class AuthController extends ChangeNotifier {
         companyName: companyName,
         selectedRegion: selectedRegion,
         role: role,
+        avatar: avatar,
+        aboutMyself: aboutMyself,
+        aboutCompany: aboutCompany,
+        skills: skills,
       );
-
     } catch (e) {
       error = e.toString();
       rethrow;

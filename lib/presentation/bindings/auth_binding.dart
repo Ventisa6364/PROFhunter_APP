@@ -6,7 +6,7 @@ import 'package:profhunterapp/domain/repositories/auth_repository.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
-import 'package:profhunterapp/domain/usecases/update_profile.dart';
+import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
