@@ -16,9 +16,9 @@ class AuthBinding extends Bindings {
   AuthBinding(this.prefs);
 
   @override
-  void dependencies() {
+  void dependencies() async {
     final pb = PocketBase(
-      'http://10.0.2.2:8090',
+      'https://pocketbase-latest-9x81.onrender.com/',
       authStore: AsyncAuthStore(
         initial: prefs.getString('pb_auth'),
         save: (data) async => prefs.setString('pb_auth', data),
