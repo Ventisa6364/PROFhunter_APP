@@ -81,8 +81,6 @@ class AuthController extends ChangeNotifier {
   Future<void> updateUser({
     required String id,
     required String email,
-    required String password,
-    required String passwordConfirm,
     required String name,
     required String companyName,
     required String selectedRegion,
