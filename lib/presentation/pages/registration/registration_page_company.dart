@@ -114,9 +114,8 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                               Get.to(() => ProfileScreen());
                             }
                           } catch (e) {
-                            await showErrorDialog(context, e.toString());
-                          } finally {
                             hideLoader(context);
+                            await showErrorDialog(context, e.toString());
                           }
                         }
                       : null,

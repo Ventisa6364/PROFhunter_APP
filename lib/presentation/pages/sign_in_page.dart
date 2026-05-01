@@ -86,12 +86,11 @@ class _SignInPageState extends State<SignInPage> {
                             );
 
                             if (controller.isLoggedIn) {
-                              Get.to(() => ProfileScreen());
+                              Get.to(() => const ProfileScreen());
                             }
                           } catch (e) {
-                            await showErrorDialog(context, e.toString());
-                          } finally {
                             hideLoader(context);
+                            await showErrorDialog(context, e.toString());
                           }
                         }
                       : null,

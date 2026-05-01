@@ -107,9 +107,8 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                               Get.to(() => ProfileScreen());
                             }
                           } catch (e) {
-                            await showErrorDialog(context, e.toString());
-                          } finally {
                             hideLoader(context);
+                            await showErrorDialog(context, e.toString());
                           }
                         }
                       : null,
