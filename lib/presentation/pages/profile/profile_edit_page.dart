@@ -18,7 +18,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
     final controller = Get.find<AuthController>();
-    final user = controller.user;
+    final user = controller.user.value;
 
     String? newName, newEmail, newAboutMyself, newAboutCompany, newRegion;
     widget.emailController.text = user!.email;

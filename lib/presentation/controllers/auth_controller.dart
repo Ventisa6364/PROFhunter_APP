@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/app_user.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
@@ -6,7 +6,7 @@ import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 
-class AuthController extends ChangeNotifier {
+class AuthController extends GetxController {
   final SignIn signInUseCase;
   final SignUp signUpUseCase;
   final SignOut signOutUseCase;
@@ -23,9 +23,17 @@ class AuthController extends ChangeNotifier {
     restoreCurrentUser();
   }
 
-  bool isLoading = false;
-  String? error;
-  AppUser? user;
+  final isLoading = false.obs;
+  final error = RxnString();
+  final user = Rxn<AppUser>();
+
+  bool get isLoggedIn => user.value != null;
+
+  @override
+  void onInit() {
+    super.onInit();
+    restoreCurrentUser();
+  }
 
   Future<void> signUp({
     required String email,
@@ -37,9 +45,8 @@ class AuthController extends ChangeNotifier {
     required String role,
   }) async {
     try {
-      isLoading = true;
-      error = null;
-      notifyListeners();
+      isLoading.value = true;
+      error.value = null;
 
       await signUpUseCase(
         email: email,
@@ -51,36 +58,32 @@ class AuthController extends ChangeNotifier {
         role: role,
       );
 
-      user = await signInUseCase(email: email, password: password);
+      user.value = await signInUseCase(email: email, password: password);
     } catch (e) {
-      error = e.toString();
+      error.value = e.toString();
       rethrow;
     } finally {
-      isLoading = false;
-      notifyListeners();
+      isLoading.value = false;
     }
   }
 
   Future<void> signIn({required String email, required String password}) async {
     try {
-      isLoading = true;
-      error = null;
-      notifyListeners();
+      isLoading.value = true;
+      error.value = null;
 
-      user = await signInUseCase(email: email, password: password);
+      user.value = await signInUseCase(email: email, password: password);
     } catch (e) {
-      error = e.toString();
+      error.value = e.toString();
       rethrow;
     } finally {
-      isLoading = false;
-      notifyListeners();
+      isLoading.value = false;
     }
   }
 
   Future<void> signOut() async {
     await signOutUseCase();
-    user = null;
-    notifyListeners();
+    user.value = null;
   }
 
   Future<void> updateUser({
@@ -96,9 +99,8 @@ class AuthController extends ChangeNotifier {
     required List<String> skills,
   }) async {
     try {
-      isLoading = true;
-      error = null;
-      notifyListeners();
+      isLoading.value = true;
+      error.value = null;
 
       await updateUserUseCase(
         id: id,
@@ -113,25 +115,21 @@ class AuthController extends ChangeNotifier {
         skills: skills,
       );
     } catch (e) {
-      error = e.toString();
+      error.value = e.toString();
       rethrow;
     } finally {
-      isLoading = false;
-      notifyListeners();
+      isLoading.value = false;
     }
   }
 
   Future<void> restoreCurrentUser() async {
     try {
-      isLoading = true;
-      error = null;
-      notifyListeners();
-      user = await restoreCurrentUserUseCase();
+      isLoading.value = true;
+      error.value = null;
+
+      user.value = await restoreCurrentUserUseCase();
     } finally {
-      isLoading = false;
-      notifyListeners();
+      isLoading.value = false;
     }
   }
-
-  bool get isLoggedIn => user != null;
 }

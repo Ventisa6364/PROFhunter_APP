@@ -18,7 +18,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
     final controller = Get.find<AuthController>();
-    final user = controller.user!;
+    final user = controller.user;
     return Scaffold(
       backgroundColor: theme.palette.background,
       appBar: CustomAppBarWidget(
@@ -55,14 +55,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 14.h),
                         Text(
-                          user.name,
+                          user.value!.name,
                           style: CustomStyles.nunitoMedium18.copyWith(
                             color: theme.palette.text,
                           ),
                         ),
                         SizedBox(height: 6.h),
                         Text(
-                          user.email,
+                          user.value!.email,
                           style: CustomStyles.nunitoMedium14.copyWith(
                             color: theme.palette.textSecondary,
                           ),
@@ -75,9 +75,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             borderRadius: .circular(14.r),
                           ),
                           child: Text(
-                            (user.role == 'candidate')
+                            (user.value!.role == 'candidate')
                                 ? 'Я ищу работу'
-                                : (user.role == 'company')
+                                : (user.value!.role == 'company')
                                 ? 'Я ищу сотрудников'
                                 : 'Не указано',
                             style: CustomStyles.nunitoMedium14.copyWith(
@@ -96,26 +96,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ProfileRow(
                           icon: Icons.person_outline,
                           title: 'Имя',
-                          value: user.name,
+                          value: user.value!.name,
                         ),
                         ProfileRow(
                           icon: Icons.location_on_outlined,
                           title: 'Регион',
-                          value: user.selectedRegion,
+                          value: user.value!.selectedRegion,
                         ),
                         ProfileRow(
                           icon: Icons.email_outlined,
                           title: 'E-mail',
-                          value: user.email,
+                          value: user.value!.email,
                         ),
                       ],
                     ),
                   ),
-                  if (user.role == 'candidate') ...[
+                  if (user.value!.role == 'candidate') ...[
                     ProfileCard(
                       title: 'О себе',
                       child: Text(
-                        user.aboutMyself,
+                        user.value!.aboutMyself,
                         style: CustomStyles.nunitoMedium16.copyWith(
                           color: theme.palette.text,
                         ),
@@ -127,13 +127,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         spacing: 10.w,
                         runSpacing: 10.w,
                         children: [
-                          for (int i = 0; i < user.skills.length; i++)
+                          for (int i = 0; i < user.value!.skills.length; i++)
                             ChipsWidget(
                               backgroundColor: theme.palette.blue.withAlpha(
                                 0x1f,
                               ),
                               textColor: theme.palette.blue,
-                              text: user.skills[i],
+                              text: user.value!.skills[i],
                             ),
                         ],
                       ),
@@ -142,7 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ProfileCard(
                       title: 'О компании',
                       child: Text(
-                        user.aboutCompany,
+                        user.value!.aboutCompany,
                         style: CustomStyles.nunitoMedium16.copyWith(
                           color: theme.palette.text,
                         ),
