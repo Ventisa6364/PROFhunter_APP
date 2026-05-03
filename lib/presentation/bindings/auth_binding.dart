@@ -56,7 +56,8 @@ class AuthBinding extends Bindings {
         signInUseCase: Get.find<SignIn>(),
         signUpUseCase: Get.find<SignUp>(),
         signOutUseCase: Get.find<SignOut>(),
-        updateUserUseCase: Get.find<UpdateUser>(), restoreCurrentUserUseCase: Get.find<RestoreCurrentUser>(),
+        updateUserUseCase: Get.find<UpdateUser>(),
+        restoreCurrentUserUseCase: Get.find<RestoreCurrentUser>(),
       ),
     );
   }

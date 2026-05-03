@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPage extends StatelessWidget {
-  final VacancyModel vacancy;
+  final Vacancy vacancy;
 
   const VacancyPage({super.key, required this.vacancy});
 
@@ -39,7 +40,7 @@ class VacancyPage extends StatelessWidget {
                     title: 'О компании',
                     child: CompanyInfoContent(
                       address: vacancy.address,
-                      orgName: vacancy.orgName,
+                      orgName: vacancy.companyName,
                     ),
                   ),
                   InfoCard(

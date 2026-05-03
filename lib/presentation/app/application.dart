@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/bindings/auth_binding.dart';
+import 'package:profhunterapp/presentation/bindings/vacancy_binding.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -22,6 +23,7 @@ class _ApplicationState extends State<Application> {
       builder: (context, child) {
         return GetMaterialApp(
           initialBinding: AuthBinding(widget.prefs),
+          initialRoute: '/vacancies',
           theme: ThemeData().copyWith(
             extensions: [CustomTheme(palette: LightPalette())],
           ),
@@ -29,10 +31,15 @@ class _ApplicationState extends State<Application> {
             extensions: [CustomTheme(palette: DarkPalette())],
           ),
           debugShowCheckedModeBanner: false,
-          home: child,
+          getPages: [
+            GetPage(
+              name: '/vacancies',
+              page: () => HomePage(),
+              binding: VacancyBinding(),
+            ),
+          ],
         );
       },
-      child: HomePage(),
     );
   }
 }
