@@ -33,10 +33,17 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
 
   final controller = Get.find<AuthController>();
 
-  late var isNameValid = nameKey.currentState?.validate() ?? false;
-  late var isCompanyNameValid =
-      companyNameKey.currentState?.validate() ?? false;
-  late bool? isSelectedRegionValid = (selectedRegion != null);
+  bool isNameValid = false;
+  bool isCompanyNameValid = false;
+  bool isSelectedRegionValid = false;
+
+  void _updateFormValidity() {
+    setState(() {
+      isNameValid = nameKey.currentState?.validate() ?? false;
+      isCompanyNameValid = companyNameKey.currentState?.validate() ?? false;
+      isSelectedRegionValid = selectedRegion != null;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,8 +117,9 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                               role: 'company',
                             );
 
+                            hideLoader(context);
                             if (controller.isLoggedIn) {
-                              Get.to(() => ProfileScreen());
+                              Get.offAll(() => ProfileScreen());
                             }
                           } catch (e) {
                             hideLoader(context);
@@ -128,19 +136,6 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
         ),
       ),
     );
-  }
-
-  void _updateFormValidity() {
-    final nextNameValid = nameKey.currentState?.validate() ?? false;
-    final nextCompanyNameValid =
-        companyNameKey.currentState?.validate() ?? false;
-    final nextSelectedRegionValid = selectedRegion != null;
-
-    setState(() {
-      isNameValid = nextNameValid;
-      isCompanyNameValid = nextCompanyNameValid;
-      isSelectedRegionValid = nextSelectedRegionValid as bool?;
-    });
   }
 
   void _getBack() => Get.back();

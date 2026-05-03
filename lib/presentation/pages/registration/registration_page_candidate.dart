@@ -103,8 +103,9 @@ class _RegistrationCandidatePageState extends State<RegistrationCandidatePage> {
                               role: 'candidate',
                             );
 
+                            hideLoader(context);
                             if (controller.isLoggedIn) {
-                              Get.to(() => ProfileScreen());
+                              Get.offAll(() => ProfileScreen());
                             }
                           } catch (e) {
                             hideLoader(context);

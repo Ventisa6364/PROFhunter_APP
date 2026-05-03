@@ -188,5 +188,5 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  void _close() => Get.offAll(() => HomePage());
+  void _close() => Get.to(() => HomePage());
 }

@@ -23,8 +23,15 @@ class _SignInPageState extends State<SignInPage> {
 
   final controller = Get.find<AuthController>();
 
-  late var isEmailValid = emailKey.currentState?.validate() ?? false;
-  late var isPasswordValid = passwordKey.currentState?.validate() ?? false;
+  bool isEmailValid = false;
+  bool isPasswordValid = false;
+
+  void _updateFormValidity() {
+    setState(() {
+      isEmailValid = emailKey.currentState?.validate() ?? false;
+      isPasswordValid = passwordKey.currentState?.validate() ?? false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +92,9 @@ class _SignInPageState extends State<SignInPage> {
                               password: widget.passwordController.text,
                             );
 
+                            hideLoader(context);
                             if (controller.isLoggedIn) {
-                              Get.to(() => const ProfileScreen());
+                              Get.offAll(() => const ProfileScreen());
                             }
                           } catch (e) {
                             hideLoader(context);
@@ -106,14 +114,4 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _getBack() => Get.back();
-
-  void _updateFormValidity() {
-    final nextEmailValid = emailKey.currentState?.validate() ?? false;
-    final nextPasswordValid = passwordKey.currentState?.validate() ?? false;
-
-    setState(() {
-      isEmailValid = nextEmailValid;
-      isPasswordValid = nextPasswordValid;
-    });
-  }
 }
