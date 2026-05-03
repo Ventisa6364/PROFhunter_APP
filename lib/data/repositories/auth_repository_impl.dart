@@ -87,4 +87,15 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   bool get isLoggedIn => remoteDataSource.isLoggedIn;
+
+  @override
+  Future<AppUser?> restoreCurrentUser() async {
+    final data = await remoteDataSource.restoreCurrentUser();
+
+    if (data == null) {
+      return null;
+    }
+
+    return AppUserModel.fromMap(data);
+  }
 }

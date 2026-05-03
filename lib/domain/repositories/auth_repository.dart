@@ -35,4 +35,6 @@ abstract class AuthRepository {
   AppUser? get currentUser;
 
   bool get isLoggedIn;
+
+  Future<AppUser?> restoreCurrentUser();
 }

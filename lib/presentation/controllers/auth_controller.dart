@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:profhunterapp/domain/entities/app_user.dart';
+import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
@@ -10,13 +11,17 @@ class AuthController extends ChangeNotifier {
   final SignUp signUpUseCase;
   final SignOut signOutUseCase;
   final UpdateUser updateUserUseCase;
+  final RestoreCurrentUser restoreCurrentUserUseCase;
 
   AuthController({
     required this.signInUseCase,
     required this.signUpUseCase,
     required this.signOutUseCase,
     required this.updateUserUseCase,
-  });
+    required this.restoreCurrentUserUseCase,
+  }) {
+    restoreCurrentUser();
+  }
 
   bool isLoading = false;
   String? error;
@@ -110,6 +115,18 @@ class AuthController extends ChangeNotifier {
     } catch (e) {
       error = e.toString();
       rethrow;
+    } finally {
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> restoreCurrentUser() async {
+    try {
+      isLoading = true;
+      error = null;
+      notifyListeners();
+      user = await restoreCurrentUserUseCase();
     } finally {
       isLoading = false;
       notifyListeners();

@@ -3,6 +3,7 @@ import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/datasources/auth_remote_data_source.dart';
 import 'package:profhunterapp/data/repositories/auth_repository_impl.dart';
 import 'package:profhunterapp/domain/repositories/auth_repository.dart';
+import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
@@ -45,12 +46,17 @@ class AuthBinding extends Bindings {
 
     Get.lazyPut<UpdateUser>(() => UpdateUser(Get.find<AuthRepository>()));
 
+    Get.put<RestoreCurrentUser>(
+      RestoreCurrentUser(Get.find<AuthRepository>()),
+      permanent: true,
+    );
+
     Get.lazyPut<AuthController>(
       () => AuthController(
         signInUseCase: Get.find<SignIn>(),
         signUpUseCase: Get.find<SignUp>(),
         signOutUseCase: Get.find<SignOut>(),
-        updateUserUseCase: Get.find<UpdateUser>(),
+        updateUserUseCase: Get.find<UpdateUser>(), restoreCurrentUserUseCase: Get.find<RestoreCurrentUser>(),
       ),
     );
   }

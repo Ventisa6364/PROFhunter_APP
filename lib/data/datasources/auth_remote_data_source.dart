@@ -85,9 +85,25 @@ class AuthRemoteDataSource {
 
     return {
       'id': user.id,
+      'email': user.getStringValue('email'),
       ...user.data,
     };
   }
 
   bool get isLoggedIn => pb.authStore.isValid;
+
+  Future<Map<String, dynamic>?> restoreCurrentUser() async {
+    if (!isLoggedIn) return null;
+
+    try {
+      await pb.collection('users').authRefresh();
+
+      return currentUserMap;
+    }
+    catch (e) {
+      pb.authStore.clear();
+
+      return null;
+    }
+  }
 }
