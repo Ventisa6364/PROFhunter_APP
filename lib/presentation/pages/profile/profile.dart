@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile_edit_page.dart';
@@ -115,9 +116,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ProfileCard(
                       title: 'О себе',
                       child: Text(
-                        user.value!.aboutMyself,
+                        user.value?.aboutMyself.isNotEmpty == true
+                            ? user.value!.aboutMyself
+                            : 'Здесь пока пусто',
                         style: CustomStyles.nunitoMedium16.copyWith(
-                          color: theme.palette.text,
+                          color: theme.palette.textSecondary,
                         ),
                       ),
                     ),
@@ -127,13 +130,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         spacing: 10.w,
                         runSpacing: 10.w,
                         children: [
-                          for (int i = 0; i < user.value!.skills.length; i++)
-                            ChipsWidget(
-                              backgroundColor: theme.palette.blue.withAlpha(
-                                0x1f,
+                          if (user.value?.skills.isNotEmpty == true)
+                            for (int i = 0; i < user.value!.skills.length; i++)
+                              ChipsWidget(
+                                backgroundColor: theme.palette.blue.withAlpha(
+                                  0x1f,
+                                ),
+                                textColor: theme.palette.blue,
+                                text: user.value!.skills[i],
+                              )
+                          else
+                            Text(
+                              'Здесь пока пусто',
+                              style: CustomStyles.nunitoMedium16.copyWith(
+                                color: theme.palette.textSecondary,
                               ),
-                              textColor: theme.palette.blue,
-                              text: user.value!.skills[i],
                             ),
                         ],
                       ),
