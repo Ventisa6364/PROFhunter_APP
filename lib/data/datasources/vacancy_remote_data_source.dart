@@ -20,4 +20,36 @@ class VacancyRemoteDataSource {
       });
     }).toList();
   }
+
+  Future<Map<String, dynamic>> createVacancy({
+    required String name,
+    required String salary,
+    required String companyName,
+    required String employmentType,
+    required String place,
+    required String address,
+    required List<String> duties,
+    required List<String> requirements,
+    required List<String> conditions,
+    required Map<String, dynamic> contacts,
+  }) async {
+    final record = await pb
+        .collection('vacancy')
+        .create(
+      body: {
+        'salary': salary,
+        'name': name,
+        'companyName': companyName,
+        'employmentType': employmentType,
+        'place': place,
+        'address': address,
+        'duties': duties,
+        'requirements': requirements,
+        'conditions': conditions,
+        'contacts': contacts,
+      },
+    );
+
+    return {'id': record.id, ...record.data};
+  }
 }
