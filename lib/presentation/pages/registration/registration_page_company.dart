@@ -103,7 +103,7 @@ class _RegistrationCompanyPageState extends State<RegistrationCompanyPage> {
                   onPressed:
                       (isNameValid &&
                           isCompanyNameValid &&
-                          isSelectedRegionValid!)
+                          isSelectedRegionValid)
                       ? () async {
                           showBottomLoader(context);
                           try {

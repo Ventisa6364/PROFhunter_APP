@@ -102,7 +102,7 @@ class AuthController extends GetxController {
       isLoading.value = true;
       error.value = null;
 
-      await updateUserUseCase(
+      user.value = await updateUserUseCase(
         id: id,
         email: email,
         name: name,

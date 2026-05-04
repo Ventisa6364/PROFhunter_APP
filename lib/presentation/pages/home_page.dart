@@ -5,6 +5,7 @@ import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:profhunterapp/presentation/pages/auth_page.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile.dart';
+import 'package:profhunterapp/presentation/pages/vacancy/create_vacancy_page.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
@@ -76,6 +77,16 @@ class HomePage extends GetView<VacancyController> {
           ),
         );
       }),
+      floatingActionButton: (authController.user.value?.role == 'company')
+          ? FloatingActionButton(
+              onPressed: () {
+                Get.to(() => CreateVacancyPage());
+              },
+              backgroundColor: theme.palette.block,
+              elevation: 3,
+              child: Icon(Icons.add, color: theme.palette.icon, size: 24.sp),
+            )
+          : null,
     );
   }
 
