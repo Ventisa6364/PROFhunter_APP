@@ -21,6 +21,22 @@ class VacancyRemoteDataSource {
     }).toList();
   }
 
+  Future<List<VacancyModel>> getVacanciesCompany() async {
+    final result = await pb.collection('vacancy').getList(
+      page: 1,
+      perPage: 50,
+      sort: '-created',
+      filter: 'userID = "${pb.authStore.record?.id}"',
+    );
+
+    return result.items.map((record) {
+      return VacancyModel.fromJson({
+        'id': record.id,
+        ...record.data,
+      });
+    }).toList();
+  }
+
   Future<Map<String, dynamic>> createVacancy({
     required String name,
     required String salary,
@@ -47,6 +63,7 @@ class VacancyRemoteDataSource {
         'requirements': requirements,
         'conditions': conditions,
         'contacts': contacts,
+        'userID': pb.authStore.record?.id,
       },
     );
 

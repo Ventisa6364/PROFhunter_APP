@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/vacancy.dart';
+import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPage extends StatelessWidget {
   final Vacancy vacancy;
 
-  const VacancyPage({super.key, required this.vacancy});
+  final authController = Get.find<AuthController>();
+
+  VacancyPage({super.key, required this.vacancy});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,9 @@ class VacancyPage extends StatelessWidget {
               textChipsSalary: vacancy.salary,
               textChipsEmploymentType: vacancy.employmentType,
               textChipsPlace: vacancy.place,
+              isCandidate: (authController.user.value?.role == 'candidate')
+                  ? true
+                  : false,
             ),
             SizedBox(height: 12.h),
             Padding(
@@ -60,8 +66,14 @@ class VacancyPage extends StatelessWidget {
                   ContactsCard(
                     email: vacancy.contacts['email']!,
                     phone: vacancy.contacts['phone']!,
-                    textButtonBottomButton: 'Написать работодателю',
-                    onPressedBottomButton: () {},
+                    textBottomButton:
+                        (authController.user.value?.role == 'candidate')
+                        ? 'Написать работодателю'
+                        : null,
+                    onPressedBottomButton:
+                        (authController.user.value?.role == 'candidate')
+                        ? () {}
+                        : null,
                   ),
                 ],
               ),

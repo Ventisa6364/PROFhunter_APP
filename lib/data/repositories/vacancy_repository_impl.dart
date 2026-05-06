@@ -41,4 +41,9 @@ class VacancyRepositoryImpl implements VacancyRepository {
 
     return VacancyModel.fromJson(data);
   }
+
+  @override
+  Future<List<Vacancy>> getVacanciesCompany() async {
+    return await remoteDataSource.getVacanciesCompany();
+  }
 }

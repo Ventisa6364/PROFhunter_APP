@@ -8,6 +8,7 @@ import 'package:profhunterapp/domain/repositories/auth_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
+import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
@@ -86,6 +87,11 @@ class AppBinding extends Bindings {
 
     Get.lazyPut<CreateVacancy>(
           () => CreateVacancy(repository: Get.find<VacancyRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<GetVacanciesCompany>(
+          () => GetVacanciesCompany(repository: Get.find<VacancyRepository>()),
       fenix: true,
     );
   }

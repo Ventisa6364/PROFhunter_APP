@@ -3,6 +3,8 @@ import 'package:profhunterapp/domain/entities/vacancy.dart';
 abstract class VacancyRepository {
   Future<List<Vacancy>> getVacancies();
 
+  Future<List<Vacancy>> getVacanciesCompany();
+
   Future<Vacancy> createVacancy({
     required String name,
     required String salary,

@@ -17,14 +17,14 @@ class _CreateVacancyPageState extends State<CreateVacancyPage> {
   final authController = Get.find<AuthController>();
   final vacancyController = Get.find<VacancyController>();
 
-  final Map<String, TextEditingController> controllers = {
+  late final Map<String, TextEditingController> controllers = {
     'name': TextEditingController(),
     'salary': TextEditingController(),
     'employmentType': TextEditingController(),
     'place': TextEditingController(),
     'address': TextEditingController(),
     'phone': TextEditingController(),
-    'email': TextEditingController(),
+    'email': TextEditingController(text: authController.user.value?.email ?? ''),
   };
 
   List<String> duties = [];

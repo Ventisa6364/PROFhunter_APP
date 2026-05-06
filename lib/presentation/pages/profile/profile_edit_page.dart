@@ -111,6 +111,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           onChanged: (value) {
                             newRegion = value;
                           },
+                          isRegion: true,
+                          onChangedRegion: (value) {
+                            newRegion = value;
+                          },
                         ),
                         EditProfileRow(
                           icon: Icons.email_outlined,
