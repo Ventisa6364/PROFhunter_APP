@@ -24,12 +24,42 @@ class _CreateVacancyPageState extends State<CreateVacancyPage> {
     'place': TextEditingController(),
     'address': TextEditingController(),
     'phone': TextEditingController(),
-    'email': TextEditingController(text: authController.user.value?.email ?? ''),
+    'email': TextEditingController(
+      text: authController.user.value?.email ?? '',
+    ),
   };
+
+  List<String> spControllersName = [
+    'name',
+    'salary',
+    'employmentType',
+    'place',
+    'address',
+    'phone',
+    'email',
+  ];
 
   List<String> duties = [];
   List<String> requirements = [];
   List<String> conditions = [];
+
+  bool isValidData = false;
+
+  void _updateFormValidity() {
+    setState(() {
+      for (int i = 0; i < spControllersName.length; i++) {
+        isValidData = controllers[spControllersName[i]]!.text.isNotEmpty;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    for (final controller in controllers.values) {
+      controller.addListener(_updateFormValidity);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +108,28 @@ class _CreateVacancyPageState extends State<CreateVacancyPage> {
                       controller: controllers['employmentType']!,
                     ),
 
-                    EditableListSection(title: 'Обязанности', items: duties),
+                    EditableListSection(
+                      title: 'Обязанности',
+                      items: duties,
+                      onChanged: () {
+                        setState(() {});
+                      },
+                    ),
 
                     EditableListSection(
                       title: 'Требования',
                       items: requirements,
+                      onChanged: () {
+                        setState(() {});
+                      },
                     ),
 
                     EditableListSection(
                       title: 'Условия работы',
                       items: conditions,
+                      onChanged: () {
+                        setState(() {});
+                      },
                     ),
 
                     VacancyTextField(
@@ -108,25 +150,33 @@ class _CreateVacancyPageState extends State<CreateVacancyPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await vacancyController.createVacancy(
-            name: controllers['name']!.text,
-            salary: controllers['salary']!.text,
-            companyName: authController.user.value!.companyName,
-            employmentType: controllers['employmentType']!.text,
-            place: controllers['place']!.text,
-            address: controllers['address']!.text,
-            duties: duties,
-            requirements: requirements,
-            conditions: conditions,
-            contacts: {
-              'email': controllers['email']!.text,
-              'phone': controllers['phone']!.text,
-            },
-          );
+        onPressed:
+            (isValidData &&
+                conditions.isNotEmpty &&
+                duties.isNotEmpty &&
+                requirements.isNotEmpty)
+            ? () async {
+                await vacancyController.createVacancy(
+                  name: controllers['name']!.text,
+                  salary: controllers['salary']!.text,
+                  companyName: authController.user.value!.companyName,
+                  employmentType: controllers['employmentType']!.text,
+                  place: controllers['place']!.text,
+                  address: controllers['address']!.text,
+                  duties: duties,
+                  requirements: requirements,
+                  conditions: conditions,
+                  contacts: {
+                    'email': controllers['email']!.text,
+                    'phone': controllers['phone']!.text,
+                  },
+                );
 
-          Get.offAll(() => HomePage());
-        },
+                await vacancyController.fetchVacancies();
+
+                Get.offAll(() => HomePage());
+              }
+            : null,
         backgroundColor: theme.palette.block,
         elevation: 3,
         child: Icon(Icons.check, color: theme.palette.icon, size: 24.sp),

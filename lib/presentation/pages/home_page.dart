@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -54,31 +52,9 @@ class HomePage extends GetView<VacancyController> {
             ),
           );
         }
-        if (authController.user.value?.role == 'candidate') {
-          return RefreshIndicator(
-            onRefresh: controller.fetchVacancies,
-            child: ListView.builder(
-              padding: .all(16.r),
-              itemCount: controller.vacancies.length,
-              itemBuilder: (context, index) {
-                final vacancy = controller.vacancies[index];
 
-                return Padding(
-                  padding: .only(bottom: 12.h),
-                  child: VacancyWidget(
-                    name: vacancy.name,
-                    salary: vacancy.salary,
-                    employmentType: vacancy.employmentType,
-                    conditions: vacancy.conditions[0],
-                    duties: vacancy.duties[0],
-                    requirements: vacancy.requirements[0],
-                    page: VacancyPage(vacancy: vacancy),
-                  ),
-                );
-              },
-            ),
-          );
-        } else if (authController.user.value?.role == 'company') {
+        final vacancies = controller.vacancies;
+        if (authController.user.value?.role == 'company') {
           return RefreshIndicator(
             onRefresh: controller.fetchVacancies,
             child: ListView.builder(
@@ -103,18 +79,43 @@ class HomePage extends GetView<VacancyController> {
             ),
           );
         }
-        return Placeholder();
-      }),
-      floatingActionButton: (authController.user.value?.role == 'company')
-          ? FloatingActionButton(
-              onPressed: () {
-                Get.to(() => CreateVacancyPage());
+          return RefreshIndicator(
+            onRefresh: controller.fetchVacancies,
+            child: ListView.builder(
+              padding: .all(16.r),
+              itemCount: vacancies.length,
+              itemBuilder: (context, index) {
+                final vacancy = vacancies[index];
+
+                return Padding(
+                  padding: .only(bottom: 12.h),
+                  child: VacancyWidget(
+                    name: vacancy.name,
+                    salary: vacancy.salary,
+                    employmentType: vacancy.employmentType,
+                    conditions: vacancy.conditions[0],
+                    duties: vacancy.duties[0],
+                    requirements: vacancy.requirements[0],
+                    page: VacancyPage(vacancy: vacancy),
+                  ),
+                );
               },
-              backgroundColor: theme.palette.block,
-              elevation: 3,
-              child: Icon(Icons.add, color: theme.palette.icon, size: 24.sp),
-            )
-          : null,
+            ),
+          );
+      }),
+      floatingActionButton: Obx(() {
+        if (authController.user.value?.role == 'company') {
+          return FloatingActionButton(
+            onPressed: () {
+              Get.to(() => CreateVacancyPage());
+            },
+            backgroundColor: theme.palette.block,
+            elevation: 3,
+            child: Icon(Icons.add, color: theme.palette.icon, size: 24.sp),
+          );
+        }
+        return SizedBox(width: 0.w, height: 0.h);
+      }),
     );
   }
 

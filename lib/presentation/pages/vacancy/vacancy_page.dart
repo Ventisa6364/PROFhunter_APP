@@ -59,8 +59,8 @@ class VacancyPage extends StatelessWidget {
                   ),
                   InfoCard(
                     title: 'Условия работы',
-                    child: ConditionsList(
-                      termsOfEmployment: vacancy.conditions,
+                    child: BulletList(
+                      items: vacancy.conditions,
                     ),
                   ),
                   ContactsCard(
