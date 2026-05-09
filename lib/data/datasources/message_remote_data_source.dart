@@ -13,8 +13,31 @@ class MessageRemoteDataSource {
   }) async {
     final record = await pb
         .collection('message')
-        .create(body: {'chat': chatId, 'sender': senderId, 'textMessage': textMessage});
+        .create(
+          body: {
+            'chatId': chatId,
+            'senderId': senderId,
+            'textMessage': textMessage,
+          },
+        );
 
     return {'id': record.id, ...record.data};
+  }
+
+  Future<List<MessageModel>> getMessageFromChat({
+    required String chatId,
+  }) async {
+    final result = await pb
+        .collection('message')
+        .getList(
+          page: 3,
+          perPage: 50,
+          sort: 'created',
+          filter: 'chatId = "$chatId"',
+        );
+
+    return result.items.map((record) {
+      return MessageModel.fromJson({'id': record.id, ...record.data});
+    }).toList();
   }
 }

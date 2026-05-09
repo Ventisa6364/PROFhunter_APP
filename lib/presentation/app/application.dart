@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/bindings/app_binding.dart';
+import 'package:profhunterapp/presentation/bindings/chat_and_message_binding.dart';
 import 'package:profhunterapp/presentation/bindings/response_binding.dart';
 import 'package:profhunterapp/presentation/bindings/vacancy_binding.dart';
+import 'package:profhunterapp/presentation/pages/chat/chat_page.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_page.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
@@ -49,6 +51,11 @@ class _ApplicationState extends State<Application> {
               name: '/responses',
               page: () => ResponsesPage(),
               binding: ResponseBinding(),
+            ),
+            GetPage(
+              name: '/chat',
+              page: () => ChatPage(chat: Get.arguments),
+              binding: ChatAndMessageBinding(),
             ),
           ],
         );

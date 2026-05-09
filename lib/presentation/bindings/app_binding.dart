@@ -15,9 +15,10 @@ import 'package:profhunterapp/domain/repositories/chat_repository.dart';
 import 'package:profhunterapp/domain/repositories/message_repository.dart';
 import 'package:profhunterapp/domain/repositories/response_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
-import 'package:profhunterapp/domain/usecases/create_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_chat.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
+import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
 import 'package:profhunterapp/domain/usecases/get_user_responses.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
@@ -160,13 +161,27 @@ class AppBinding extends Bindings {
       permanent: true,
     );
 
-    Get.lazyPut<CreateChat>(
-      () => CreateChat(Get.find<ChatRepository>()),
+    Get.lazyPut<GetChat>(
+      () => GetChat(Get.find<ChatRepository>()),
       fenix: true,
     );
 
     Get.lazyPut<SendMessage>(
       () => SendMessage(Get.find<MessageRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<GetMessageFromChat>(
+      () => GetMessageFromChat(Get.find<MessageRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<ChatController>(
+      () => ChatController(
+        getChatUseCase: Get.find<GetChat>(),
+        sendMessageUseCase: Get.find<SendMessage>(),
+        getMessageFromChatUseCase: Get.find<GetMessageFromChat>(),
+      ),
       fenix: true,
     );
   }

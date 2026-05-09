@@ -81,7 +81,7 @@ class VacancyPage extends StatelessWidget {
                     onPressedBottomButton:
                         (authController.user.value?.role == 'candidate')
                         ? () async {
-                            final chat = await chatController.createChat(
+                            final chat = await chatController.getChat(
                               idCompany: vacancy.userID,
                               idCandidate: authController.user.value!.id,
                             );

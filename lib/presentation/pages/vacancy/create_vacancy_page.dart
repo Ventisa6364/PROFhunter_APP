@@ -170,6 +170,7 @@ class _CreateVacancyPageState extends State<CreateVacancyPage> {
                     'email': controllers['email']!.text,
                     'phone': controllers['phone']!.text,
                   },
+                  userID: authController.user.value!.id,
                 );
 
                 await vacancyController.fetchVacancies();

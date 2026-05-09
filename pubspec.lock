@@ -277,7 +277,7 @@ packages:
     description:
       path: "."
       ref: "features/profile_ui"
-      resolved-ref: "8f64cbb598f0353e598c2d20c491a978859fd729"
+      resolved-ref: "2278c7b3cfceb6659faaaf9f5b43b481194fd9cc"
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"

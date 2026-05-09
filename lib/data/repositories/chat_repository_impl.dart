@@ -9,15 +9,15 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl(this.remoteDataSource);
 
   @override
-  Future<ChatEntity> createChat({
+  Future<ChatEntity> getChat({
     required String idCompany,
     required String idCandidate,
   }) async {
-    final data = await remoteDataSource.createChat(
+    final data = await remoteDataSource.getChat(
       idCompany: idCompany,
       idCandidate: idCandidate,
     );
 
-    return ChatModel.fromJson(data);
+    return ChatModel.fromJson(data!);
   }
 }

@@ -22,4 +22,9 @@ class MessageRepositoryImpl implements MessageRepository {
 
     return MessageModel.fromJson(data);
   }
+
+  @override
+  Future<List<Message>> getMessageFromChat({required String chatId}) async {
+    return await remoteDataSource.getMessageFromChat(chatId: chatId);
+  }
 }

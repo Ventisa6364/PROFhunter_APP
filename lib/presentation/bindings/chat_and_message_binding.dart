@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:profhunterapp/domain/usecases/create_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
 import 'package:profhunterapp/domain/usecases/send_message.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 
@@ -8,8 +9,9 @@ class ChatAndMessageBinding extends Bindings {
   void dependencies() {
     Get.lazyPut<ChatController>(
       () => ChatController(
-        createChatUseCase: Get.find<CreateChat>(),
+        getChatUseCase: Get.find<GetChat>(),
         sendMessageUseCase: Get.find<SendMessage>(),
+        getMessageFromChatUseCase: Get.find<GetMessageFromChat>(),
       ),
       fenix: true,
     );

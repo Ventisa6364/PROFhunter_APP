@@ -1,21 +1,25 @@
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/chat_entity.dart';
 import 'package:profhunterapp/domain/entities/message.dart';
-import 'package:profhunterapp/domain/usecases/create_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
 import 'package:profhunterapp/domain/usecases/send_message.dart';
 
 class ChatController extends GetxController {
-  final CreateChat createChatUseCase;
+  final GetChat getChatUseCase;
   final SendMessage sendMessageUseCase;
+  final GetMessageFromChat getMessageFromChatUseCase;
 
   ChatController({
-    required this.createChatUseCase,
+    required this.getChatUseCase,
     required this.sendMessageUseCase,
+    required this.getMessageFromChatUseCase,
   });
 
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
   final Rxn<Message> message = Rxn<Message>();
+  final RxList<Message> messages = <Message>[].obs;
   final Rxn<ChatEntity> chat = Rxn<ChatEntity>();
 
   Future<void> sendMessage({
@@ -40,7 +44,7 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<void> createChat({
+  Future<ChatEntity> getChat({
     required String idCompany,
     required String idCandidate,
   }) async {
@@ -48,10 +52,24 @@ class ChatController extends GetxController {
       isLoading.value = true;
       errorMessage.value = '';
 
-      chat.value = await createChatUseCase(
+      return await getChatUseCase(
         idCompany: idCompany,
         idCandidate: idCandidate,
       );
+    } catch (e) {
+      errorMessage.value = e.toString();
+      rethrow;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<List<Message>> getMessageFromChat({required String chatId}) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      return await getMessageFromChatUseCase(chatId: chatId);
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;

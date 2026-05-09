@@ -7,4 +7,6 @@ abstract class MessageRepository {
     required String senderId,
     required String textMessage,
   });
+
+  Future<List<Message>> getMessageFromChat({required String chatId});
 }
