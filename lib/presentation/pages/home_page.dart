@@ -26,7 +26,7 @@ class HomePage extends GetView<VacancyController> {
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
+          return VacancyLoaderWidget();
         }
 
         if (controller.errorMessage.value.isNotEmpty) {
