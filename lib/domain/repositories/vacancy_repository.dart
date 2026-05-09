@@ -17,6 +17,7 @@ abstract class VacancyRepository {
     required String employmentType,
     required String place,
     required String address,
+    required String userID,
     required List<String> duties,
     required List<String> requirements,
     required List<String> conditions,

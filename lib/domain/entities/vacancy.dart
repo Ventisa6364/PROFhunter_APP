@@ -6,6 +6,7 @@ class Vacancy {
   final String employmentType;
   final String place;
   final String address;
+  final String userID;
   final List<String> duties;
   final List<String> requirements;
   final List<String> conditions;
@@ -23,5 +24,6 @@ class Vacancy {
     required this.requirements,
     required this.conditions,
     required this.contacts,
+    required this.userID,
   });
 }

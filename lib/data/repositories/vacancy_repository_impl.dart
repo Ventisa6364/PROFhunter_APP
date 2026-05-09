@@ -35,6 +35,7 @@ class VacancyRepositoryImpl implements VacancyRepository {
     required String employmentType,
     required String place,
     required String address,
+    required String userID,
     required List<String> duties,
     required List<String> requirements,
     required List<String> conditions,
@@ -51,6 +52,7 @@ class VacancyRepositoryImpl implements VacancyRepository {
       requirements: requirements,
       conditions: conditions,
       contacts: contacts,
+      userID: userID,
     );
 
     return VacancyModel.fromJson(data);

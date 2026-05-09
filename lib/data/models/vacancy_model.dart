@@ -13,6 +13,7 @@ class VacancyModel extends Vacancy {
     required super.requirements,
     required super.conditions,
     required super.contacts,
+    required super.userID,
   });
 
   factory VacancyModel.fromJson(Map<String, dynamic> map) {
@@ -24,6 +25,7 @@ class VacancyModel extends Vacancy {
       employmentType: map['employmentType'] ?? '',
       place: map['place'] ?? '',
       address: map['address'] ?? '',
+      userID: map['userID'] ?? '',
 
       duties: List<String>.from(map['duties'] ?? []),
       requirements: List<String>.from(map['requirements'] ?? []),
@@ -46,6 +48,7 @@ class VacancyModel extends Vacancy {
       'requirements': requirements,
       'conditions': conditions,
       'contacts': contacts,
+      'userID': userID,
     };
   }
 }

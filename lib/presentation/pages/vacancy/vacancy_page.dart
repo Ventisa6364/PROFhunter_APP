@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunterapp/presentation/controllers/response_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
 
@@ -11,6 +12,7 @@ class VacancyPage extends StatelessWidget {
 
   final authController = Get.find<AuthController>();
   final responseController = Get.find<ResponseController>();
+  final chatController = Get.find<ChatController>();
 
   VacancyPage({super.key, required this.vacancy});
 
@@ -78,7 +80,14 @@ class VacancyPage extends StatelessWidget {
                         : null,
                     onPressedBottomButton:
                         (authController.user.value?.role == 'candidate')
-                        ? () {}
+                        ? () async {
+                            final chat = await chatController.createChat(
+                              idCompany: vacancy.userID,
+                              idCandidate: authController.user.value!.id,
+                            );
+
+                            Get.toNamed('/chat', arguments: chat);
+                          }
                         : null,
                   ),
                 ],

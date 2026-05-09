@@ -45,6 +45,7 @@ Future<Map<String, dynamic>> createVacancy({
   required String employmentType,
   required String place,
   required String address,
+  required String userID,
   required List<String> duties,
   required List<String> requirements,
   required List<String> conditions,
@@ -64,7 +65,7 @@ Future<Map<String, dynamic>> createVacancy({
       'requirements': requirements,
       'conditions': conditions,
       'contacts': contacts,
-      'userID': pb.authStore.record?.id,
+      'userID': userID,
     },
   );
 
