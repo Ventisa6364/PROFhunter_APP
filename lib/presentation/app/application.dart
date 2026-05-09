@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/bindings/app_binding.dart';
+import 'package:profhunterapp/presentation/bindings/response_binding.dart';
 import 'package:profhunterapp/presentation/bindings/vacancy_binding.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
+import 'package:profhunterapp/presentation/pages/responses/responses_page.dart';
+import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,6 +39,16 @@ class _ApplicationState extends State<Application> {
               name: '/vacancies',
               page: () => HomePage(),
               binding: VacancyBinding(),
+            ),
+            GetPage(
+              name: '/vacancy-detail',
+              page: () => VacancyPage(vacancy: Get.arguments,),
+              binding: ResponseBinding(),
+            ),
+            GetPage(
+              name: '/responses',
+              page: () => ResponsesPage(),
+              binding: ResponseBinding(),
             ),
           ],
         );

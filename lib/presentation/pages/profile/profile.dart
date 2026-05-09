@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/response_controller.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile_edit_page.dart';
 import 'package:profhunteruikit/uikit.dart';
@@ -170,6 +170,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         setState(() {});
                       },
                       text: 'Редактировать профиль',
+                      theme: CustomTheme.of(context),
+                      height: 48.h,
+                      width: 336.w,
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58.h,
+                    child: CustomButton.filled(
+                      onPressed: () async {
+                        await Get.toNamed('/responses');
+
+                        setState(() {});
+                      },
+                      text: 'Мои отклики',
                       theme: CustomTheme.of(context),
                       height: 48.h,
                       width: 336.w,

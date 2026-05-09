@@ -3,12 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/response_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPage extends StatelessWidget {
   final Vacancy vacancy;
 
   final authController = Get.find<AuthController>();
+  final responseController = Get.find<ResponseController>();
 
   VacancyPage({super.key, required this.vacancy});
 
@@ -35,6 +37,12 @@ class VacancyPage extends StatelessWidget {
               isCandidate: (authController.user.value?.role == 'candidate')
                   ? true
                   : false,
+              onTap: () async {
+                await responseController.createVacancyResponse(
+                  idCandidate: authController.user.value!.id,
+                  idVacancy: vacancy.id,
+                );
+              },
             ),
             SizedBox(height: 12.h),
             Padding(
@@ -59,9 +67,7 @@ class VacancyPage extends StatelessWidget {
                   ),
                   InfoCard(
                     title: 'Условия работы',
-                    child: BulletList(
-                      items: vacancy.conditions,
-                    ),
+                    child: BulletList(items: vacancy.conditions),
                   ),
                   ContactsCard(
                     email: vacancy.contacts['email']!,

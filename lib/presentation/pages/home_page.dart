@@ -6,7 +6,6 @@ import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:profhunterapp/presentation/pages/auth_page.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/create_vacancy_page.dart';
-import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class HomePage extends GetView<VacancyController> {
@@ -72,36 +71,38 @@ class HomePage extends GetView<VacancyController> {
                     conditions: vacancy.conditions[0],
                     duties: vacancy.duties[0],
                     requirements: vacancy.requirements[0],
-                    page: VacancyPage(vacancy: vacancy),
+                    onTap: () =>
+                        Get.toNamed('/vacancy-detail', arguments: vacancy),
                   ),
                 );
               },
             ),
           );
         }
-          return RefreshIndicator(
-            onRefresh: controller.fetchVacancies,
-            child: ListView.builder(
-              padding: .all(16.r),
-              itemCount: vacancies.length,
-              itemBuilder: (context, index) {
-                final vacancy = vacancies[index];
+        return RefreshIndicator(
+          onRefresh: controller.fetchVacancies,
+          child: ListView.builder(
+            padding: .all(16.r),
+            itemCount: vacancies.length,
+            itemBuilder: (context, index) {
+              final vacancy = vacancies[index];
 
-                return Padding(
-                  padding: .only(bottom: 12.h),
-                  child: VacancyWidget(
-                    name: vacancy.name,
-                    salary: vacancy.salary,
-                    employmentType: vacancy.employmentType,
-                    conditions: vacancy.conditions[0],
-                    duties: vacancy.duties[0],
-                    requirements: vacancy.requirements[0],
-                    page: VacancyPage(vacancy: vacancy),
-                  ),
-                );
-              },
-            ),
-          );
+              return Padding(
+                padding: .only(bottom: 12.h),
+                child: VacancyWidget(
+                  name: vacancy.name,
+                  salary: vacancy.salary,
+                  employmentType: vacancy.employmentType,
+                  conditions: vacancy.conditions[0],
+                  duties: vacancy.duties[0],
+                  requirements: vacancy.requirements[0],
+                  onTap: () =>
+                      Get.toNamed('/vacancy-detail', arguments: vacancy),
+                ),
+              );
+            },
+          ),
+        );
       }),
       floatingActionButton: Obx(() {
         if (authController.user.value?.role == 'company') {

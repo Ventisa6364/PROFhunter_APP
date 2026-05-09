@@ -14,6 +14,20 @@ class VacancyRepositoryImpl implements VacancyRepository {
   }
 
   @override
+  Future<List<Vacancy>> getVacanciesCompany() async {
+    return await remoteDataSource.getVacanciesCompany();
+  }
+
+  @override
+  Future<Vacancy> getVacancyById({
+    required String idVacancy,
+}) async {
+    return await remoteDataSource.getVacancyById(
+      idVacancy: idVacancy,
+    );
+  }
+
+  @override
   Future<Vacancy> createVacancy({
     required String name,
     required String salary,
@@ -40,10 +54,5 @@ class VacancyRepositoryImpl implements VacancyRepository {
     );
 
     return VacancyModel.fromJson(data);
-  }
-
-  @override
-  Future<List<Vacancy>> getVacanciesCompany() async {
-    return await remoteDataSource.getVacanciesCompany();
   }
 }

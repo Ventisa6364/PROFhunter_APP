@@ -1,20 +1,27 @@
 import 'package:get/get.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/datasources/auth_remote_data_source.dart';
+import 'package:profhunterapp/data/datasources/response_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/vacancy_remote_data_source.dart';
 import 'package:profhunterapp/data/repositories/auth_repository_impl.dart';
+import 'package:profhunterapp/data/repositories/response_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/vacancy_repository_impl.dart';
 import 'package:profhunterapp/domain/repositories/auth_repository.dart';
+import 'package:profhunterapp/domain/repositories/response_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
+import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
+import 'package:profhunterapp/domain/usecases/get_user_responses.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
+import 'package:profhunterapp/domain/usecases/get_vacancy_by_id.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/response_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBinding extends Bindings {
@@ -36,10 +43,7 @@ class AppBinding extends Bindings {
     Get.put<PocketBase>(pb, permanent: true);
 
     // Auth
-    Get.put<AuthRemoteDataSource>(
-      AuthRemoteDataSource(pb),
-      permanent: true,
-    );
+    Get.put<AuthRemoteDataSource>(AuthRemoteDataSource(pb), permanent: true);
 
     Get.put<AuthRepository>(
       AuthRepositoryImpl(Get.find<AuthRemoteDataSource>()),
@@ -48,8 +52,14 @@ class AppBinding extends Bindings {
 
     Get.lazyPut<SignIn>(() => SignIn(Get.find<AuthRepository>()), fenix: true);
     Get.lazyPut<SignUp>(() => SignUp(Get.find<AuthRepository>()), fenix: true);
-    Get.lazyPut<SignOut>(() => SignOut(Get.find<AuthRepository>()), fenix: true);
-    Get.lazyPut<UpdateUser>(() => UpdateUser(Get.find<AuthRepository>()), fenix: true);
+    Get.lazyPut<SignOut>(
+      () => SignOut(Get.find<AuthRepository>()),
+      fenix: true,
+    );
+    Get.lazyPut<UpdateUser>(
+      () => UpdateUser(Get.find<AuthRepository>()),
+      fenix: true,
+    );
 
     Get.put<RestoreCurrentUser>(
       RestoreCurrentUser(Get.find<AuthRepository>()),
@@ -81,17 +91,51 @@ class AppBinding extends Bindings {
     );
 
     Get.lazyPut<GetVacancies>(
-          () => GetVacancies(repository: Get.find<VacancyRepository>()),
-      fenix: true,
-    );
-
-    Get.lazyPut<CreateVacancy>(
-          () => CreateVacancy(repository: Get.find<VacancyRepository>()),
+      () => GetVacancies(repository: Get.find<VacancyRepository>()),
       fenix: true,
     );
 
     Get.lazyPut<GetVacanciesCompany>(
-          () => GetVacanciesCompany(repository: Get.find<VacancyRepository>()),
+      () => GetVacanciesCompany(repository: Get.find<VacancyRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<GetVacancyById>(
+      () => GetVacancyById(repository: Get.find<VacancyRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<CreateVacancy>(
+      () => CreateVacancy(repository: Get.find<VacancyRepository>()),
+      fenix: true,
+    );
+
+    // Response dependencies
+    Get.put<ResponseRemoteDataSource>(
+      ResponseRemoteDataSource(Get.find<PocketBase>()),
+      permanent: true,
+    );
+
+    Get.put<ResponseRepository>(
+      ResponseRepositoryImpl(Get.find<ResponseRemoteDataSource>()),
+      permanent: true,
+    );
+
+    Get.lazyPut<CreateVacancyResponse>(
+      () => CreateVacancyResponse(Get.find<ResponseRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<GetUserResponses>(
+      () => GetUserResponses(Get.find<ResponseRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<ResponseController>(
+      () => ResponseController(
+        createVacancyResponseUseCase: Get.find<CreateVacancyResponse>(),
+        getUserResponsesUseCase: Get.find<GetUserResponses>(),
+      ),
       fenix: true,
     );
   }
