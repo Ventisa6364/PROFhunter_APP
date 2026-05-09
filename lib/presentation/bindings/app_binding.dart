@@ -1,14 +1,21 @@
 import 'package:get/get.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/datasources/auth_remote_data_source.dart';
+import 'package:profhunterapp/data/datasources/chat_remote_data_source.dart';
+import 'package:profhunterapp/data/datasources/message_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/response_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/vacancy_remote_data_source.dart';
 import 'package:profhunterapp/data/repositories/auth_repository_impl.dart';
+import 'package:profhunterapp/data/repositories/chat_repository_impl.dart';
+import 'package:profhunterapp/data/repositories/message_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/response_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/vacancy_repository_impl.dart';
 import 'package:profhunterapp/domain/repositories/auth_repository.dart';
+import 'package:profhunterapp/domain/repositories/chat_repository.dart';
+import 'package:profhunterapp/domain/repositories/message_repository.dart';
 import 'package:profhunterapp/domain/repositories/response_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
+import 'package:profhunterapp/domain/usecases/create_chat.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
 import 'package:profhunterapp/domain/usecases/get_user_responses.dart';
@@ -16,12 +23,13 @@ import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancy_by_id.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
+import 'package:profhunterapp/domain/usecases/send_message.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
-import 'package:profhunterapp/presentation/controllers/response_controller.dart';
+import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBinding extends Bindings {
@@ -131,11 +139,34 @@ class AppBinding extends Bindings {
       fenix: true,
     );
 
-    Get.lazyPut<ResponseController>(
-      () => ResponseController(
-        createVacancyResponseUseCase: Get.find<CreateVacancyResponse>(),
-        getUserResponsesUseCase: Get.find<GetUserResponses>(),
-      ),
+    // Chat and message dependencies
+    Get.put<ChatRemoteDataSource>(
+      ChatRemoteDataSource(Get.find<PocketBase>()),
+      permanent: true,
+    );
+
+    Get.put<MessageRemoteDataSource>(
+      MessageRemoteDataSource(Get.find<PocketBase>()),
+      permanent: true,
+    );
+
+    Get.put<ChatRepository>(
+      ChatRepositoryImpl(Get.find<ChatRemoteDataSource>()),
+      permanent: true,
+    );
+
+    Get.put<MessageRepository>(
+      MessageRepositoryImpl(Get.find<MessageRemoteDataSource>()),
+      permanent: true,
+    );
+
+    Get.lazyPut<CreateChat>(
+      () => CreateChat(Get.find<ChatRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<SendMessage>(
+      () => SendMessage(Get.find<MessageRepository>()),
       fenix: true,
     );
   }

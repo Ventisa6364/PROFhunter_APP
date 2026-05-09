@@ -16,6 +16,10 @@ class ChatModel extends ChatEntity {
   }
 
   Map<String, dynamic> toJson() {
-    return {'id': id, 'idCompany': idCompany, 'idCandidate': idCandidate};
+    return {
+      'id': id,
+      'idCompany': idCompany,
+      'idCandidate': idCandidate,
+    };
   }
 }
