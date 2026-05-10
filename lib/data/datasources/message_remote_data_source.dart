@@ -29,14 +29,9 @@ class MessageRemoteDataSource {
   }) async {
     final result = await pb
         .collection('message')
-        .getList(
-          page: 3,
-          perPage: 50,
-          sort: 'created',
-          filter: 'chatId = "$chatId"',
-        );
+        .getFullList(sort: 'created', filter: 'chatId = "$chatId"');
 
-    return result.items.map((record) {
+    return result.map((record) {
       return MessageModel.fromJson({'id': record.id, ...record.data});
     }).toList();
   }

@@ -4,6 +4,7 @@ class ChatModel extends ChatEntity {
   ChatModel({
     required super.id,
     required super.idCompany,
+    required super.idVacancy,
     required super.idCandidate,
   });
 
@@ -11,6 +12,7 @@ class ChatModel extends ChatEntity {
     return ChatModel(
       id: map['id'] ?? '',
       idCompany: map['idCompany'] ?? '',
+      idVacancy: map['idVacancy'] ?? '',
       idCandidate: map['idCandidate'] ?? '',
     );
   }
@@ -19,6 +21,7 @@ class ChatModel extends ChatEntity {
     return {
       'id': id,
       'idCompany': idCompany,
+      'idVacancy': idVacancy,
       'idCandidate': idCandidate,
     };
   }

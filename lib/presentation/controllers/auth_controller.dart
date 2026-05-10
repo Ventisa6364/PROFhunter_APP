@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/app_user.dart';
+import 'package:profhunterapp/domain/usecases/get_user_by_id.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
@@ -12,6 +13,7 @@ class AuthController extends GetxController {
   final SignOut signOutUseCase;
   final UpdateUser updateUserUseCase;
   final RestoreCurrentUser restoreCurrentUserUseCase;
+  final GetUserById getUserByIdUseCase;
 
   AuthController({
     required this.signInUseCase,
@@ -19,6 +21,7 @@ class AuthController extends GetxController {
     required this.signOutUseCase,
     required this.updateUserUseCase,
     required this.restoreCurrentUserUseCase,
+    required this.getUserByIdUseCase,
   }) {
     restoreCurrentUser();
   }
@@ -128,6 +131,20 @@ class AuthController extends GetxController {
       error.value = null;
 
       user.value = await restoreCurrentUserUseCase();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<AppUser> getUserById({required String userID}) async {
+    try {
+      isLoading.value = true;
+      error.value = null;
+
+      return await getUserByIdUseCase(userID: userID);
+    } catch (e) {
+      error.value = e.toString();
+      rethrow;
     } finally {
       isLoading.value = false;
     }

@@ -32,6 +32,10 @@ abstract class AuthRepository {
     required List<String> skills,
   });
 
+  Future<AppUser> getUserById({
+    required String userID,
+});
+
   AppUser? get currentUser;
 
   bool get isLoggedIn;

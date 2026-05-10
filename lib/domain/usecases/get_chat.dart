@@ -7,11 +7,13 @@ class GetChat {
   GetChat(this.repository);
 
   Future<ChatEntity> call({
-    required String idCandidate,
     required String idCompany,
+    required String idVacancy,
+    required String idCandidate,
   }) async {
     return await repository.getChat(
       idCompany: idCompany,
+      idVacancy: idVacancy,
       idCandidate: idCandidate,
     );
   }

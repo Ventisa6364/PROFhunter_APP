@@ -19,15 +19,18 @@ import 'package:profhunterapp/domain/usecases/get_chat.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
 import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_user_by_id.dart';
 import 'package:profhunterapp/domain/usecases/get_user_responses.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancy_by_id.dart';
+import 'package:profhunterapp/domain/usecases/insubscribe_message.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/send_message.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
+import 'package:profhunterapp/domain/usecases/subscribe_message.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
@@ -60,11 +63,14 @@ class AppBinding extends Bindings {
     );
 
     Get.lazyPut<SignIn>(() => SignIn(Get.find<AuthRepository>()), fenix: true);
+
     Get.lazyPut<SignUp>(() => SignUp(Get.find<AuthRepository>()), fenix: true);
+
     Get.lazyPut<SignOut>(
       () => SignOut(Get.find<AuthRepository>()),
       fenix: true,
     );
+
     Get.lazyPut<UpdateUser>(
       () => UpdateUser(Get.find<AuthRepository>()),
       fenix: true,
@@ -75,6 +81,11 @@ class AppBinding extends Bindings {
       permanent: true,
     );
 
+    Get.lazyPut<GetUserById>(
+      () => GetUserById(Get.find<AuthRepository>()),
+      fenix: true,
+    );
+
     Get.put<AuthController>(
       AuthController(
         signInUseCase: Get.find<SignIn>(),
@@ -82,6 +93,7 @@ class AppBinding extends Bindings {
         signOutUseCase: Get.find<SignOut>(),
         updateUserUseCase: Get.find<UpdateUser>(),
         restoreCurrentUserUseCase: Get.find<RestoreCurrentUser>(),
+        getUserByIdUseCase: Get.find<GetUserById>(),
       ),
       permanent: true,
     );
@@ -176,11 +188,23 @@ class AppBinding extends Bindings {
       fenix: true,
     );
 
+    Get.lazyPut<SubscribeMessages>(
+      () => SubscribeMessages(Get.find<ChatRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<UnsubscribeMessages>(
+      () => UnsubscribeMessages(Get.find<ChatRepository>()),
+      fenix: true,
+    );
+
     Get.lazyPut<ChatController>(
       () => ChatController(
         getChatUseCase: Get.find<GetChat>(),
         sendMessageUseCase: Get.find<SendMessage>(),
         getMessageFromChatUseCase: Get.find<GetMessageFromChat>(),
+        subscribeMessagesUseCase: Get.find<SubscribeMessages>(),
+        unsubscribeMessagesUseCase: Get.find<UnsubscribeMessages>(),
       ),
       fenix: true,
     );
