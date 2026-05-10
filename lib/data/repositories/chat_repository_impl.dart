@@ -39,4 +39,11 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<void> unsubscribeMessages() {
     return remoteDataSource.unsubscribeMessages();
   }
+
+  @override
+  Future<List<ChatEntity>> getUserChats({
+    required String userID,
+  }) async {
+    return await remoteDataSource.getUserChats(userID: userID);
+  }
 }

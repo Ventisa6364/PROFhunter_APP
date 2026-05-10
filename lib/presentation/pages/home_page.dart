@@ -3,12 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
-import 'package:profhunterapp/presentation/pages/auth_page.dart';
-import 'package:profhunterapp/presentation/pages/profile/profile.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/create_vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
-class HomePage extends GetView<VacancyController> {
+class HomePage extends GetView<VacancyController>{
   HomePage({super.key});
 
   final authController = Get.find<AuthController>();
@@ -21,8 +19,6 @@ class HomePage extends GetView<VacancyController> {
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBarWidget(
         title: 'Главная',
-        iconBtn: Icons.person_outlined,
-        onPressed: _getProfile,
       ),
       body: Obx(() {
         if (controller.isLoading.value) {
@@ -118,13 +114,5 @@ class HomePage extends GetView<VacancyController> {
         return SizedBox(width: 0.w, height: 0.h);
       }),
     );
-  }
-
-  void _getProfile() {
-    if (authController.isLoggedIn) {
-      Get.to(() => ProfileScreen());
-    } else {
-      Get.to(() => AuthPage());
-    }
   }
 }

@@ -21,6 +21,13 @@ class MessageRemoteDataSource {
           },
         );
 
+    await pb.collection('chat').update(
+      chatId,
+      body: {
+        'lastMessage': textMessage,
+      },
+    );
+
     return {'id': record.id, ...record.data};
   }
 

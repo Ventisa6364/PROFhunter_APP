@@ -6,6 +6,7 @@ class ChatModel extends ChatEntity {
     required super.idCompany,
     required super.idVacancy,
     required super.idCandidate,
+    required super.lastMessage,
   });
 
   factory ChatModel.fromJson(Map<String, dynamic> map) {
@@ -14,6 +15,7 @@ class ChatModel extends ChatEntity {
       idCompany: map['idCompany'] ?? '',
       idVacancy: map['idVacancy'] ?? '',
       idCandidate: map['idCandidate'] ?? '',
+      lastMessage: map['lastMessage'] ?? '',
     );
   }
 

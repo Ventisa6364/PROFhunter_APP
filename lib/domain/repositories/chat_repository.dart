@@ -15,4 +15,6 @@ abstract class ChatRepository {
   });
 
   Future<void> unsubscribeMessages();
+
+  Future<List<ChatEntity>> getUserChats({required String userID});
 }

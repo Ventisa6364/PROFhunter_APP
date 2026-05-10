@@ -8,12 +8,14 @@ import 'package:profhunterapp/presentation/bindings/vacancy_binding.dart';
 import 'package:profhunterapp/presentation/pages/chat/chat_page.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_page.dart';
+import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Application extends StatefulWidget {
   final SharedPreferences prefs;
+
   Application({super.key, required this.prefs});
 
   @override
@@ -28,7 +30,7 @@ class _ApplicationState extends State<Application> {
       builder: (context, child) {
         return GetMaterialApp(
           initialBinding: AppBinding(widget.prefs),
-          initialRoute: '/vacancies',
+          initialRoute: '/main-screen',
           theme: ThemeData().copyWith(
             extensions: [CustomTheme(palette: LightPalette())],
           ),
@@ -43,8 +45,13 @@ class _ApplicationState extends State<Application> {
               binding: VacancyBinding(),
             ),
             GetPage(
+              name: '/main-screen',
+              page: () => MainScreen(),
+              binding: AppBinding(widget.prefs),
+            ),
+            GetPage(
               name: '/vacancy-detail',
-              page: () => VacancyPage(vacancy: Get.arguments,),
+              page: () => VacancyPage(vacancy: Get.arguments),
               binding: ResponseBinding(),
             ),
             GetPage(

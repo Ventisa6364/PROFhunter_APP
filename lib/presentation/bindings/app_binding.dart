@@ -20,6 +20,7 @@ import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
 import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
 import 'package:profhunterapp/domain/usecases/get_user_by_id.dart';
+import 'package:profhunterapp/domain/usecases/get_user_chats.dart';
 import 'package:profhunterapp/domain/usecases/get_user_responses.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
@@ -34,6 +35,7 @@ import 'package:profhunterapp/domain/usecases/subscribe_message.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
+import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AppBinding extends Bindings {
@@ -131,6 +133,16 @@ class AppBinding extends Bindings {
       fenix: true,
     );
 
+    Get.lazyPut<VacancyController>(
+          () => VacancyController(
+        getVacanciesUseCase: Get.find<GetVacancies>(),
+        getVacanciesCompanyUseCase: Get.find<GetVacanciesCompany>(),
+        getVacancyByIdUseCase: Get.find<GetVacancyById>(),
+        createVacancyUseCase: Get.find<CreateVacancy>(),
+      ),
+      fenix: true,
+    );
+
     // Response dependencies
     Get.put<ResponseRemoteDataSource>(
       ResponseRemoteDataSource(Get.find<PocketBase>()),
@@ -198,6 +210,11 @@ class AppBinding extends Bindings {
       fenix: true,
     );
 
+    Get.lazyPut<GetUserChats>(
+      () => GetUserChats(Get.find<ChatRepository>()),
+      fenix: true,
+    );
+
     Get.lazyPut<ChatController>(
       () => ChatController(
         getChatUseCase: Get.find<GetChat>(),
@@ -205,6 +222,7 @@ class AppBinding extends Bindings {
         getMessageFromChatUseCase: Get.find<GetMessageFromChat>(),
         subscribeMessagesUseCase: Get.find<SubscribeMessages>(),
         unsubscribeMessagesUseCase: Get.find<UnsubscribeMessages>(),
+        getUserChatsUseCase: Get.find<GetUserChats>(),
       ),
       fenix: true,
     );

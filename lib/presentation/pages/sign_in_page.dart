@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
-import 'package:profhunterapp/presentation/pages/profile/profile.dart';
+import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class SignInPage extends StatefulWidget {
@@ -94,7 +94,7 @@ class _SignInPageState extends State<SignInPage> {
 
                             hideLoader(context);
                             if (controller.isLoggedIn) {
-                              Get.offAll(() => const ProfileScreen());
+                              Get.offAll(() => MainScreen(initialIndex: 2,));
                             }
                           } catch (e) {
                             hideLoader(context);

@@ -1,5 +1,5 @@
-import 'package:get/get.dart';
 import 'package:pocketbase/pocketbase.dart';
+import 'package:profhunterapp/data/models/chat_model.dart';
 import 'package:profhunterapp/data/models/message_model.dart';
 
 class ChatRemoteDataSource {
@@ -55,5 +55,20 @@ class ChatRemoteDataSource {
 
   Future<void> unsubscribeMessages() async {
     await pb.collection('messages').unsubscribe('*');
+  }
+
+  Future<List<ChatModel>> getUserChats({required String userID}) async {
+    final result = await pb
+        .collection('chat')
+        .getList(
+      page: 1,
+      perPage: 50,
+      sort: '-created',
+      filter: 'idCandidate = "$userID" || idCompany = "$userID"',
+    );
+
+    return result.items.map((record) {
+      return ChatModel.fromJson({'id': record.id, ...record.data});
+    }).toList();
   }
 }

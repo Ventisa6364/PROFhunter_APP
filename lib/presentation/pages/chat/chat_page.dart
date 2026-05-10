@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/data/models/chat_model.dart';
-import 'package:profhunterapp/domain/entities/message.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
+import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
+import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class ChatPage extends StatefulWidget {
@@ -19,7 +20,39 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final chatController = Get.find<ChatController>();
   final authController = Get.find<AuthController>();
+  final vacancyController = Get.find<VacancyController>();
   final messageEditController = TextEditingController();
+
+  bool isLoadingCompany = true;
+
+  @override
+  void initState() {
+    super.initState();
+    chatController.getMessageFromChat(chatId: widget.chat.id);
+    getNamesFromChat(widget.chat);
+    chatController.subscribeMessages(widget.chat.id);
+  }
+
+  @override
+  void dispose() {
+    chatController.unsubscribeMessages();
+    super.dispose();
+  }
+
+  String companyName = 'Загрузка...';
+  String vacancyName = 'Загрузка...';
+
+  Future<void> getNamesFromChat(ChatModel chat) async {
+    final company = await authController.getUserById(userID: chat.idCompany);
+    final vacancy = await vacancyController.getVacancyById(
+      idVacancy: chat.idVacancy,
+    );
+
+    setState(() {
+      companyName = company.companyName;
+      vacancyName = vacancy.name;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,57 +61,43 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBarWidget(
-        title: widget.chat.idCompany,
+        title: vacancyName,
+        subtitle: companyName,
         iconBtn: Icons.arrow_back_rounded,
         onPressed: _getBack,
       ),
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: .symmetric(horizontal: 16.h, vertical: 0.w),
-              child: FutureBuilder<List<Message>>(
-                future: chatController.getMessageFromChat(
-                  chatId: widget.chat.id,
-                ),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
-                    return const SizedBox();
-                  }
+            child: Obx(() {
+              if (chatController.isLoadingMessages.value) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text('Ошибка загрузки сообщений'),
-                    );
-                  }
+              if (chatController.messages.isEmpty) {
+                return const Center(child: Text('Сообщений пока нет'));
+              }
 
-                  final messages = snapshot.data ?? [];
+              return ListView.builder(
+                padding: .all(16.r),
+                itemCount: chatController.messages.length,
+                itemBuilder: (context, index) {
+                  final message = chatController.messages[index];
 
-                  if (messages.isEmpty) {
-                    return const SizedBox();
-                  }
+                  final isMine =
+                      message.senderId == authController.user.value!.id;
 
-                  return ListView.builder(
-                    itemCount: messages.length,
-                    itemBuilder: (context, index) {
-                      final message = messages[index];
-
-                      return Padding(
-                        padding: .only(bottom: 6.h),
-                        child: MessageWidget(
-                          isMine:
-                              message.senderId ==
-                              authController.user.value?.id,
-                          textMessage: message.textMessage,
-                          created: message.created ?? DateTime.now(),
-                        ),
-                      );
-                    },
+                  return Padding(
+                    padding: .only(bottom: 6.h),
+                    child: MessageWidget(
+                      isMine: isMine,
+                      textMessage: message.textMessage,
+                      created: message.created ?? DateTime.now(),
+                    ),
                   );
                 },
-              ),
-            ),
+              );
+            }),
           ),
           MessageInputWidget(
             controller: messageEditController,
@@ -90,10 +109,6 @@ class _ChatPageState extends State<ChatPage> {
               );
 
               messageEditController.text = '';
-
-              setState(() {
-
-              });
             },
           ),
         ],
@@ -101,5 +116,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  void _getBack() => Get.back();
+  void _getBack() {
+    Get.offAll(() => MainScreen(initialIndex: 1));
+  }
 }

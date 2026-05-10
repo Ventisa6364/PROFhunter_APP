@@ -19,15 +19,18 @@ class ResponseRepositoryImpl implements ResponseRepository {
     );
 
     if (data == null) {
-      throw Exception('Не удалось создать отклик. Возможно, Вы уже откликнулись.');
+      throw Exception(
+        'Не удалось создать отклик. Возможно, Вы уже откликнулись.',
+      );
     }
-
 
     return ResponseModel.fromJson(data);
   }
 
   @override
-  Future<List<ResponseEntity>> getUserResponses({required String idCandidate,}) async{
+  Future<List<ResponseEntity>> getUserResponses({
+    required String idCandidate,
+  }) async {
     return await remoteDataSource.getUserResponses(idCandidate: idCandidate);
   }
 }

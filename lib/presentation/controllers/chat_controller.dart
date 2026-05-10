@@ -1,11 +1,15 @@
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/chat_entity.dart';
+import 'package:profhunterapp/domain/entities/chat_view_data.dart';
 import 'package:profhunterapp/domain/entities/message.dart';
 import 'package:profhunterapp/domain/usecases/get_chat.dart';
 import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_user_chats.dart';
 import 'package:profhunterapp/domain/usecases/insubscribe_message.dart';
 import 'package:profhunterapp/domain/usecases/send_message.dart';
 import 'package:profhunterapp/domain/usecases/subscribe_message.dart';
+import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 
 class ChatController extends GetxController {
   final GetChat getChatUseCase;
@@ -13,6 +17,7 @@ class ChatController extends GetxController {
   final GetMessageFromChat getMessageFromChatUseCase;
   final SubscribeMessages subscribeMessagesUseCase;
   final UnsubscribeMessages unsubscribeMessagesUseCase;
+  final GetUserChats getUserChatsUseCase;
 
   ChatController({
     required this.getChatUseCase,
@@ -20,7 +25,11 @@ class ChatController extends GetxController {
     required this.getMessageFromChatUseCase,
     required this.subscribeMessagesUseCase,
     required this.unsubscribeMessagesUseCase,
+    required this.getUserChatsUseCase,
   });
+
+  final authController = Get.find<AuthController>();
+  final vacancyController = Get.find<VacancyController>();
 
   final RxBool isLoading = false.obs;
   final RxBool isLoadingMessages = false.obs;
@@ -30,6 +39,9 @@ class ChatController extends GetxController {
   final messages = <Message>[].obs;
 
   final Rxn<ChatEntity> chat = Rxn<ChatEntity>();
+  final RxList<ChatEntity> chats = <ChatEntity>[].obs;
+
+  final chatsView = <ChatViewData>[].obs;
 
   Future<void> sendMessage({
     required String senderId,
@@ -45,6 +57,20 @@ class ChatController extends GetxController {
         senderId: senderId,
         textMessage: textMessage,
       );
+
+      final index = chatsView.indexWhere((item) => item.chat.id == chatId);
+
+      if (index != -1) {
+        final oldItem = chatsView[index];
+
+        chatsView[index] = ChatViewData(
+          chat: oldItem.chat.copyWith(lastMessage: textMessage),
+          companyName: oldItem.companyName,
+          vacancyName: oldItem.vacancyName,
+        );
+
+        chatsView.refresh();
+      }
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;
@@ -103,5 +129,39 @@ class ChatController extends GetxController {
 
   Future<void> unsubscribeMessages() async {
     await unsubscribeMessagesUseCase();
+  }
+
+  Future<void> getUserChats({required String userID}) async {
+    try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
+      final result = await getUserChatsUseCase(userID: userID);
+
+      chats.assignAll(result);
+
+      final enrichedChats = await Future.wait(
+        result.map((chat) async {
+          final company = await authController.getUserById(
+            userID: chat.idCompany,
+          );
+          final vacancy = await vacancyController.getVacancyById(
+            idVacancy: chat.idVacancy,
+          );
+
+          return ChatViewData(
+            chat: chat,
+            companyName: company.companyName,
+            vacancyName: vacancy.name,
+          );
+        }),
+      );
+
+      chatsView.assignAll(enrichedChats);
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
