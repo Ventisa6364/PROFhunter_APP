@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:profhunterapp/data/models/chat_model.dart';
+import 'package:profhunterapp/domain/entities/chat_view_data.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
@@ -9,9 +9,9 @@ import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class ChatPage extends StatefulWidget {
-  final ChatModel chat;
+  final ChatViewData item;
 
-  const ChatPage({super.key, required this.chat});
+  const ChatPage({super.key, required this.item});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -28,30 +28,14 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    chatController.getMessageFromChat(chatId: widget.chat.id);
-    getNamesFromChat(widget.chat);
-    chatController.subscribeMessages(widget.chat.id);
+    chatController.getMessageFromChat(chatId: widget.item.chat.id);
+    chatController.subscribeMessages(widget.item.chat.id);
   }
 
   @override
   void dispose() {
     chatController.unsubscribeMessages();
     super.dispose();
-  }
-
-  String companyName = 'Загрузка...';
-  String vacancyName = 'Загрузка...';
-
-  Future<void> getNamesFromChat(ChatModel chat) async {
-    final company = await authController.getUserById(userID: chat.idCompany);
-    final vacancy = await vacancyController.getVacancyById(
-      idVacancy: chat.idVacancy,
-    );
-
-    setState(() {
-      companyName = company.companyName;
-      vacancyName = vacancy.name;
-    });
   }
 
   @override
@@ -61,8 +45,8 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: theme.palette.background,
       resizeToAvoidBottomInset: true,
       appBar: CustomAppBarWidget(
-        title: vacancyName,
-        subtitle: companyName,
+        title: widget.item.companyName,
+        subtitle: widget.item.vacancyName,
         iconBtn: Icons.arrow_back_rounded,
         onPressed: _getBack,
       ),
@@ -79,7 +63,7 @@ class _ChatPageState extends State<ChatPage> {
               }
 
               return ListView.builder(
-                padding: .all(16.r),
+                padding: .all(12.r),
                 itemCount: chatController.messages.length,
                 itemBuilder: (context, index) {
                   final message = chatController.messages[index];
@@ -104,7 +88,7 @@ class _ChatPageState extends State<ChatPage> {
             onTap: () async {
               await chatController.sendMessage(
                 senderId: authController.user.value!.id,
-                chatId: widget.chat.id,
+                chatId: widget.item.chat.id,
                 textMessage: messageEditController.text,
               );
 

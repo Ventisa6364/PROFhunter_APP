@@ -184,21 +184,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 336.w,
                       ),
                     ),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 58.h,
-                      child: CustomButton.filled(
-                        onPressed: () async {
-                          await Get.toNamed('/responses');
+                    if (user.role == 'candidate')
+                      SizedBox(
+                        width: double.infinity,
+                        height: 58.h,
+                        child: CustomButton.filled(
+                          onPressed: () async {
+                            await Get.toNamed('/responses');
 
-                          setState(() {});
-                        },
-                        text: 'Мои отклики',
-                        theme: CustomTheme.of(context),
-                        height: 48.h,
-                        width: 336.w,
+                            setState(() {});
+                          },
+                          text: 'Мои отклики',
+                          theme: CustomTheme.of(context),
+                          height: 48.h,
+                          width: 336.w,
+                        ),
                       ),
-                    ),
+                    if (user.role == 'company')
+                      SizedBox(
+                        width: double.infinity,
+                        height: 58.h,
+                        child: CustomButton.filled(
+                          onPressed: () async {
+                            // await Get.toNamed('/responses-on-company');
+                            //
+                            // setState(() {});
+                          },
+                          text: 'Отклики на мои вакансии',
+                          theme: CustomTheme.of(context),
+                          height: 48.h,
+                          width: 336.w,
+                        ),
+                      ),
                     SizedBox(
                       width: double.infinity,
                       height: 58.h,
@@ -213,7 +230,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: 336.w,
                       ),
                     ),
-                    SizedBox(height: 10.h),
                   ],
                 ),
               ),

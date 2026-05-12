@@ -61,7 +61,7 @@ class _ApplicationState extends State<Application> {
             ),
             GetPage(
               name: '/chat',
-              page: () => ChatPage(chat: Get.arguments),
+              page: () => ChatPage(item: Get.arguments),
               binding: ChatAndMessageBinding(),
             ),
           ],

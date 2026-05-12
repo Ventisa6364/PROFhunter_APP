@@ -40,11 +40,10 @@ class _UserChatsPageState extends State<UserChatsPage> {
       appBar: CustomAppBarWidget(title: 'Чаты'),
       backgroundColor: theme.palette.background,
       body: Obx(() {
-        if (chatController.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
-        }
+        // if (chatController.isLoading.value) {}
 
-        if (chatController.chatsView.isEmpty) {
+        if (!(chatController.isLoading.value) &&
+            chatController.chatsView.isEmpty) {
           return const Center(child: Text('Чатов пока нет'));
         }
 
@@ -53,16 +52,13 @@ class _UserChatsPageState extends State<UserChatsPage> {
           itemBuilder: (context, index) {
             final item = chatController.chatsView[index];
 
-            return Padding(
-              padding: .only(bottom: 6.h),
-              child: ChatWidget(
-                companionName: item.companyName,
-                lastMessage: item.chat.lastMessage,
-                vacancyName: item.vacancyName,
-                onTap: () {
-                  Get.toNamed('/chat', arguments: item.chat);
-                },
-              ),
+            return ChatWidget(
+              companionName: item.companyName,
+              lastMessage: item.chat.lastMessage,
+              vacancyName: item.vacancyName,
+              onTap: () {
+                Get.toNamed('/chat', arguments: item);
+              },
             );
           },
         );

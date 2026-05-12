@@ -7,17 +7,28 @@ import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunterapp/presentation/controllers/response_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
 
-class VacancyPage extends StatelessWidget {
+class VacancyPage extends StatefulWidget {
   final Vacancy vacancy;
 
+
+  const VacancyPage({super.key, required this.vacancy});
+
+  @override
+  State<VacancyPage> createState() => _VacancyPageState();
+}
+
+class _VacancyPageState extends State<VacancyPage> {
   final authController = Get.find<AuthController>();
+
   final responseController = Get.find<ResponseController>();
+
   final chatController = Get.find<ChatController>();
 
-  VacancyPage({super.key, required this.vacancy});
+  bool isResponded = true;
 
   @override
   Widget build(BuildContext context) {
+
     var theme = CustomTheme.of(context);
     return Scaffold(
       backgroundColor: theme.palette.background,
@@ -32,18 +43,22 @@ class VacancyPage extends StatelessWidget {
           children: [
             Divider(height: 1.h, thickness: 1.r, color: theme.palette.border),
             VacancyHeroBlock(
-              vacancyName: vacancy.name,
-              textChipsSalary: vacancy.salary,
-              textChipsEmploymentType: vacancy.employmentType,
-              textChipsPlace: vacancy.place,
+              vacancyName: widget.vacancy.name,
+              textChipsSalary: widget.vacancy.salary,
+              textChipsEmploymentType: widget.vacancy.employmentType,
+              textChipsPlace: widget.vacancy.place,
               isCandidate: (authController.user.value?.role == 'candidate')
                   ? true
                   : false,
+              isResponded: isResponded,
               onTap: () async {
                 await responseController.createVacancyResponse(
                   idCandidate: authController.user.value!.id,
-                  idVacancy: vacancy.id,
+                  idVacancy: widget.vacancy.id,
                 );
+                setState(() {
+                  isResponded = false;
+                });
               },
             ),
             SizedBox(height: 12.h),
@@ -55,40 +70,40 @@ class VacancyPage extends StatelessWidget {
                   InfoCard(
                     title: 'О компании',
                     child: CompanyInfoContent(
-                      address: vacancy.address,
-                      orgName: vacancy.companyName,
+                      address: widget.vacancy.address,
+                      orgName: widget.vacancy.companyName,
                     ),
                   ),
                   InfoCard(
                     title: 'Обязанности',
-                    child: BulletList(items: vacancy.duties),
+                    child: BulletList(items: widget.vacancy.duties),
                   ),
                   InfoCard(
                     title: 'Требования',
-                    child: BulletList(items: vacancy.requirements),
+                    child: BulletList(items: widget.vacancy.requirements),
                   ),
                   InfoCard(
                     title: 'Условия работы',
-                    child: BulletList(items: vacancy.conditions),
+                    child: BulletList(items: widget.vacancy.conditions),
                   ),
                   ContactsCard(
-                    email: vacancy.contacts['email']!,
-                    phone: vacancy.contacts['phone']!,
+                    email: widget.vacancy.contacts['email']!,
+                    phone: widget.vacancy.contacts['phone']!,
                     textBottomButton:
-                        (authController.user.value?.role == 'candidate')
+                    (authController.user.value?.role == 'candidate')
                         ? 'Написать работодателю'
                         : null,
                     onPressedBottomButton:
-                        (authController.user.value?.role == 'candidate')
+                    (authController.user.value?.role == 'candidate')
                         ? () async {
-                            var chat = await chatController.getChat(
-                              idCompany: vacancy.userID,
-                              idCandidate: authController.user.value!.id,
-                              idVacancy: vacancy.id,
-                            );
+                      var chat = await chatController.getChat(
+                        idCompany: widget.vacancy.userID,
+                        idCandidate: authController.user.value!.id,
+                        idVacancy: widget.vacancy.id,
+                      );
 
-                            Get.toNamed('/chat', arguments: chat);
-                          }
+                      Get.toNamed('/chat', arguments: chat);
+                    }
                         : null,
                   ),
                 ],
