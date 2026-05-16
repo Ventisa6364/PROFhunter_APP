@@ -1,5 +1,6 @@
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/models/response_model.dart';
+import 'package:profhunterapp/domain/entities/response_view_data.dart';
 
 class ResponseRemoteDataSource {
   final PocketBase pb;
@@ -27,7 +28,9 @@ class ResponseRemoteDataSource {
     return {'id': record.id, ...record.data};
   }
 
-  Future<List<ResponseModel>> getUserResponses({required String idCandidate}) async {
+  Future<List<ResponseModel>> getUserResponses({
+    required String idCandidate,
+  }) async {
     final result = await pb
         .collection('response')
         .getList(
@@ -40,5 +43,25 @@ class ResponseRemoteDataSource {
     return result.items.map((record) {
       return ResponseModel.fromJson({'id': record.id, ...record.data});
     }).toList();
+  }
+
+  Future<List<ResponseViewData>> getCompanyResponses() async {
+    final companyID = pb.authStore.record!.id;
+
+    final result = await pb
+        .collection('response')
+        .getList(
+      page: 1,
+      perPage: 50,
+      filter: "idVacancy.userID = '$companyID'",
+      expand: 'idVacancy,idCandidate',
+      sort: '-created',
+    );
+
+    final mapped = result.items.map((record) {
+      return ResponseViewData.fromRecord(record);
+    }).toList();
+
+    return mapped;
   }
 }

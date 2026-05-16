@@ -19,6 +19,7 @@ import 'package:profhunterapp/domain/usecases/get_chat.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
 import 'package:profhunterapp/domain/usecases/get_message_from_chat.dart';
+import 'package:profhunterapp/domain/usecases/get_company_responses.dart';
 import 'package:profhunterapp/domain/usecases/get_user_by_id.dart';
 import 'package:profhunterapp/domain/usecases/get_user_chats.dart';
 import 'package:profhunterapp/domain/usecases/get_user_responses.dart';
@@ -161,6 +162,11 @@ class AppBinding extends Bindings {
 
     Get.lazyPut<GetUserResponses>(
       () => GetUserResponses(Get.find<ResponseRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<GetCompanyResponses>(
+      () => GetCompanyResponses(Get.find<ResponseRepository>()),
       fenix: true,
     );
 

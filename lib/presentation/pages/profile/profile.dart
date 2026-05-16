@@ -206,9 +206,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: 58.h,
                         child: CustomButton.filled(
                           onPressed: () async {
-                            // await Get.toNamed('/responses-on-company');
-                            //
-                            // setState(() {});
+                            await Get.toNamed('/responses-company');
+
+                            setState(() {});
                           },
                           text: 'Отклики на мои вакансии',
                           theme: CustomTheme.of(context),

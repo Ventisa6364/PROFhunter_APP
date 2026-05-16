@@ -28,8 +28,10 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    chatController.getMessageFromChat(chatId: widget.item.chat.id);
-    chatController.subscribeMessages(widget.item.chat.id);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      chatController.getMessageFromChat(chatId: widget.item.chat.id);
+      chatController.subscribeMessages(widget.item.chat.id);
+    });
   }
 
   @override

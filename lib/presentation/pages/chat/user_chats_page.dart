@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
@@ -21,15 +20,18 @@ class _UserChatsPageState extends State<UserChatsPage> {
   @override
   void initState() {
     super.initState();
-    userWorker = ever(authController.user, (user) {
-      if (user == null) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      userWorker = ever(authController.user, (user) {
+        if (user == null) return;
 
-      chatController.getUserChats(userID: user.id);
+        chatController.getUserChats(userID: user.id, userRole: user.role);
+      });
     });
+
 
     final user = authController.user.value;
     if (user != null) {
-      chatController.getUserChats(userID: user.id);
+      chatController.getUserChats(userID: user.id, userRole: user.role);
     }
   }
 

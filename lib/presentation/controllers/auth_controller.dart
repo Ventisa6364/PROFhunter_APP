@@ -137,16 +137,6 @@ class AuthController extends GetxController {
   }
 
   Future<AppUser> getUserById({required String userID}) async {
-    try {
-      isLoading.value = true;
-      error.value = null;
-
-      return await getUserByIdUseCase(userID: userID);
-    } catch (e) {
-      error.value = e.toString();
-      rethrow;
-    } finally {
-      isLoading.value = false;
-    }
+    return await getUserByIdUseCase(userID: userID);
   }
 }

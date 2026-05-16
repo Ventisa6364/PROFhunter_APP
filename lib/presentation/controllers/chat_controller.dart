@@ -79,19 +79,36 @@ class ChatController extends GetxController {
     }
   }
 
-  Future<ChatEntity> getChat({
+  Future<ChatViewData> getChat({
     required String idCompany,
     required String idVacancy,
     required String idCandidate,
+    required String userRole,
   }) async {
     try {
       isLoading.value = true;
       errorMessage.value = '';
 
-      return await getChatUseCase(
+      final chat = await getChatUseCase(
         idCompany: idCompany,
         idVacancy: idVacancy,
         idCandidate: idCandidate,
+      );
+
+      final companion = await authController.getUserById(
+        userID: userRole == 'candidate' ? chat.idCompany : chat.idCandidate,
+      );
+
+      final vacancy = await vacancyController.getVacancyById(
+        idVacancy: chat.idVacancy,
+      );
+
+      return ChatViewData(
+        chat: chat,
+        companyName: userRole == 'candidate'
+            ? companion.companyName
+            : companion.name,
+        vacancyName: vacancy.name,
       );
     } catch (e) {
       errorMessage.value = e.toString();
@@ -131,7 +148,10 @@ class ChatController extends GetxController {
     await unsubscribeMessagesUseCase();
   }
 
-  Future<void> getUserChats({required String userID}) async {
+  Future<void> getUserChats({
+    required String userID,
+    required String userRole,
+  }) async {
     try {
       isLoading.value = true;
       errorMessage.value = '';
@@ -142,8 +162,10 @@ class ChatController extends GetxController {
 
       final enrichedChats = await Future.wait(
         result.map((chat) async {
-          final company = await authController.getUserById(
-            userID: chat.idCompany,
+          final user = await authController.getUserById(
+            userID: (userRole == 'candidate')
+                ? chat.idCompany
+                : chat.idCandidate,
           );
           final vacancy = await vacancyController.getVacancyById(
             idVacancy: chat.idVacancy,
@@ -151,7 +173,9 @@ class ChatController extends GetxController {
 
           return ChatViewData(
             chat: chat,
-            companyName: company.companyName,
+            companyName: (userRole == 'candidate')
+                ? user.companyName
+                : user.name,
             vacancyName: vacancy.name,
           );
         }),

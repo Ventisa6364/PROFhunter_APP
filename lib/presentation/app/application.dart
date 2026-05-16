@@ -7,6 +7,7 @@ import 'package:profhunterapp/presentation/bindings/response_binding.dart';
 import 'package:profhunterapp/presentation/bindings/vacancy_binding.dart';
 import 'package:profhunterapp/presentation/pages/chat/chat_page.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
+import 'package:profhunterapp/presentation/pages/responses/responses_company.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_page.dart';
 import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
@@ -63,6 +64,11 @@ class _ApplicationState extends State<Application> {
               name: '/chat',
               page: () => ChatPage(item: Get.arguments),
               binding: ChatAndMessageBinding(),
+            ),
+            GetPage(
+              name: '/responses-company',
+              page: () => CompanyResponsesScreen(),
+              binding: ResponseBinding(),
             ),
           ],
         );
