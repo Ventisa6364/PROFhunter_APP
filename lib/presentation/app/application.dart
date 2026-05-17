@@ -10,6 +10,7 @@ import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_company.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_page.dart';
 import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
+import 'package:profhunterapp/presentation/pages/vacancy/edit_vacancy_page.dart';
 import 'package:profhunterapp/presentation/pages/vacancy/vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -69,6 +70,11 @@ class _ApplicationState extends State<Application> {
               name: '/responses-company',
               page: () => CompanyResponsesScreen(),
               binding: ResponseBinding(),
+            ),
+            GetPage(
+              name: '/vacancy-edit',
+              page: () => EditVacancyPage(vacancy: Get.arguments),
+              binding: VacancyBinding(),
             ),
           ],
         );

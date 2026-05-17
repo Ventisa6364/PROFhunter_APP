@@ -5,10 +5,7 @@ abstract class VacancyRepository {
 
   Future<List<Vacancy>> getVacanciesCompany();
 
-  Future<Vacancy> getVacancyById({
-    required String idVacancy,
-});
-
+  Future<Vacancy> getVacancyById({required String idVacancy});
 
   Future<Vacancy> createVacancy({
     required String name,
@@ -22,5 +19,20 @@ abstract class VacancyRepository {
     required List<String> requirements,
     required List<String> conditions,
     required Map<String, dynamic> contacts,
-});
+  });
+
+  Future<Vacancy> editVacancy({
+    required String id,
+    required String name,
+    required String salary,
+    required String companyName,
+    required String employmentType,
+    required String place,
+    required String address,
+    required String userID,
+    required List<String> duties,
+    required List<String> requirements,
+    required List<String> conditions,
+    required Map<String, dynamic> contacts,
+  });
 }

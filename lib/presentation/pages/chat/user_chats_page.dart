@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
@@ -49,8 +50,10 @@ class _UserChatsPageState extends State<UserChatsPage> {
           return const Center(child: Text('Чатов пока нет'));
         }
 
-        return ListView.builder(
+        return ListView.separated(
+          padding: .fromLTRB(16.w, 16.h, 16.w, 32.h),
           itemCount: chatController.chatsView.length,
+          separatorBuilder: (_, __) => SizedBox(height: 12.h),
           itemBuilder: (context, index) {
             final item = chatController.chatsView[index];
 

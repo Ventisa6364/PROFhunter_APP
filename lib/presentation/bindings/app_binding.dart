@@ -15,6 +15,7 @@ import 'package:profhunterapp/domain/repositories/chat_repository.dart';
 import 'package:profhunterapp/domain/repositories/message_repository.dart';
 import 'package:profhunterapp/domain/repositories/response_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
+import 'package:profhunterapp/domain/usecases/edit_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/get_chat.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
@@ -134,12 +135,18 @@ class AppBinding extends Bindings {
       fenix: true,
     );
 
+    Get.lazyPut<EditVacancy>(
+      () => EditVacancy(repository: Get.find<VacancyRepository>()),
+      fenix: true,
+    );
+
     Get.lazyPut<VacancyController>(
-          () => VacancyController(
+      () => VacancyController(
         getVacanciesUseCase: Get.find<GetVacancies>(),
         getVacanciesCompanyUseCase: Get.find<GetVacanciesCompany>(),
         getVacancyByIdUseCase: Get.find<GetVacancyById>(),
         createVacancyUseCase: Get.find<CreateVacancy>(),
+        editVacancyUseCase: Get.find<EditVacancy>(),
       ),
       fenix: true,
     );

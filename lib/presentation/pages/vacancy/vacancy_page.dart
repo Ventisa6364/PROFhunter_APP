@@ -5,6 +5,7 @@ import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunterapp/presentation/controllers/response_controller.dart';
+import 'package:profhunterapp/presentation/pages/vacancy/edit_vacancy_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPage extends StatefulWidget {
@@ -32,7 +33,7 @@ class _VacancyPageState extends State<VacancyPage> {
       appBar: CustomAppBarWidget(
         title: 'Вакансия',
         iconBtn: Icons.arrow_back_rounded,
-        onPressed: _getBack,
+        onPressed: _getHome,
       ),
       body: Obx(() {
         final isResponded = responseController.responses.any(
@@ -114,8 +115,21 @@ class _VacancyPageState extends State<VacancyPage> {
           ),
         );
       }),
+      floatingActionButton: Obx(() {
+        if (authController.user.value?.role == 'company') {
+          return FloatingActionButton(
+            onPressed: () {
+              Get.toNamed('/vacancy-edit', arguments: widget.vacancy);
+            },
+            backgroundColor: theme.palette.block,
+            elevation: 3,
+            child: Icon(Icons.edit_note_outlined, color: theme.palette.icon, size: 24.sp),
+          );
+        }
+        return SizedBox(width: 0.w, height: 0.h);
+      }),
     );
   }
 
-  void _getBack() => Get.back();
+  void _getHome() => Get.toNamed('/main-screen');
 }

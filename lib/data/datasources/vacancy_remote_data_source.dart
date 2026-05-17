@@ -19,55 +19,91 @@ class VacancyRemoteDataSource {
   Future<VacancyModel> getVacancyById({required String idVacancy}) async {
     final result = await pb.collection('vacancy').getOne(idVacancy);
 
-
     return VacancyModel.fromJson({'id': result.id, ...result.data});
   }
 
-Future<List<VacancyModel>> getVacanciesCompany() async {
-  final result = await pb
-      .collection('vacancy')
-      .getList(
-    page: 1,
-    perPage: 50,
-    sort: '-created',
-    filter: 'userID = "${pb.authStore.record?.id}"',
-  );
+  Future<List<VacancyModel>> getVacanciesCompany() async {
+    final result = await pb
+        .collection('vacancy')
+        .getList(
+          page: 1,
+          perPage: 50,
+          sort: '-created',
+          filter: 'userID = "${pb.authStore.record?.id}"',
+        );
 
-  return result.items.map((record) {
-    return VacancyModel.fromJson({'id': record.id, ...record.data});
-  }).toList();
+    return result.items.map((record) {
+      return VacancyModel.fromJson({'id': record.id, ...record.data});
+    }).toList();
+  }
+
+  Future<Map<String, dynamic>> createVacancy({
+    required String name,
+    required String salary,
+    required String companyName,
+    required String employmentType,
+    required String place,
+    required String address,
+    required String userID,
+    required List<String> duties,
+    required List<String> requirements,
+    required List<String> conditions,
+    required Map<String, dynamic> contacts,
+  }) async {
+    final record = await pb
+        .collection('vacancy')
+        .create(
+          body: {
+            'salary': salary,
+            'name': name,
+            'companyName': companyName,
+            'employmentType': employmentType,
+            'place': place,
+            'address': address,
+            'duties': duties,
+            'requirements': requirements,
+            'conditions': conditions,
+            'contacts': contacts,
+            'userID': userID,
+          },
+        );
+
+    return {'id': record.id, ...record.data};
+  }
+
+  Future<Map<String, dynamic>> editVacancy({
+    required String id,
+    required String name,
+    required String salary,
+    required String companyName,
+    required String employmentType,
+    required String place,
+    required String address,
+    required String userID,
+    required List<String> duties,
+    required List<String> requirements,
+    required List<String> conditions,
+    required Map<String, dynamic> contacts,
+  }) async {
+    final record = await pb
+        .collection('vacancy')
+        .update(
+      id,
+      body: {
+        'salary': salary,
+        'name': name,
+        'companyName': companyName,
+        'employmentType': employmentType,
+        'place': place,
+        'address': address,
+        'duties': duties,
+        'requirements': requirements,
+        'conditions': conditions,
+        'contacts': contacts,
+        'userID': userID,
+      },
+    );
+
+    return {'id': record.id, ...record.data};
+  }
 }
-
-Future<Map<String, dynamic>> createVacancy({
-  required String name,
-  required String salary,
-  required String companyName,
-  required String employmentType,
-  required String place,
-  required String address,
-  required String userID,
-  required List<String> duties,
-  required List<String> requirements,
-  required List<String> conditions,
-  required Map<String, dynamic> contacts,
-}) async {
-  final record = await pb
-      .collection('vacancy')
-      .create(
-    body: {
-      'salary': salary,
-      'name': name,
-      'companyName': companyName,
-      'employmentType': employmentType,
-      'place': place,
-      'address': address,
-      'duties': duties,
-      'requirements': requirements,
-      'conditions': conditions,
-      'contacts': contacts,
-      'userID': userID,
-    },
-  );
-
-  return {'id': record.id, ...record.data};
-}}

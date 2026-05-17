@@ -167,6 +167,7 @@ class ChatController extends GetxController {
                 ? chat.idCompany
                 : chat.idCandidate,
           );
+
           final vacancy = await vacancyController.getVacancyById(
             idVacancy: chat.idVacancy,
           );
