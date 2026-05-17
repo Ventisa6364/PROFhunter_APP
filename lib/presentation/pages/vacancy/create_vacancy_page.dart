@@ -77,75 +77,81 @@ class _CreateVacancyPageState extends State<CreateVacancyPage> {
           Divider(height: 1.h, thickness: 2.r, color: theme.palette.border),
           Expanded(
             child: SingleChildScrollView(
-              child: Padding(
-                padding: .all(16.h),
-                child: Column(
-                  children: [
-                    VacancyTextField(
-                      label: 'Название вакансии',
-                      controller: controllers['name']!,
-                    ),
+              padding: EdgeInsets.fromLTRB(16.w, 16.h, 16.w, 32.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  VacancyTextField(
+                    label: 'Название вакансии',
+                    hint: 'Например: Flutter-разработчик',
+                    controller: controllers['name']!,
+                  ),
 
-                    VacancyTextField(
-                      label: 'Зарплата',
-                      controller: controllers['salary']!,
-                    ),
+                  VacancyTextField(
+                    label: 'Зарплата',
+                    hint: 'Например: от 70 000 ₽',
+                    controller: controllers['salary']!,
+                  ),
 
-                    VacancyTextField(
-                      label: 'Место работы',
-                      controller: controllers['place']!,
-                      maxLines: 10,
-                    ),
+                  VacancyTextField(
+                    label: 'Место работы',
+                    hint: 'Офис / удалённо / гибрид',
+                    controller: controllers['place']!,
+                  ),
 
-                    VacancyTextField(
-                      label: 'Адрес компании',
-                      controller: controllers['address']!,
-                      maxLines: 10,
-                    ),
+                  VacancyTextField(
+                    label: 'Адрес компании',
+                    hint: 'Город, улица, офис',
+                    controller: controllers['address']!,
+                  ),
 
-                    VacancyTextField(
-                      label: 'Занятость',
-                      controller: controllers['employmentType']!,
-                    ),
+                  VacancyTextField(
+                    label: 'Занятость',
+                    hint: 'Полная / частичная / стажировка',
+                    controller: controllers['employmentType']!,
+                  ),
 
-                    EditableListSection(
-                      title: 'Обязанности',
-                      items: duties,
-                      onChanged: () {
-                        setState(() {});
-                      },
-                    ),
+                  EditableListSection(
+                    title: 'Обязанности',
+                    hint: 'Добавить обязанность',
+                    items: duties,
+                    onChanged: () {
+                      setState(() {});
+                    },
+                  ),
 
-                    EditableListSection(
-                      title: 'Требования',
-                      items: requirements,
-                      onChanged: () {
-                        setState(() {});
-                      },
-                    ),
+                  EditableListSection(
+                    title: 'Требования',
+                    hint: 'Добавить требование',
+                    items: requirements,
+                    onChanged: () {
+                      setState(() {});
+                    },
+                  ),
 
-                    EditableListSection(
-                      title: 'Условия работы',
-                      items: conditions,
-                      onChanged: () {
-                        setState(() {});
-                      },
-                    ),
+                  EditableListSection(
+                    title: 'Условия работы',
+                    hint: 'Добавить условие',
+                    items: conditions,
+                    onChanged: () {
+                      setState(() {});
+                    },
+                  ),
 
-                    VacancyTextField(
-                      label: 'Телефон для связи',
-                      controller: controllers['phone']!,
-                    ),
+                  VacancyTextField(
+                    label: 'Телефон для связи',
+                    hint: '+7 999 999-99-99',
+                    controller: controllers['phone']!,
+                  ),
 
-                    VacancyTextField(
-                      label: 'Email компании',
-                      controller: controllers['email']!,
-                      maxLines: 10,
-                    ),
-                  ],
-                ),
+                  VacancyTextField(
+                    label: 'Email компании',
+                    hint: 'company@example.com',
+                    controller: controllers['email']!,
+                  ),
+                ],
               ),
-            ),
+            )
           ),
         ],
       ),
