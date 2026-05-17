@@ -5,7 +5,7 @@ import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunterapp/presentation/controllers/response_controller.dart';
-import 'package:profhunterapp/presentation/pages/vacancy/edit_vacancy_page.dart';
+import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class VacancyPage extends StatefulWidget {
@@ -23,6 +23,8 @@ class _VacancyPageState extends State<VacancyPage> {
   final responseController = Get.find<ResponseController>();
 
   final chatController = Get.find<ChatController>();
+
+  final vacancyController = Get.find<VacancyController>();
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +95,7 @@ class _VacancyPageState extends State<VacancyPage> {
                       textBottomButton:
                           (authController.user.value?.role == 'candidate')
                           ? 'Написать работодателю'
-                          : null,
+                          : 'Удалить вакансию',
                       onPressedBottomButton:
                           (authController.user.value?.role == 'candidate')
                           ? () async {
@@ -106,7 +108,17 @@ class _VacancyPageState extends State<VacancyPage> {
 
                               Get.toNamed('/chat', arguments: chat);
                             }
-                          : null,
+                          : () async {
+                            final shouldDelete = await showDeleteVacancyDialog();
+
+                            if (!shouldDelete) return;
+
+                            await vacancyController.deleteVacancy(id: widget.vacancy.id);
+
+                            await vacancyController.fetchVacancies();
+
+                            Get.back();
+                          },
                     ),
                   ],
                 ),

@@ -86,4 +86,9 @@ class VacancyRepositoryImpl implements VacancyRepository {
 
     return VacancyModel.fromJson(data);
   }
+
+  @override
+  Future<void> deleteVacancy({required String id}) async {
+    await remoteDataSource.deleteVacancy(id: id);
+  }
 }

@@ -88,22 +88,26 @@ class VacancyRemoteDataSource {
     final record = await pb
         .collection('vacancy')
         .update(
-      id,
-      body: {
-        'salary': salary,
-        'name': name,
-        'companyName': companyName,
-        'employmentType': employmentType,
-        'place': place,
-        'address': address,
-        'duties': duties,
-        'requirements': requirements,
-        'conditions': conditions,
-        'contacts': contacts,
-        'userID': userID,
-      },
-    );
+          id,
+          body: {
+            'salary': salary,
+            'name': name,
+            'companyName': companyName,
+            'employmentType': employmentType,
+            'place': place,
+            'address': address,
+            'duties': duties,
+            'requirements': requirements,
+            'conditions': conditions,
+            'contacts': contacts,
+            'userID': userID,
+          },
+        );
 
     return {'id': record.id, ...record.data};
+  }
+
+  Future<void> deleteVacancy({required String id}) async {
+    await pb.collection('vacancy').delete(id);
   }
 }

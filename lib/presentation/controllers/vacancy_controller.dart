@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:profhunterapp/data/models/vacancy_model.dart';
 import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
+import 'package:profhunterapp/domain/usecases/delete_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/edit_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
@@ -13,6 +13,7 @@ class VacancyController extends GetxController {
   final GetVacancyById getVacancyByIdUseCase;
   final CreateVacancy createVacancyUseCase;
   final EditVacancy editVacancyUseCase;
+  final DeleteVacancy deleteVacancyUseCase;
 
   VacancyController({
     required this.getVacanciesUseCase,
@@ -20,6 +21,7 @@ class VacancyController extends GetxController {
     required this.getVacanciesCompanyUseCase,
     required this.getVacancyByIdUseCase,
     required this.editVacancyUseCase,
+    required this.deleteVacancyUseCase,
   });
 
   final RxList<Vacancy> vacancies = <Vacancy>[].obs;
@@ -137,5 +139,14 @@ class VacancyController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> deleteVacancy({required String id}) async {
+    try {
+      await deleteVacancyUseCase(id: id);
+    } catch (e) {
+      errorMessage.value = e.toString();
+      rethrow;
+    } finally {}
   }
 }

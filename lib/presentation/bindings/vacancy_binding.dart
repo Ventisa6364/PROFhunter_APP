@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
+import 'package:profhunterapp/domain/usecases/delete_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/edit_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies.dart';
 import 'package:profhunterapp/domain/usecases/get_vacancies_company.dart';
@@ -16,6 +17,7 @@ class VacancyBinding extends Bindings {
         getVacancyByIdUseCase: Get.find<GetVacancyById>(),
         createVacancyUseCase: Get.find<CreateVacancy>(),
         editVacancyUseCase: Get.find<EditVacancy>(),
+        deleteVacancyUseCase: Get.find<DeleteVacancy>(),
       ),
       fenix: true,
     );

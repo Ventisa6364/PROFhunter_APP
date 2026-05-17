@@ -35,4 +35,6 @@ abstract class VacancyRepository {
     required List<String> conditions,
     required Map<String, dynamic> contacts,
   });
+
+  Future<void> deleteVacancy({required String id});
 }
