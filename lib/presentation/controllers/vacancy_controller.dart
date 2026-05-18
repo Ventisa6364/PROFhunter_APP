@@ -24,10 +24,22 @@ class VacancyController extends GetxController {
     required this.deleteVacancyUseCase,
   });
 
+  /// Все вакансии с сервера
   final RxList<Vacancy> vacancies = <Vacancy>[].obs;
+
+  /// Вакансии, которые отображаются после поиска/фильтрации
+  final RxList<Vacancy> vacanciesView = <Vacancy>[].obs;
+
+  /// Вакансии компании
   final RxList<Vacancy> vacanciesCompany = <Vacancy>[].obs;
+
+  /// Вакансии компании после поиска/фильтрации, если нужно
+  final RxList<Vacancy> vacanciesCompanyView = <Vacancy>[].obs;
+
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
+
+  final RxString searchQuery = ''.obs;
 
   @override
   void onInit() {
@@ -45,11 +57,72 @@ class VacancyController extends GetxController {
 
       final resultForCompany = await getVacanciesCompanyUseCase();
       vacanciesCompany.assignAll(resultForCompany);
+
+      applyFilters();
+      applyCompanyFilters();
     } catch (e) {
       errorMessage.value = e.toString();
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void changeSearchQuery(String value) {
+    searchQuery.value = value;
+    applyFilters();
+    applyCompanyFilters();
+  }
+
+  void applyFilters() {
+    var filtered = vacancies.toList();
+
+    final query = searchQuery.value.trim().toLowerCase();
+
+    if (query.isNotEmpty) {
+      filtered = filtered.where((vacancy) {
+        final name = vacancy.name.toLowerCase();
+        final companyName = vacancy.companyName.toLowerCase();
+        final employmentType = vacancy.employmentType.toLowerCase();
+        final place = vacancy.place.toLowerCase();
+        final address = vacancy.address.toLowerCase();
+        final salary = vacancy.salary.toLowerCase();
+
+        return name.contains(query) ||
+            companyName.contains(query) ||
+            employmentType.contains(query) ||
+            place.contains(query) ||
+            address.contains(query) ||
+            salary.contains(query);
+      }).toList();
+    }
+
+    vacanciesView.assignAll(filtered);
+  }
+
+  void applyCompanyFilters() {
+    var filtered = vacanciesCompany.toList();
+
+    final query = searchQuery.value.trim().toLowerCase();
+
+    if (query.isNotEmpty) {
+      filtered = filtered.where((vacancy) {
+        final name = vacancy.name.toLowerCase();
+        final companyName = vacancy.companyName.toLowerCase();
+        final employmentType = vacancy.employmentType.toLowerCase();
+        final place = vacancy.place.toLowerCase();
+        final address = vacancy.address.toLowerCase();
+        final salary = vacancy.salary.toLowerCase();
+
+        return name.contains(query) ||
+            companyName.contains(query) ||
+            employmentType.contains(query) ||
+            place.contains(query) ||
+            address.contains(query) ||
+            salary.contains(query);
+      }).toList();
+    }
+
+    vacanciesCompanyView.assignAll(filtered);
   }
 
   Future<Vacancy> getVacancyById({required String idVacancy}) async {
@@ -60,7 +133,7 @@ class VacancyController extends GetxController {
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;
-    } finally {}
+    }
   }
 
   Future<void> createVacancy({
@@ -93,6 +166,8 @@ class VacancyController extends GetxController {
         conditions: conditions,
         contacts: contacts,
       );
+
+      await fetchVacancies();
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;
@@ -133,6 +208,8 @@ class VacancyController extends GetxController {
         conditions: conditions,
         contacts: contacts,
       );
+
+      await fetchVacancies();
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;
@@ -143,10 +220,21 @@ class VacancyController extends GetxController {
 
   Future<void> deleteVacancy({required String id}) async {
     try {
+      isLoading.value = true;
+      errorMessage.value = '';
+
       await deleteVacancyUseCase(id: id);
+
+      vacancies.removeWhere((vacancy) => vacancy.id == id);
+      vacanciesCompany.removeWhere((vacancy) => vacancy.id == id);
+
+      applyFilters();
+      applyCompanyFilters();
     } catch (e) {
       errorMessage.value = e.toString();
       rethrow;
-    } finally {}
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
