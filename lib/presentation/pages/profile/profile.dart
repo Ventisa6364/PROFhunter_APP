@@ -162,7 +162,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ProfileCard(
                         title: 'О компании',
                         child: Text(
-                          user.aboutCompany,
+                          user.aboutCompany.isNotEmpty == true
+                              ? user.aboutCompany
+                              : 'Здесь пока пусто',
                           style: CustomStyles.nunitoMedium16.copyWith(
                             color: theme.palette.text,
                           ),

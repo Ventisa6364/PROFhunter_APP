@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           children: [
             Padding(
-              padding: .fromLTRB(16.w, 8.h, 16.w, 0.h),
+              padding: .fromLTRB(16.w, 8.h, 16.w, 12.h),
               child: CustomTextInput.text(
                 controller: searchController,
                 textHint: 'Поиск по вакансиям',

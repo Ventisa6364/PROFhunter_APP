@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/presentation/controllers/response_controller.dart';
+import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile_other_user.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class CompanyResponsesScreen extends GetView<ResponseController> {
-  const CompanyResponsesScreen({super.key});
+  CompanyResponsesScreen({super.key});
+
+  final vacancyController = Get.find<VacancyController>();
 
   @override
   Widget build(BuildContext context) {
@@ -22,9 +25,7 @@ class CompanyResponsesScreen extends GetView<ResponseController> {
       body: SafeArea(
         child: Obx(() {
           if (controller.isLoading.value) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (controller.errorMessage.value.isNotEmpty) {
@@ -52,8 +53,16 @@ class CompanyResponsesScreen extends GetView<ResponseController> {
                   candidateName: response.candidateName,
                   candidateEmail: response.candidateEmail,
                   created: response.created,
-                  onTap: () {
-                    Get.to(() => OtherProfileScreen(otherUser: response.candidateId,));
+                  onTap: () async {
+                    var vacancy = await vacancyController.getVacancyById(
+                      idVacancy: response.vacancyId,
+                    );
+                    Get.to(
+                      () => OtherProfileScreen(
+                        otherUser: response.candidateId,
+                        vacancy: vacancy,
+                      ),
+                    );
                   },
                 );
               },

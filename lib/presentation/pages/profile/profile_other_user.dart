@@ -2,13 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/app_user.dart';
+import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
+import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final String otherUser;
+  final Vacancy vacancy;
 
-  const OtherProfileScreen({super.key, required this.otherUser});
+  const OtherProfileScreen({
+    super.key,
+    required this.otherUser,
+    required this.vacancy,
+  });
 
   @override
   State<OtherProfileScreen> createState() => _OtherProfileScreenState();
@@ -16,6 +23,8 @@ class OtherProfileScreen extends StatefulWidget {
 
 class _OtherProfileScreenState extends State<OtherProfileScreen> {
   final authController = Get.find<AuthController>();
+  final chatController = Get.find<ChatController>();
+
   AppUser? user;
   bool isLoading = true;
   String? errorMessage;
@@ -175,6 +184,28 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                             ),
                           ),
                       ],
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58.h,
+                    child: CustomButton.filled(
+                      onPressed: () async {
+                        var chat = await chatController.getChat(
+                          idCompany: widget.vacancy.userID,
+                          idCandidate: authController.user.value!.id,
+                          idVacancy: widget.vacancy.id,
+                          userRole: authController.user.value!.role,
+                        );
+
+                        Get.toNamed('/chat', arguments: chat);
+
+                        setState(() {});
+                      },
+                      text: 'Написать пользователю',
+                      theme: CustomTheme.of(context),
+                      height: 48.h,
+                      width: 336.w,
                     ),
                   ),
                 ],
