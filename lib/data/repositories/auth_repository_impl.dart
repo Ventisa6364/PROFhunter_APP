@@ -57,7 +57,6 @@ class AuthRepositoryImpl implements AuthRepository {
     required String companyName,
     required String selectedRegion,
     required String role,
-    required String avatar,
     required String aboutMyself,
     required String aboutCompany,
     required List<String> skills,
@@ -69,10 +68,22 @@ class AuthRepositoryImpl implements AuthRepository {
       companyName: companyName,
       selectedRegion: selectedRegion,
       role: role,
-      avatar: avatar,
       aboutMyself: aboutMyself,
       aboutCompany: aboutCompany,
       skills: skills,
+    );
+
+    return AppUserModel.fromMap(data);
+  }
+
+  @override
+  Future<AppUser> updateAvatar({
+    required String userID,
+    required String imagePath,
+  }) async {
+    final data = await remoteDataSource.updateAvatar(
+      userID: userID,
+      imagePath: imagePath,
     );
 
     return AppUserModel.fromMap(data);

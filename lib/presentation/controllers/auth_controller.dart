@@ -5,6 +5,7 @@ import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
+import 'package:profhunterapp/domain/usecases/update_avatar.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 
 class AuthController extends GetxController {
@@ -14,6 +15,7 @@ class AuthController extends GetxController {
   final UpdateUser updateUserUseCase;
   final RestoreCurrentUser restoreCurrentUserUseCase;
   final GetUserById getUserByIdUseCase;
+  final UpdateAvatar updateAvatarUseCase;
 
   AuthController({
     required this.signInUseCase,
@@ -22,6 +24,7 @@ class AuthController extends GetxController {
     required this.updateUserUseCase,
     required this.restoreCurrentUserUseCase,
     required this.getUserByIdUseCase,
+    required this.updateAvatarUseCase,
   }) {
     restoreCurrentUser();
   }
@@ -96,7 +99,6 @@ class AuthController extends GetxController {
     required String companyName,
     required String selectedRegion,
     required String role,
-    required String avatar,
     required String aboutMyself,
     required String aboutCompany,
     required List<String> skills,
@@ -112,7 +114,6 @@ class AuthController extends GetxController {
         companyName: companyName,
         selectedRegion: selectedRegion,
         role: role,
-        avatar: avatar,
         aboutMyself: aboutMyself,
         aboutCompany: aboutCompany,
         skills: skills,
@@ -138,5 +139,12 @@ class AuthController extends GetxController {
 
   Future<AppUser> getUserById({required String userID}) async {
     return await getUserByIdUseCase(userID: userID);
+  }
+
+  Future<AppUser> updateAvatar({
+    required String userID,
+    required String imagePath,
+  }) async {
+    return await updateAvatarUseCase(userID: userID, imagePath: imagePath);
   }
 }

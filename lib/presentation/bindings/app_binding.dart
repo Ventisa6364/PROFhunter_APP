@@ -35,6 +35,7 @@ import 'package:profhunterapp/domain/usecases/sign_in.dart';
 import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
 import 'package:profhunterapp/domain/usecases/subscribe_message.dart';
+import 'package:profhunterapp/domain/usecases/update_avatar.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
@@ -91,6 +92,11 @@ class AppBinding extends Bindings {
       fenix: true,
     );
 
+    Get.lazyPut<UpdateAvatar>(
+      () => UpdateAvatar(Get.find<AuthRepository>()),
+      fenix: true,
+    );
+
     Get.put<AuthController>(
       AuthController(
         signInUseCase: Get.find<SignIn>(),
@@ -99,6 +105,7 @@ class AppBinding extends Bindings {
         updateUserUseCase: Get.find<UpdateUser>(),
         restoreCurrentUserUseCase: Get.find<RestoreCurrentUser>(),
         getUserByIdUseCase: Get.find<GetUserById>(),
+        updateAvatarUseCase: Get.find<UpdateAvatar>(),
       ),
       permanent: true,
     );

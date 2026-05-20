@@ -1,4 +1,5 @@
 import 'package:pocketbase/pocketbase.dart';
+import 'package:http/http.dart' as http;
 
 class AuthRemoteDataSource {
   final PocketBase pb;
@@ -49,7 +50,6 @@ class AuthRemoteDataSource {
     required String companyName,
     required String selectedRegion,
     required String role,
-    required String avatar,
     required String aboutMyself,
     required String aboutCompany,
     required List<String> skills,
@@ -64,7 +64,6 @@ class AuthRemoteDataSource {
             'companyName': companyName,
             'selectedRegion': selectedRegion,
             'role': role,
-            'avatar': avatar,
             'aboutMyself': aboutMyself,
             'aboutCompany': aboutCompany,
             'skills': skills,
@@ -107,5 +106,21 @@ class AuthRemoteDataSource {
 
       return null;
     }
+  }
+
+  Future<Map<String, dynamic>> updateAvatar({
+    required String userID,
+    required String imagePath,
+  }) async {
+    final record = await pb
+        .collection('users')
+        .update(
+          userID,
+          files: [await http.MultipartFile.fromPath('avatar', imagePath)],
+        );
+
+    pb.authStore.save(pb.authStore.token, record);
+
+    return {'id': record.id, ...record.data};
   }
 }

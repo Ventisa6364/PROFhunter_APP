@@ -17,6 +17,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   pocketbase: ^0.23.2
   dio: ^5.9.2
+  image_picker: ^1.2.2
 
   shared_preferences: ^2.5.5
 

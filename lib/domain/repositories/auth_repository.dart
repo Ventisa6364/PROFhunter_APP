@@ -1,7 +1,6 @@
 import 'package:profhunterapp/domain/entities/app_user.dart';
 
 abstract class AuthRepository {
-
   Future<AppUser> signUp({
     required String email,
     required String password,
@@ -12,10 +11,7 @@ abstract class AuthRepository {
     required String role,
   });
 
-  Future<AppUser> signIn({
-    required String email,
-    required String password,
-  });
+  Future<AppUser> signIn({required String email, required String password});
 
   Future<void> signOut();
 
@@ -26,15 +22,17 @@ abstract class AuthRepository {
     required String companyName,
     required String selectedRegion,
     required String role,
-    required String avatar,
     required String aboutMyself,
     required String aboutCompany,
     required List<String> skills,
   });
 
-  Future<AppUser> getUserById({
+  Future<AppUser> getUserById({required String userID});
+
+  Future<AppUser> updateAvatar({
     required String userID,
-});
+    required String imagePath,
+  });
 
   AppUser? get currentUser;
 

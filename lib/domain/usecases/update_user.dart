@@ -13,7 +13,6 @@ class UpdateUser {
     required String companyName,
     required String selectedRegion,
     required String role,
-    required String avatar,
     required String aboutMyself,
     required String aboutCompany,
     required List<String> skills,
@@ -25,7 +24,6 @@ class UpdateUser {
       companyName: companyName,
       selectedRegion: selectedRegion,
       role: role,
-      avatar: avatar,
       aboutMyself: aboutMyself,
       aboutCompany: aboutCompany,
       skills: skills

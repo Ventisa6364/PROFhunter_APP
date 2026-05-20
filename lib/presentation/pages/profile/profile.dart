@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/pages/profile/profile_edit_page.dart';
 import 'package:profhunterapp/presentation/pages/utils/main_screen.dart';
@@ -14,6 +15,51 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // в UIKit
+  Future<ImageSource?> chooseSource() async {
+    ImageSource? source;
+    await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Choose source'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              source = ImageSource.gallery;
+              Navigator.pop(context);
+            },
+            child: Text('Gallery'),
+          ),
+          TextButton(
+            onPressed: () {
+              source = ImageSource.camera;
+              Navigator.pop(context);
+            },
+            child: Text('Camera'),
+          ),
+        ],
+      ),
+    );
+
+    return source;
+  }
+
+  Future<void> imagePicker(AuthController authController) async {
+    final picker = ImagePicker();
+
+    var source = await chooseSource();
+
+    final file = await picker.pickImage(source: source!, imageQuality: 80);
+
+    if (file == null) return;
+
+    final user = authController.user.value;
+
+    if (user == null) return;
+
+    await authController.updateAvatar(userID: user.id, imagePath: file.path);
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
@@ -51,13 +97,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       child: Column(
                         children: [
-                          CircleAvatar(
-                            radius: 32.r,
-                            backgroundColor: theme.palette.blue.withAlpha(0x1f),
-                            child: Icon(
-                              Icons.person_outline,
-                              size: 32.r,
-                              color: theme.palette.blue,
+                          GestureDetector(
+                            onTap: () {
+                              imagePicker(controller);
+                            },
+                            child: CircleAvatar(
+                              radius: 32.r,
+                              backgroundImage: (user.avatar.isNotEmpty)
+                                  ? NetworkImage(
+                                      'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
+                                    )
+                                  : null,
+                              child: user.avatar.isEmpty
+                                  ? CircleAvatar(
+                                      radius: 32.r,
+                                      backgroundColor: theme.palette.blue
+                                          .withAlpha(0x1f),
+                                      child: Icon(
+                                        Icons.person_outline,
+                                        size: 32.r,
+                                        color: theme.palette.blue,
+                                      ),
+                                    )
+                                  : null,
                             ),
                           ),
                           SizedBox(height: 14.h),
@@ -166,7 +228,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ? user.aboutCompany
                               : 'Здесь пока пусто',
                           style: CustomStyles.nunitoMedium16.copyWith(
-                            color: theme.palette.text,
+                            color: theme.palette.textSecondary,
                           ),
                         ),
                       ),
