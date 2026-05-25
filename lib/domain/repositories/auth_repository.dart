@@ -34,6 +34,8 @@ abstract class AuthRepository {
     required String imagePath,
   });
 
+  Future<AppUser> deleteAvatar({required String userID});
+
   AppUser? get currentUser;
 
   bool get isLoggedIn;

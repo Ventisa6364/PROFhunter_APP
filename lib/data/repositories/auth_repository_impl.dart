@@ -97,6 +97,17 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AppUser> deleteAvatar({
+    required String userID
+  }) async {
+    final data = await remoteDataSource.deleteAvatar(
+      userID: userID,
+    );
+
+    return AppUserModel.fromMap(data);
+  }
+
+  @override
   AppUser? get currentUser {
     final data = remoteDataSource.currentUserMap;
     if (data == null) return null;

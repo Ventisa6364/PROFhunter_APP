@@ -103,30 +103,87 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       ),
                       child: Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              imagePicker(controller);
-                            },
-                            child: CircleAvatar(
-                              radius: 32.r,
-                              backgroundImage: (user.avatar.isNotEmpty)
-                                  ? NetworkImage(
-                                      'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
-                                    )
-                                  : null,
-                              child: user.avatar.isEmpty
-                                  ? CircleAvatar(
-                                      radius: 32.r,
-                                      backgroundColor: theme.palette.blue
-                                          .withAlpha(0x1f),
-                                      child: Icon(
-                                        Icons.person_outline,
-                                        size: 32.r,
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  imagePicker(controller);
+                                },
+                                child: CircleAvatar(
+                                  radius: 32.r,
+                                  backgroundImage: user.avatar.isNotEmpty
+                                      ? NetworkImage(
+                                          'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
+                                        )
+                                      : null,
+                                  child: user.avatar.isEmpty
+                                      ? CircleAvatar(
+                                          radius: 32.r,
+                                          backgroundColor: theme.palette.blue
+                                              .withAlpha(0x1f),
+                                          child: Icon(
+                                            Icons.person_outline,
+                                            size: 32.r,
+                                            color: theme.palette.blue,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                              ),
+
+                              if (user.avatar.isNotEmpty)
+                                Positioned(
+                                  right: -2.r,
+                                  bottom: -2.r,
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      final result = await showDialog<bool>(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: const Text('Удалить аватар?'),
+                                          content: const Text(
+                                            'Текущая фотография профиля будет удалена.',
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, false),
+                                              child: const Text('Отмена'),
+                                            ),
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context, true),
+                                              child: const Text('Удалить'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+
+                                      if (result == true) {
+                                        await controller.deleteAvatar();
+                                      }
+                                    },
+                                    child: Container(
+                                      width: 24.r,
+                                      height: 24.r,
+                                      decoration: BoxDecoration(
                                         color: theme.palette.blue,
+                                        shape: .circle,
+                                        border: Border.all(
+                                          color: theme.palette.background,
+                                          width: 2.r,
+                                        ),
                                       ),
-                                    )
-                                  : null,
-                            ),
+                                      child: Icon(
+                                        Icons.delete_outline,
+                                        size: 14.r,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
                           SizedBox(height: 14.h),
                           Text(

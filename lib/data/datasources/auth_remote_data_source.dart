@@ -123,4 +123,14 @@ class AuthRemoteDataSource {
 
     return {'id': record.id, ...record.data};
   }
+
+  Future<Map<String, dynamic>> deleteAvatar({required String userID}) async {
+    final record = await pb
+        .collection('users')
+        .update(userID, body: {'avatar': ''});
+
+    pb.authStore.save(pb.authStore.token, record);
+
+    return {'id': record.id, ...record.data};
+  }
 }

@@ -22,4 +22,30 @@ class AppUser {
     required this.aboutCompany,
     required this.skills,
   });
+
+  AppUser copyWith({
+    String? id,
+    String? email,
+    String? name,
+    String? companyName,
+    String? selectedRegion,
+    String? role,
+    String? avatar,
+    String? aboutMyself,
+    String? aboutCompany,
+    List<String>? skills,
+  }) {
+    return AppUser(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      companyName: companyName ?? this.companyName,
+      selectedRegion: selectedRegion ?? this.selectedRegion,
+      role: role ?? this.role,
+      avatar: avatar ?? this.avatar,
+      aboutMyself: aboutMyself ?? this.aboutMyself,
+      aboutCompany: aboutCompany ?? this.aboutCompany,
+      skills: skills ?? this.skills,
+    );
+  }
 }

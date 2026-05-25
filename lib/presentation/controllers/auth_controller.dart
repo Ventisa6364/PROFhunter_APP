@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/app_user.dart';
+import 'package:profhunterapp/domain/usecases/delete_avatar.dart';
 import 'package:profhunterapp/domain/usecases/get_user_by_id.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
@@ -16,6 +17,7 @@ class AuthController extends GetxController {
   final RestoreCurrentUser restoreCurrentUserUseCase;
   final GetUserById getUserByIdUseCase;
   final UpdateAvatar updateAvatarUseCase;
+  final DeleteAvatar deleteAvatarUseCase;
 
   AuthController({
     required this.signInUseCase,
@@ -25,6 +27,7 @@ class AuthController extends GetxController {
     required this.restoreCurrentUserUseCase,
     required this.getUserByIdUseCase,
     required this.updateAvatarUseCase,
+    required this.deleteAvatarUseCase,
   }) {
     restoreCurrentUser();
   }
@@ -146,5 +149,17 @@ class AuthController extends GetxController {
     required String imagePath,
   }) async {
     return await updateAvatarUseCase(userID: userID, imagePath: imagePath);
+  }
+
+  Future<void> deleteAvatar() async {
+    if (user.value == null) return;
+
+    await deleteAvatarUseCase(
+      userID: user.value!.id,
+    );
+
+    user.value = user.value!.copyWith(
+      avatar: '',
+    );
   }
 }
