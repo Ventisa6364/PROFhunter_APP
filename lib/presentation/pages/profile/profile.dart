@@ -97,30 +97,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       child: Column(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              imagePicker(controller);
-                            },
-                            child: CircleAvatar(
-                              radius: 32.r,
-                              backgroundImage: (user.avatar.isNotEmpty)
-                                  ? NetworkImage(
-                                      'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
-                                    )
-                                  : null,
-                              child: user.avatar.isEmpty
-                                  ? CircleAvatar(
-                                      radius: 32.r,
-                                      backgroundColor: theme.palette.blue
-                                          .withAlpha(0x1f),
-                                      child: Icon(
-                                        Icons.person_outline,
-                                        size: 32.r,
-                                        color: theme.palette.blue,
-                                      ),
-                                    )
-                                  : null,
-                            ),
+                          CircleAvatar(
+                            radius: 32.r,
+                            backgroundImage: (user.avatar.isNotEmpty)
+                                ? NetworkImage(
+                                    'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
+                                  )
+                                : null,
+                            child: user.avatar.isEmpty
+                                ? CircleAvatar(
+                                    radius: 32.r,
+                                    backgroundColor: theme.palette.blue
+                                        .withAlpha(0x1f),
+                                    child: Icon(
+                                      Icons.person_outline,
+                                      size: 32.r,
+                                      color: theme.palette.blue,
+                                    ),
+                                  )
+                                : null,
                           ),
                           SizedBox(height: 14.h),
                           Text(

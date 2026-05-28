@@ -148,18 +148,34 @@ class AuthController extends GetxController {
     required String userID,
     required String imagePath,
   }) async {
-    return await updateAvatarUseCase(userID: userID, imagePath: imagePath);
+    final currentUser = user.value;
+
+    if (currentUser == null) {
+      throw Exception('User is null');
+    }
+
+    try {
+      user.value = currentUser.copyWith(avatar: '');
+
+      final updatedUser = await updateAvatarUseCase(
+        userID: userID,
+        imagePath: imagePath,
+      );
+
+      user.value = updatedUser;
+
+      return updatedUser;
+    } catch (e) {
+      user.value = currentUser;
+      rethrow;
+    }
   }
 
   Future<void> deleteAvatar() async {
     if (user.value == null) return;
 
-    await deleteAvatarUseCase(
-      userID: user.value!.id,
-    );
+    await deleteAvatarUseCase(userID: user.value!.id);
 
-    user.value = user.value!.copyWith(
-      avatar: '',
-    );
+    user.value = user.value!.copyWith(avatar: '');
   }
 }
