@@ -25,7 +25,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   final authController = Get.find<AuthController>();
   final chatController = Get.find<ChatController>();
 
-  AppUser? user;
+  late AppUser user;
   bool isLoading = true;
   String? errorMessage;
 
@@ -73,7 +73,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     return Scaffold(
       backgroundColor: theme.palette.background,
       appBar: CustomAppBarWidget(
-        title: user!.name,
+        title: user.name,
         iconBtn: Icons.close,
         onPressed: _close,
       ),
@@ -97,16 +97,27 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                       children: [
                         CircleAvatar(
                           radius: 32.r,
-                          backgroundColor: theme.palette.blue.withAlpha(0x1f),
-                          child: Icon(
-                            Icons.person_outline,
-                            size: 32.r,
-                            color: theme.palette.blue,
-                          ),
+                          backgroundImage: (user.avatar.isNotEmpty)
+                              ? NetworkImage(
+                            'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
+                          )
+                              : null,
+                          child: user.avatar.isEmpty
+                              ? CircleAvatar(
+                            radius: 32.r,
+                            backgroundColor: theme.palette.blue
+                                .withAlpha(0x1f),
+                            child: Icon(
+                              Icons.person_outline,
+                              size: 32.r,
+                              color: theme.palette.blue,
+                            ),
+                          )
+                              : null,
                         ),
                         SizedBox(height: 14.h),
                         Text(
-                          user!.name,
+                          user.name,
                           style: CustomStyles.nunitoMedium18.copyWith(
                             color: theme.palette.text,
                           ),
@@ -119,9 +130,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                             borderRadius: .circular(14.r),
                           ),
                           child: Text(
-                            (user!.role == 'candidate')
+                            (user.role == 'candidate')
                                 ? 'Я ищу работу'
-                                : (user!.role == 'company')
+                                : (user.role == 'company')
                                 ? 'Я ищу сотрудников'
                                 : 'Не указано',
                             style: CustomStyles.nunitoMedium14.copyWith(
@@ -140,12 +151,12 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                         ProfileRow(
                           icon: Icons.person_outline,
                           title: 'Имя',
-                          value: user!.name,
+                          value: user.name,
                         ),
                         ProfileRow(
                           icon: Icons.location_on_outlined,
                           title: 'Регион',
-                          value: user!.selectedRegion,
+                          value: user.selectedRegion,
                         ),
                       ],
                     ),
@@ -153,8 +164,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                   ProfileCard(
                     title: 'О себе',
                     child: Text(
-                      user!.aboutMyself.isNotEmpty == true
-                          ? user!.aboutMyself
+                      user.aboutMyself.isNotEmpty == true
+                          ? user.aboutMyself
                           : 'Здесь пока пусто',
                       style: CustomStyles.nunitoMedium16.copyWith(
                         color: theme.palette.textSecondary,
@@ -167,14 +178,14 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                       spacing: 10.w,
                       runSpacing: 10.w,
                       children: [
-                        if (user!.skills.isNotEmpty == true)
-                          for (int i = 0; i < user!.skills.length; i++)
+                        if (user.skills.isNotEmpty == true)
+                          for (int i = 0; i < user.skills.length; i++)
                             ChipsWidget(
                               backgroundColor: theme.palette.blue.withAlpha(
                                 0x1f,
                               ),
                               textColor: theme.palette.blue,
-                              text: user!.skills[i],
+                              text: user.skills[i],
                             )
                         else
                           Text(
