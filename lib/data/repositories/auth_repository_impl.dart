@@ -97,12 +97,28 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<AppUser> deleteAvatar({
-    required String userID
+  Future<AppUser> deleteAvatar({required String userID}) async {
+    final data = await remoteDataSource.deleteAvatar(userID: userID);
+
+    return AppUserModel.fromMap(data);
+  }
+
+  @override
+  Future<AppUser> addResume({
+    required String userID,
+    required String filePath,
   }) async {
-    final data = await remoteDataSource.deleteAvatar(
+    final data = await remoteDataSource.addResume(
       userID: userID,
+      filePath: filePath,
     );
+
+    return AppUserModel.fromMap(data);
+  }
+
+  @override
+  Future<AppUser> deleteResume({required String userID}) async {
+    final data = await remoteDataSource.deleteResume(userID: userID);
 
     return AppUserModel.fromMap(data);
   }

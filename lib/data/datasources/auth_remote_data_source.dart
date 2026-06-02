@@ -133,4 +133,30 @@ class AuthRemoteDataSource {
 
     return {'id': record.id, ...record.data};
   }
+
+  Future<Map<String, dynamic>> addResume({
+    required String userID,
+    required String filePath,
+  }) async {
+    final record = await pb
+        .collection('users')
+        .update(
+          userID,
+          files: [await http.MultipartFile.fromPath('resume', filePath)],
+        );
+
+    pb.authStore.save(pb.authStore.token, record);
+
+    return {'id': record.id, ...record.data};
+  }
+
+  Future<Map<String, dynamic>> deleteResume({required String userID}) async {
+    final record = await pb
+        .collection('users')
+        .update(userID, body: {'resume': ''});
+
+    pb.authStore.save(pb.authStore.token, record);
+
+    return {'id': record.id, ...record.data};
+  }
 }

@@ -6,6 +6,7 @@ class AppUser {
   final String selectedRegion;
   final String role;
   final String avatar;
+  final String resume;
   final String aboutMyself;
   final String aboutCompany;
   final List<String> skills;
@@ -18,6 +19,7 @@ class AppUser {
     required this.selectedRegion,
     required this.role,
     required this.avatar,
+    required this.resume,
     required this.aboutMyself,
     required this.aboutCompany,
     required this.skills,
@@ -31,6 +33,7 @@ class AppUser {
     String? selectedRegion,
     String? role,
     String? avatar,
+    String? resume,
     String? aboutMyself,
     String? aboutCompany,
     List<String>? skills,
@@ -43,6 +46,7 @@ class AppUser {
       selectedRegion: selectedRegion ?? this.selectedRegion,
       role: role ?? this.role,
       avatar: avatar ?? this.avatar,
+      resume: resume ?? this.resume,
       aboutMyself: aboutMyself ?? this.aboutMyself,
       aboutCompany: aboutCompany ?? this.aboutCompany,
       skills: skills ?? this.skills,

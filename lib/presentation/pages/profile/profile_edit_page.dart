@@ -15,38 +15,10 @@ class ProfileEditPage extends StatefulWidget {
 }
 
 class _ProfileEditPageState extends State<ProfileEditPage> {
-  Future<ImageSource?> chooseSource() async {
-    ImageSource? source;
-    await showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text('Choose source'),
-        actions: [
-          TextButton(
-            onPressed: () {
-              source = ImageSource.gallery;
-              Navigator.pop(context);
-            },
-            child: Text('Gallery'),
-          ),
-          TextButton(
-            onPressed: () {
-              source = ImageSource.camera;
-              Navigator.pop(context);
-            },
-            child: Text('Camera'),
-          ),
-        ],
-      ),
-    );
-
-    return source;
-  }
-
   Future<void> imagePicker(AuthController authController) async {
     final picker = ImagePicker();
 
-    var source = await chooseSource();
+    var source = await chooseSource(context);
 
     final file = await picker.pickImage(source: source!, imageQuality: 80);
 
@@ -64,6 +36,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     var theme = CustomTheme.of(context);
     final controller = Get.find<AuthController>();
     final user = controller.user.value;
+    final resume = user?.resume ?? '';
+    final selectedResumeName = controller.selectedResumeName.value;
+
+    final hasResume = resume.isNotEmpty || selectedResumeName.isNotEmpty;
 
     String? newName, newEmail, newAboutMyself, newAboutCompany, newRegion;
     widget.emailController.text = user!.email;
@@ -269,6 +245,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         },
                       ),
                       EditSkillsCard(skills: user.skills),
+                      ResumeBlock(
+                        hasResume: hasResume,
+                        fileName: selectedResumeName.isNotEmpty
+                            ? selectedResumeName
+                            : 'Резюме загружено',
+                        isLoading: controller.isLoading.value,
+                        onUpload: controller.pickAndUploadResume,
+                        onReplace: controller.pickAndUploadResume,
+                        onDelete: controller.deleteResume,
+                      ),
                     ] else
                       EditAboutUserCard(
                         title: 'О компании',
@@ -277,6 +263,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           newAboutCompany = value;
                         },
                       ),
+
                     SizedBox(height: 10.h),
                     SizedBox(
                       width: double.infinity,

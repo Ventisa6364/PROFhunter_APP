@@ -1,6 +1,9 @@
+import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/app_user.dart';
+import 'package:profhunterapp/domain/usecases/add_resume.dart';
 import 'package:profhunterapp/domain/usecases/delete_avatar.dart';
+import 'package:profhunterapp/domain/usecases/delete_resume.dart';
 import 'package:profhunterapp/domain/usecases/get_user_by_id.dart';
 import 'package:profhunterapp/domain/usecases/restore_current_user.dart';
 import 'package:profhunterapp/domain/usecases/sign_in.dart';
@@ -18,6 +21,8 @@ class AuthController extends GetxController {
   final GetUserById getUserByIdUseCase;
   final UpdateAvatar updateAvatarUseCase;
   final DeleteAvatar deleteAvatarUseCase;
+  final AddResume addResumeUseCase;
+  final DeleteResume deleteResumeUseCase;
 
   AuthController({
     required this.signInUseCase,
@@ -28,6 +33,8 @@ class AuthController extends GetxController {
     required this.getUserByIdUseCase,
     required this.updateAvatarUseCase,
     required this.deleteAvatarUseCase,
+    required this.addResumeUseCase,
+    required this.deleteResumeUseCase,
   }) {
     restoreCurrentUser();
   }
@@ -35,6 +42,7 @@ class AuthController extends GetxController {
   final isLoading = false.obs;
   final error = RxnString();
   final user = Rxn<AppUser>();
+  final selectedResumeName = ''.obs;
 
   bool get isLoggedIn => user.value != null;
 
@@ -178,4 +186,110 @@ class AuthController extends GetxController {
 
     user.value = user.value!.copyWith(avatar: '');
   }
+
+  Future<void> pickAndUploadResume() async {
+    final currentUser = user.value;
+
+    if (currentUser == null) {
+      Get.snackbar(
+        'Ошибка',
+        'Пользователь не найден',
+      );
+      return;
+    }
+
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx'],
+        allowMultiple: false,
+      );
+
+      if (result == null || result.files.isEmpty) return;
+
+      final file = result.files.single;
+
+      final filePath = file.path;
+      final fileName = file.name;
+      final extension = file.extension?.toLowerCase();
+
+      if (filePath == null || filePath.isEmpty) {
+        Get.snackbar(
+          'Ошибка',
+          'Не удалось получить путь к файлу',
+        );
+        return;
+      }
+
+      if (extension == null ||
+          !['pdf', 'doc', 'docx'].contains(extension)) {
+        Get.snackbar(
+          'Ошибка',
+          'Можно загрузить только PDF, DOC или DOCX',
+        );
+        return;
+      }
+
+      isLoading.value = true;
+
+      final updatedUser = await addResumeUseCase(
+        userID: currentUser.id,
+        filePath: filePath,
+      );
+
+      user.value = updatedUser;
+      selectedResumeName.value = fileName;
+
+      Get.snackbar(
+        'Готово',
+        'Резюме успешно загружено',
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Ошибка',
+        'Не удалось загрузить резюме',
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> deleteResume() async {
+    final currentUser = user.value;
+
+    if (currentUser == null) {
+      Get.snackbar(
+        'Ошибка',
+        'Пользователь не найден',
+      );
+      return;
+    }
+
+    try {
+      isLoading.value = true;
+
+      await deleteResumeUseCase(
+        userID: currentUser.id,
+      );
+
+      user.value = currentUser.copyWith(
+        resume: '',
+      );
+
+      selectedResumeName.value = '';
+
+      Get.snackbar(
+        'Готово',
+        'Резюме удалено',
+      );
+    } catch (e) {
+      Get.snackbar(
+        'Ошибка',
+        'Не удалось удалить резюме',
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 }

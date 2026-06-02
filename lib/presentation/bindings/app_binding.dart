@@ -15,7 +15,9 @@ import 'package:profhunterapp/domain/repositories/chat_repository.dart';
 import 'package:profhunterapp/domain/repositories/message_repository.dart';
 import 'package:profhunterapp/domain/repositories/response_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
+import 'package:profhunterapp/domain/usecases/add_resume.dart';
 import 'package:profhunterapp/domain/usecases/delete_avatar.dart';
+import 'package:profhunterapp/domain/usecases/delete_resume.dart';
 import 'package:profhunterapp/domain/usecases/delete_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/edit_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/get_chat.dart';
@@ -99,7 +101,17 @@ class AppBinding extends Bindings {
     );
 
     Get.lazyPut<DeleteAvatar>(
-          () => DeleteAvatar(Get.find<AuthRepository>()),
+      () => DeleteAvatar(Get.find<AuthRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<AddResume>(
+      () => AddResume(Get.find<AuthRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<DeleteResume>(
+      () => DeleteResume(Get.find<AuthRepository>()),
       fenix: true,
     );
 
@@ -113,6 +125,8 @@ class AppBinding extends Bindings {
         getUserByIdUseCase: Get.find<GetUserById>(),
         updateAvatarUseCase: Get.find<UpdateAvatar>(),
         deleteAvatarUseCase: Get.find<DeleteAvatar>(),
+        addResumeUseCase: Get.find<AddResume>(),
+        deleteResumeUseCase: Get.find<DeleteResume>(),
       ),
       permanent: true,
     );

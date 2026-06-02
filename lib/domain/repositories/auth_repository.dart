@@ -36,6 +36,13 @@ abstract class AuthRepository {
 
   Future<AppUser> deleteAvatar({required String userID});
 
+  Future<AppUser> addResume({
+    required String userID,
+    required String filePath,
+  });
+
+  Future<AppUser> deleteResume({required String userID});
+
   AppUser? get currentUser;
 
   bool get isLoggedIn;
