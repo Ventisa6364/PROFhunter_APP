@@ -36,10 +36,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     var theme = CustomTheme.of(context);
     final controller = Get.find<AuthController>();
     final user = controller.user.value;
-    final resume = user?.resume ?? '';
-    final selectedResumeName = controller.selectedResumeName.value;
-
-    final hasResume = resume.isNotEmpty || selectedResumeName.isNotEmpty;
 
     String? newName, newEmail, newAboutMyself, newAboutCompany, newRegion;
     widget.emailController.text = user!.email;
@@ -52,6 +48,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       ),
       body: Obx(() {
         final user = controller.user.value;
+        final resume = user?.resume ?? '';
+        final selectedResumeName = controller.selectedResumeName.value;
+        final hasResume = resume.isNotEmpty || selectedResumeName.isNotEmpty;
 
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());

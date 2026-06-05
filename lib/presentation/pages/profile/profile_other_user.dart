@@ -6,6 +6,7 @@ import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final String otherUser;
@@ -55,6 +56,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
         errorMessage = e.toString();
         isLoading = false;
       });
+    }
+  }
+
+  Future<void> openResume(String url) async {
+    final uri = Uri.parse(url);
+
+    final success = await launchUrl(uri, mode: LaunchMode.externalApplication);
+
+    if (!success) {
+      throw Exception("Не Удалось открыть файл");
     }
   }
 
@@ -202,18 +213,34 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                     height: 58.h,
                     child: CustomButton.filled(
                       onPressed: () async {
-                        var chat = await chatController.getChat(
-                          idCompany: widget.vacancy.userID,
-                          idCandidate: authController.user.value!.id,
+                        final currentUser = authController.user.value;
+
+                        if (currentUser == null) {
+                          Get.snackbar('Ошибка', 'Пользователь не найден');
+                          return;
+                        }
+
+                        final chat = await chatController.getChat(
+                          idCompany: currentUser.id,
+                          idCandidate: user.id,
                           idVacancy: widget.vacancy.id,
-                          userRole: authController.user.value!.role,
+                          userRole: currentUser.role,
                         );
 
                         Get.toNamed('/chat', arguments: chat);
-
-                        setState(() {});
                       },
                       text: 'Написать пользователю',
+                      theme: CustomTheme.of(context),
+                      height: 48.h,
+                      width: 336.w,
+                    ),
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 58.h,
+                    child: CustomButton.filled(
+                      onPressed: () => openResume('https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.resume}'),
+                      text: 'Посмотреть резюме',
                       theme: CustomTheme.of(context),
                       height: 48.h,
                       width: 336.w,

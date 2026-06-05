@@ -191,10 +191,7 @@ class AuthController extends GetxController {
     final currentUser = user.value;
 
     if (currentUser == null) {
-      Get.snackbar(
-        'Ошибка',
-        'Пользователь не найден',
-      );
+      Get.snackbar('Ошибка', 'Пользователь не найден');
       return;
     }
 
@@ -214,19 +211,12 @@ class AuthController extends GetxController {
       final extension = file.extension?.toLowerCase();
 
       if (filePath == null || filePath.isEmpty) {
-        Get.snackbar(
-          'Ошибка',
-          'Не удалось получить путь к файлу',
-        );
+        Get.snackbar('Ошибка', 'Не удалось получить путь к файлу');
         return;
       }
 
-      if (extension == null ||
-          !['pdf', 'doc', 'docx'].contains(extension)) {
-        Get.snackbar(
-          'Ошибка',
-          'Можно загрузить только PDF, DOC или DOCX',
-        );
+      if (extension == null || !['pdf', 'doc', 'docx'].contains(extension)) {
+        Get.snackbar('Ошибка', 'Можно загрузить только PDF, DOC или DOCX');
         return;
       }
 
@@ -240,15 +230,9 @@ class AuthController extends GetxController {
       user.value = updatedUser;
       selectedResumeName.value = fileName;
 
-      Get.snackbar(
-        'Готово',
-        'Резюме успешно загружено',
-      );
+      Get.snackbar('Готово', 'Резюме успешно загружено');
     } catch (e) {
-      Get.snackbar(
-        'Ошибка',
-        'Не удалось загрузить резюме',
-      );
+      Get.snackbar('Ошибка', 'Не удалось загрузить резюме');
     } finally {
       isLoading.value = false;
     }
@@ -258,38 +242,24 @@ class AuthController extends GetxController {
     final currentUser = user.value;
 
     if (currentUser == null) {
-      Get.snackbar(
-        'Ошибка',
-        'Пользователь не найден',
-      );
+      Get.snackbar('Ошибка', 'Пользователь не найден');
       return;
     }
 
     try {
       isLoading.value = true;
 
-      await deleteResumeUseCase(
-        userID: currentUser.id,
-      );
+      await deleteResumeUseCase(userID: currentUser.id);
 
-      user.value = currentUser.copyWith(
-        resume: '',
-      );
+      user.value = currentUser.copyWith(resume: '');
 
       selectedResumeName.value = '';
 
-      Get.snackbar(
-        'Готово',
-        'Резюме удалено',
-      );
+      Get.snackbar('Готово', 'Резюме удалено');
     } catch (e) {
-      Get.snackbar(
-        'Ошибка',
-        'Не удалось удалить резюме',
-      );
+      Get.snackbar('Ошибка', 'Не удалось удалить резюме');
     } finally {
       isLoading.value = false;
     }
   }
-
 }

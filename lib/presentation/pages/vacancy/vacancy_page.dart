@@ -93,9 +93,9 @@ class _VacancyPageState extends State<VacancyPage> {
                       email: widget.vacancy.contacts['email']!,
                       phone: widget.vacancy.contacts['phone']!,
                       textBottomButton:
-                          (authController.user.value?.role == 'candidate')
-                          ? 'Написать работодателю'
-                          : 'Удалить вакансию',
+                          (authController.user.value?.role == 'company')
+                          ? 'Удалить вакансию'
+                          : 'Написать работодателю',
                       onPressedBottomButton:
                           (authController.user.value?.role == 'candidate')
                           ? () async {
@@ -108,7 +108,7 @@ class _VacancyPageState extends State<VacancyPage> {
 
                               Get.toNamed('/chat', arguments: chat);
                             }
-                          : () async {
+                          : (authController.user.value?.role == 'company') ? () async {
                             final shouldDelete = await showDeleteVacancyDialog();
 
                             if (!shouldDelete) return;
@@ -118,7 +118,7 @@ class _VacancyPageState extends State<VacancyPage> {
                             await vacancyController.fetchVacancies();
 
                             Get.back();
-                          },
+                          } : null,
                     ),
                   ],
                 ),
