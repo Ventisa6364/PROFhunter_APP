@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/chat_view_data.dart';
+import 'package:profhunterapp/domain/entities/message.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
@@ -40,6 +41,24 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
+  List<dynamic> createListWithDateAndMessages(List<Message> messages) {
+    List<dynamic> items = [];
+    DateTime? lastDate;
+
+    for (final message in messages) {
+      final created = message.created ?? DateTime.now();
+      final messageDate = DateTime(created.year, created.month, created.day);
+
+      if (lastDate == null || lastDate != messageDate) {
+        items.add(messageDate);
+        lastDate = messageDate;
+      }
+
+      items.add(message);
+    }
+    return items;
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
@@ -50,7 +69,13 @@ class _ChatPageState extends State<ChatPage> {
         title: widget.item.companyName,
         subtitle: widget.item.vacancyName,
         iconBtn: Icons.arrow_back_rounded,
-        onPressed: _getBack,
+        onPressed: () {
+          chatController.getUserChats(
+            userID: authController.user.value!.id,
+            userRole: authController.user.value!.role,
+          );
+          _getBack;
+        },
       ),
       body: Column(
         children: [
@@ -64,21 +89,34 @@ class _ChatPageState extends State<ChatPage> {
                 return const Center(child: Text('Сообщений пока нет'));
               }
 
+              final chatItems = createListWithDateAndMessages(
+                chatController.messages,
+              );
+
               return ListView.builder(
                 padding: .all(12.r),
-                itemCount: chatController.messages.length,
+                itemCount: chatItems.length,
                 itemBuilder: (context, index) {
-                  final message = chatController.messages[index];
+                  final item = chatItems[index];
+                  if (item is DateTime) {
+                    return Center(
+                      child: Text(
+                        '${item.day}.${item.month}.${item.year}',
+                        style: CustomStyles.nunitoMedium11.copyWith(
+                          color: theme.palette.textSecondary,
+                        ),
+                      ),
+                    );
+                  }
 
-                  final isMine =
-                      message.senderId == authController.user.value!.id;
+                  final isMine = item.senderId == authController.user.value!.id;
 
                   return Padding(
                     padding: .only(bottom: 6.h),
                     child: MessageWidget(
                       isMine: isMine,
-                      textMessage: message.textMessage,
-                      created: message.created ?? DateTime.now(),
+                      textMessage: item.textMessage,
+                      created: item.created ?? DateTime.now(),
                     ),
                   );
                 },

@@ -16,7 +16,7 @@ class MessageModel extends Message {
       senderId: map['senderId'] ?? '',
       chatId: map['chatId'] ?? '',
       textMessage: map['textMessage'] ?? '',
-      created: null,
+      created: map['created'] != null? DateTime.parse(map['created']) : null,
       isRead: false,
     );
   }
