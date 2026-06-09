@@ -24,22 +24,16 @@ class VacancyController extends GetxController {
     required this.deleteVacancyUseCase,
   });
 
-  /// Все вакансии с сервера
   final RxList<Vacancy> vacancies = <Vacancy>[].obs;
-
-  /// Вакансии, которые отображаются после поиска/фильтрации
   final RxList<Vacancy> vacanciesView = <Vacancy>[].obs;
-
-  /// Вакансии компании
   final RxList<Vacancy> vacanciesCompany = <Vacancy>[].obs;
-
-  /// Вакансии компании после поиска/фильтрации, если нужно
   final RxList<Vacancy> vacanciesCompanyView = <Vacancy>[].obs;
 
   final RxBool isLoading = false.obs;
   final RxString errorMessage = ''.obs;
 
   final RxString searchQuery = ''.obs;
+  final RxString searchRegionQuery = ''.obs;
 
   @override
   void onInit() {
@@ -73,54 +67,64 @@ class VacancyController extends GetxController {
     applyCompanyFilters();
   }
 
+  void changeRegionSearchQuery(String value) {
+    searchRegionQuery.value = value;
+    applyFilters();
+    applyCompanyFilters();
+  }
+
   void applyFilters() {
-    var filtered = vacancies.toList();
+    final nameQuery = searchQuery.value.trim().toLowerCase();
+    final regionQuery = searchRegionQuery.value.trim().toLowerCase();
 
-    final query = searchQuery.value.trim().toLowerCase();
+    final filtered = vacancies.where((vacancy) {
+      final name = vacancy.name.toLowerCase();
+      final companyName = vacancy.companyName.toLowerCase();
+      final employmentType = vacancy.employmentType.toLowerCase();
+      final place = vacancy.place.toLowerCase();
+      final address = vacancy.address.toLowerCase();
+      final salary = vacancy.salary.toLowerCase();
 
-    if (query.isNotEmpty) {
-      filtered = filtered.where((vacancy) {
-        final name = vacancy.name.toLowerCase();
-        final companyName = vacancy.companyName.toLowerCase();
-        final employmentType = vacancy.employmentType.toLowerCase();
-        final place = vacancy.place.toLowerCase();
-        final address = vacancy.address.toLowerCase();
-        final salary = vacancy.salary.toLowerCase();
+      final matchesName = nameQuery.isEmpty ||
+          name.contains(nameQuery) ||
+          companyName.contains(nameQuery) ||
+          employmentType.contains(nameQuery) ||
+          salary.contains(nameQuery);
 
-        return name.contains(query) ||
-            companyName.contains(query) ||
-            employmentType.contains(query) ||
-            place.contains(query) ||
-            address.contains(query) ||
-            salary.contains(query);
-      }).toList();
-    }
+      final matchesRegion = regionQuery.isEmpty ||
+          place.contains(regionQuery) ||
+          address.contains(regionQuery);
+
+      return matchesName && matchesRegion;
+    }).toList();
 
     vacanciesView.assignAll(filtered);
   }
 
   void applyCompanyFilters() {
-    var filtered = vacanciesCompany.toList();
+    final nameQuery = searchQuery.value.trim().toLowerCase();
+    final regionQuery = searchRegionQuery.value.trim().toLowerCase();
 
-    final query = searchQuery.value.trim().toLowerCase();
+    final filtered = vacanciesCompany.where((vacancy) {
+      final name = vacancy.name.toLowerCase();
+      final companyName = vacancy.companyName.toLowerCase();
+      final employmentType = vacancy.employmentType.toLowerCase();
+      final place = vacancy.place.toLowerCase();
+      final address = vacancy.address.toLowerCase();
+      final salary = vacancy.salary.toLowerCase();
 
-    if (query.isNotEmpty) {
-      filtered = filtered.where((vacancy) {
-        final name = vacancy.name.toLowerCase();
-        final companyName = vacancy.companyName.toLowerCase();
-        final employmentType = vacancy.employmentType.toLowerCase();
-        final place = vacancy.place.toLowerCase();
-        final address = vacancy.address.toLowerCase();
-        final salary = vacancy.salary.toLowerCase();
+      final matchesName = nameQuery.isEmpty ||
+          name.contains(nameQuery) ||
+          companyName.contains(nameQuery) ||
+          employmentType.contains(nameQuery) ||
+          salary.contains(nameQuery);
 
-        return name.contains(query) ||
-            companyName.contains(query) ||
-            employmentType.contains(query) ||
-            place.contains(query) ||
-            address.contains(query) ||
-            salary.contains(query);
-      }).toList();
-    }
+      final matchesRegion = regionQuery.isEmpty ||
+          place.contains(regionQuery) ||
+          address.contains(regionQuery);
+
+      return matchesName && matchesRegion;
+    }).toList();
 
     vacanciesCompanyView.assignAll(filtered);
   }

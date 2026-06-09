@@ -17,11 +17,13 @@ class _HomePageState extends State<HomePage> {
   final controller = Get.find<VacancyController>();
   final authController = Get.find<AuthController>();
 
-  final searchController = TextEditingController();
+  final searchNameController = TextEditingController();
+  final searchRegionController = TextEditingController();
 
   @override
   void dispose() {
-    searchController.dispose();
+    searchNameController.dispose();
+    searchRegionController.dispose();
     super.dispose();
   }
 
@@ -57,13 +59,11 @@ class _HomePageState extends State<HomePage> {
 
         return Column(
           children: [
-            Padding(
-              padding: .fromLTRB(16.w, 8.h, 16.w, 12.h),
-              child: CustomTextInput.text(
-                controller: searchController,
-                textHint: 'Поиск по вакансиям',
-                onChanged: controller.changeSearchQuery,
-              ),
+            SearchWidget(
+              onChangedName: controller.changeSearchQuery,
+              onChangedCity: controller.changeRegionSearchQuery,
+              searchNameController: searchNameController,
+              searchRegionController: searchRegionController,
             ),
 
             Expanded(
