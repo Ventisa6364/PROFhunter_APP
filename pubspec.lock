@@ -421,7 +421,7 @@ packages:
     description:
       path: "."
       ref: "features/favorite"
-      resolved-ref: "8a60eb04480a279c0c0aad538b629d286c8dc19b"
+      resolved-ref: "013dd87c154077478f6d6447832ebb4a8f974115"
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"

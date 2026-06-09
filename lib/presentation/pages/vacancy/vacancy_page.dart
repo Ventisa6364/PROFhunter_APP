@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
+import 'package:profhunterapp/presentation/controllers/favorite_controller.dart';
 import 'package:profhunterapp/presentation/controllers/response_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:profhunteruikit/uikit.dart';
@@ -26,7 +27,20 @@ class _VacancyPageState extends State<VacancyPage> {
 
   final vacancyController = Get.find<VacancyController>();
 
-  bool isFavorite = false;
+  final favoriteController = Get.find<FavoriteController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final user = authController.user.value;
+
+      if (user != null) {
+        favoriteController.fetchFavorites(userID: user.id);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +51,10 @@ class _VacancyPageState extends State<VacancyPage> {
       appBar: CustomAppBarWidget(
         title: 'Вакансия',
         iconBtn: Icons.arrow_back_rounded,
-        onPressed: _getHome,
+        onPressed: _getBack,
       ),
       body: Obx(() {
+        final isFavorite = favoriteController.isFavorite(widget.vacancy.id);
         final isResponded = responseController.responses.any(
           (response) => response.idVacancy == widget.vacancy.id,
         );
@@ -65,10 +80,15 @@ class _VacancyPageState extends State<VacancyPage> {
                     idCandidate: authController.user.value!.id,
                   );
                 },
-                onFavoriteTap: () {
-                  setState(() {
-                    isFavorite = !isFavorite;
-                  });
+                onFavoriteTap: () async {
+                  final user = authController.user.value;
+
+                  if (user == null) return;
+
+                  await favoriteController.toggleFavorite(
+                    userID: user.id,
+                    idVacancy: widget.vacancy.id,
+                  );
                 },
                 isFavorite: isFavorite,
               ),
@@ -151,5 +171,5 @@ class _VacancyPageState extends State<VacancyPage> {
     );
   }
 
-  void _getHome() => Get.toNamed('/main-screen');
+  void _getBack() => Get.back();
 }

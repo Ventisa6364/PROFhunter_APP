@@ -1,6 +1,7 @@
 import 'package:profhunterapp/data/datasources/favorite_remote_data_source.dart';
 import 'package:profhunterapp/data/models/favorite_model.dart';
 import 'package:profhunterapp/domain/entities/favorite.dart';
+import 'package:profhunterapp/domain/entities/favorite_view_data.dart';
 import 'package:profhunterapp/domain/repositories/favorite_repository.dart';
 
 class FavoriteRepositoryImpl implements FavoriteRepository {
@@ -27,7 +28,7 @@ class FavoriteRepositoryImpl implements FavoriteRepository {
   }
 
   @override
-  Future<List<Favorite>> getUserFavorite({required String user}) async {
+  Future<List<FavoriteViewData>> getUserFavorite({required String user}) async {
     return await remoteDataSource.getUserFavorite(user: user);
   }
 }

@@ -2,16 +2,19 @@ import 'package:get/get.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/datasources/auth_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/chat_remote_data_source.dart';
+import 'package:profhunterapp/data/datasources/favorite_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/message_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/response_remote_data_source.dart';
 import 'package:profhunterapp/data/datasources/vacancy_remote_data_source.dart';
 import 'package:profhunterapp/data/repositories/auth_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/chat_repository_impl.dart';
+import 'package:profhunterapp/data/repositories/favorite_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/message_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/response_repository_impl.dart';
 import 'package:profhunterapp/data/repositories/vacancy_repository_impl.dart';
 import 'package:profhunterapp/domain/repositories/auth_repository.dart';
 import 'package:profhunterapp/domain/repositories/chat_repository.dart';
+import 'package:profhunterapp/domain/repositories/favorite_repository.dart';
 import 'package:profhunterapp/domain/repositories/message_repository.dart';
 import 'package:profhunterapp/domain/repositories/response_repository.dart';
 import 'package:profhunterapp/domain/repositories/vacancy_repository.dart';
@@ -20,6 +23,9 @@ import 'package:profhunterapp/domain/usecases/delete_avatar.dart';
 import 'package:profhunterapp/domain/usecases/delete_resume.dart';
 import 'package:profhunterapp/domain/usecases/delete_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/edit_vacancy.dart';
+import 'package:profhunterapp/domain/usecases/favorite/add_favorite.dart';
+import 'package:profhunterapp/domain/usecases/favorite/delete_favorite.dart';
+import 'package:profhunterapp/domain/usecases/favorite/get_user_favorite.dart';
 import 'package:profhunterapp/domain/usecases/get_chat.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy.dart';
 import 'package:profhunterapp/domain/usecases/create_vacancy_response.dart';
@@ -42,6 +48,7 @@ import 'package:profhunterapp/domain/usecases/update_avatar.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
+import 'package:profhunterapp/presentation/controllers/favorite_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -271,6 +278,41 @@ class AppBinding extends Bindings {
         subscribeMessagesUseCase: Get.find<SubscribeMessages>(),
         unsubscribeMessagesUseCase: Get.find<UnsubscribeMessages>(),
         getUserChatsUseCase: Get.find<GetUserChats>(),
+      ),
+      fenix: true,
+    );
+
+    // favorite dependencies
+    Get.put<FavoriteRemoteDataSource>(
+      FavoriteRemoteDataSource(Get.find<PocketBase>()),
+      permanent: true,
+    );
+
+    Get.put<FavoriteRepository>(
+      FavoriteRepositoryImpl(Get.find<FavoriteRemoteDataSource>()),
+      permanent: true,
+    );
+
+    Get.lazyPut<AddFavorite>(
+      () => AddFavorite(Get.find<FavoriteRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<DeleteFavorite>(
+      () => DeleteFavorite(Get.find<FavoriteRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<GetUserFavorite>(
+      () => GetUserFavorite(Get.find<FavoriteRepository>()),
+      fenix: true,
+    );
+
+    Get.lazyPut<FavoriteController>(
+      () => FavoriteController(
+        addFavoriteUseCase: Get.find<AddFavorite>(),
+        deleteFavoriteUseCase: Get.find<DeleteFavorite>(),
+        getUserFavoritesUseCase: Get.find<GetUserFavorite>(),
       ),
       fenix: true,
     );

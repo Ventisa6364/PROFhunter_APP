@@ -6,6 +6,7 @@ import 'package:profhunterapp/presentation/bindings/chat_and_message_binding.dar
 import 'package:profhunterapp/presentation/bindings/response_binding.dart';
 import 'package:profhunterapp/presentation/bindings/vacancy_binding.dart';
 import 'package:profhunterapp/presentation/pages/chat/chat_page.dart';
+import 'package:profhunterapp/presentation/pages/favorites/favorite_vacancies_page.dart';
 import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_company.dart';
 import 'package:profhunterapp/presentation/pages/responses/responses_page.dart';
@@ -18,7 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class Application extends StatefulWidget {
   final SharedPreferences prefs;
 
-  Application({super.key, required this.prefs});
+  const Application({super.key, required this.prefs});
 
   @override
   State<Application> createState() => _ApplicationState();
@@ -60,6 +61,11 @@ class _ApplicationState extends State<Application> {
               name: '/responses',
               page: () => ResponsesPage(),
               binding: ResponseBinding(),
+            ),
+            GetPage(
+              name: '/favorites',
+              page: () => FavoriteVacanciesPage(),
+              binding: AppBinding(widget.prefs),
             ),
             GetPage(
               name: '/chat',

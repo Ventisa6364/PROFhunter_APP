@@ -198,20 +198,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     if (user.role == 'candidate')
-                      SizedBox(
-                        width: double.infinity,
-                        height: 58.h,
-                        child: CustomButton.filled(
-                          onPressed: () async {
-                            await Get.toNamed('/responses');
-
-                            setState(() {});
-                          },
-                          text: 'Мои отклики',
-                          theme: CustomTheme.of(context),
-                          height: 48.h,
-                          width: 336.w,
-                        ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: CustomButton.filled(
+                              onPressed: () async {
+                                await Get.toNamed('/responses');
+                                setState(() {});
+                              },
+                              text: 'Мои отклики',
+                              theme: CustomTheme.of(context),
+                              height: 48.h,
+                              width: double.infinity,
+                            ),
+                          ),
+                          SizedBox(width: 8.w),
+                          Expanded(
+                            child: CustomButton.filled(
+                              onPressed: () async {
+                                await Get.toNamed('/favorites');
+                                setState(() {});
+                              },
+                              text: 'Избранное',
+                              theme: CustomTheme.of(context),
+                              height: 48.h,
+                              width: double.infinity,
+                            ),
+                          ),
+                        ],
                       ),
                     if (user.role == 'company')
                       SizedBox(
