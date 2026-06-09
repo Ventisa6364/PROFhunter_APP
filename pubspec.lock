@@ -420,8 +420,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "features/profile_ui"
-      resolved-ref: fc7ac4b4cd205e7f0d06107f3200c1162ffee722
+      ref: "features/favorite"
+      resolved-ref: "8a60eb04480a279c0c0aad538b629d286c8dc19b"
       url: "https://github.com/xchizhx/UiKit"
     source: git
     version: "1.0.0+1"

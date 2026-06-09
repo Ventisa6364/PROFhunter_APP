@@ -26,6 +26,8 @@ class _VacancyPageState extends State<VacancyPage> {
 
   final vacancyController = Get.find<VacancyController>();
 
+  bool isFavorite = false;
+
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
@@ -63,6 +65,12 @@ class _VacancyPageState extends State<VacancyPage> {
                     idCandidate: authController.user.value!.id,
                   );
                 },
+                onFavoriteTap: () {
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
+                },
+                isFavorite: isFavorite,
               ),
               SizedBox(height: 12.h),
               Padding(
