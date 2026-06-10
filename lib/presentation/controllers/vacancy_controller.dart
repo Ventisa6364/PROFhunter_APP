@@ -85,13 +85,15 @@ class VacancyController extends GetxController {
       final address = vacancy.address.toLowerCase();
       final salary = vacancy.salary.toLowerCase();
 
-      final matchesName = nameQuery.isEmpty ||
+      final matchesName =
+          nameQuery.isEmpty ||
           name.contains(nameQuery) ||
           companyName.contains(nameQuery) ||
           employmentType.contains(nameQuery) ||
           salary.contains(nameQuery);
 
-      final matchesRegion = regionQuery.isEmpty ||
+      final matchesRegion =
+          regionQuery.isEmpty ||
           place.contains(regionQuery) ||
           address.contains(regionQuery);
 
@@ -113,13 +115,15 @@ class VacancyController extends GetxController {
       final address = vacancy.address.toLowerCase();
       final salary = vacancy.salary.toLowerCase();
 
-      final matchesName = nameQuery.isEmpty ||
+      final matchesName =
+          nameQuery.isEmpty ||
           name.contains(nameQuery) ||
           companyName.contains(nameQuery) ||
           employmentType.contains(nameQuery) ||
           salary.contains(nameQuery);
 
-      final matchesRegion = regionQuery.isEmpty ||
+      final matchesRegion =
+          regionQuery.isEmpty ||
           place.contains(regionQuery) ||
           address.contains(regionQuery);
 
@@ -240,5 +244,11 @@ class VacancyController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void clearAll() {
+    vacancies.clear();
+    errorMessage.value = '';
+    isLoading.value = false;
   }
 }

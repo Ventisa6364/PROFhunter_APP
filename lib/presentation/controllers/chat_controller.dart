@@ -189,4 +189,14 @@ class ChatController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  void clearAll() {
+    chats.clear();
+    messages.clear();
+
+    isLoading.value = false;
+    isLoadingMessages.value = false;
+
+    unsubscribeMessages();
+  }
 }

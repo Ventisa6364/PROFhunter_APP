@@ -11,6 +11,8 @@ import 'package:profhunterapp/domain/usecases/sign_out.dart';
 import 'package:profhunterapp/domain/usecases/sign_up.dart';
 import 'package:profhunterapp/domain/usecases/update_avatar.dart';
 import 'package:profhunterapp/domain/usecases/update_user.dart';
+import 'package:profhunterapp/presentation/controllers/chat_controller.dart';
+import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
 
 class AuthController extends GetxController {
   final SignIn signInUseCase;
@@ -101,6 +103,15 @@ class AuthController extends GetxController {
   Future<void> signOut() async {
     await signOutUseCase();
     user.value = null;
+    if (Get.isRegistered<ChatController>()) {
+      Get.find<ChatController>().clearAll();
+    }
+
+
+    if (Get.isRegistered<VacancyController>()) {
+      Get.find<VacancyController>().clearAll();
+    }
+
   }
 
   Future<void> updateUser({

@@ -74,7 +74,7 @@ class _ChatPageState extends State<ChatPage> {
             userID: authController.user.value!.id,
             userRole: authController.user.value!.role,
           );
-          _getBack;
+          _getBack();
         },
       ),
       body: Column(
