@@ -59,6 +59,53 @@ class _ChatPageState extends State<ChatPage> {
     return items;
   }
 
+  String formatMessageTime(DateTime dateTime) {
+    final hour = dateTime.hour.toString().padLeft(2, '0');
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+
+    return '$hour:$minute';
+  }
+
+  String formatChatDate(DateTime dateTime) {
+    final now = DateTime.now();
+
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final messageDate = DateTime(dateTime.year, dateTime.month, dateTime.day);
+
+    if (messageDate == today) {
+      return 'Сегодня';
+    }
+
+    if (messageDate == yesterday) {
+      return 'Вчера';
+    }
+
+    const months = [
+      'января',
+      'февраля',
+      'марта',
+      'апреля',
+      'мая',
+      'июня',
+      'июля',
+      'августа',
+      'сентября',
+      'октября',
+      'ноября',
+      'декабря',
+    ];
+
+    final day = dateTime.day;
+    final month = months[dateTime.month - 1];
+
+    if (dateTime.year == now.year) {
+      return '$day $month';
+    }
+
+    return '$day $month ${dateTime.year}';
+  }
+
   @override
   Widget build(BuildContext context) {
     var theme = CustomTheme.of(context);
@@ -100,10 +147,20 @@ class _ChatPageState extends State<ChatPage> {
                   final item = chatItems[index];
                   if (item is DateTime) {
                     return Center(
-                      child: Text(
-                        '${item.day}.${item.month}.${item.year}',
-                        style: CustomStyles.nunitoMedium11.copyWith(
-                          color: theme.palette.textSecondary,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 5.h,
+                        ),
+                        decoration: BoxDecoration(
+                          color: theme.palette.block,
+                          borderRadius: BorderRadius.circular(20.r),
+                        ),
+                        child: Text(
+                          formatChatDate(item),
+                          style: CustomStyles.nunitoMedium11.copyWith(
+                            color: theme.palette.textSecondary,
+                          ),
                         ),
                       ),
                     );
