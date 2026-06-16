@@ -42,7 +42,7 @@ class _FavoriteVacanciesPageState extends State<FavoriteVacanciesPage> {
         onPressed: _close,
       ),
       body: Padding(
-        padding: MediaQuery.of(context).padding,
+        padding: .symmetric(vertical: 16.w),
         child: Column(
           children: [
             Expanded(
@@ -67,7 +67,7 @@ class _FavoriteVacanciesPageState extends State<FavoriteVacanciesPage> {
                 if (favoriteController.errorMessage.value.isNotEmpty) {
                   return Center(
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      padding: .symmetric(horizontal: 24.w),
                       child: Text(
                         favoriteController.errorMessage.value,
                         textAlign: TextAlign.center,
@@ -88,7 +88,7 @@ class _FavoriteVacanciesPageState extends State<FavoriteVacanciesPage> {
                     await favoriteController.fetchFavorites(userID: user.id);
                   },
                   child: ListView.separated(
-                    padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 24.h),
+                    padding: .fromLTRB(16.w, 0.h, 16.w, 24.h),
                     itemCount: favoriteController.favoritesViewData.length,
                     separatorBuilder: (_, _) => SizedBox(height: 12.h),
                     itemBuilder: (context, index) {
