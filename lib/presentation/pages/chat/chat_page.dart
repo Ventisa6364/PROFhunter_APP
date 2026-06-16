@@ -133,7 +133,14 @@ class _ChatPageState extends State<ChatPage> {
               }
 
               if (chatController.messages.isEmpty) {
-                return const Center(child: Text('Сообщений пока нет'));
+                return Center(
+                  child: Text(
+                    'Сообщений пока нет',
+                    style: CustomStyles.nunitoMedium16.copyWith(
+                      color: theme.palette.text,
+                    ),
+                  ),
+                );
               }
 
               final chatItems = createListWithDateAndMessages(
