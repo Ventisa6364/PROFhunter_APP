@@ -1,3 +1,4 @@
+import 'package:profhunterapp/data/pocketbase_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -55,7 +56,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             radius: 32.r,
                             backgroundImage: (user.avatar.isNotEmpty)
                                 ? NetworkImage(
-                                    'https://pocketbase-latest-9x81.onrender.com/api/files/users/${user.id}/${user.avatar}',
+                                    pocketBaseUserFileUrl(user.id, user.avatar),
                                   )
                                 : null,
                             child: user.avatar.isEmpty

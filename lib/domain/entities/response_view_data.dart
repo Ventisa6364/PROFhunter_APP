@@ -1,6 +1,4 @@
 import 'package:pocketbase/pocketbase.dart';
-import 'package:profhunterapp/domain/entities/app_user.dart';
-import 'package:profhunterapp/domain/entities/response.dart';
 
 class ResponseViewData {
   final String id;

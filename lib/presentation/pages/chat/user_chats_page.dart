@@ -29,7 +29,6 @@ class _UserChatsPageState extends State<UserChatsPage> {
       });
     });
 
-
     final user = authController.user.value;
     if (user != null) {
       chatController.getUserChats(userID: user.id, userRole: user.role);
@@ -47,7 +46,14 @@ class _UserChatsPageState extends State<UserChatsPage> {
 
         if (!(chatController.isLoading.value) &&
             chatController.chatsView.isEmpty) {
-          return const Center(child: Text('Чатов пока нет'));
+          return Center(
+            child: Text(
+              'Чатов пока нет',
+              style: CustomStyles.nunitoMedium16.copyWith(
+                color: theme.palette.text,
+              ),
+            ),
+          );
         }
 
         return ListView.separated(

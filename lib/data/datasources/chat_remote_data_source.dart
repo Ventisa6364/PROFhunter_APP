@@ -20,7 +20,8 @@ class ChatRemoteDataSource {
           );
 
       return {'id': result.id, ...result.data};
-    } catch (_) {
+    } on ClientException catch (error) {
+      if (error.statusCode != 404) rethrow;
       final record = await pb
           .collection('chat')
           .create(
@@ -54,7 +55,7 @@ class ChatRemoteDataSource {
   }
 
   Future<void> unsubscribeMessages() async {
-    await pb.collection('messages').unsubscribe('*');
+    await pb.collection('message').unsubscribe('*');
   }
 
   Future<List<ChatModel>> getUserChats({required String userID}) async {

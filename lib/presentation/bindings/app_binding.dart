@@ -1,3 +1,4 @@
+import 'package:profhunterapp/data/pocketbase_config.dart';
 import 'package:get/get.dart';
 import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/data/datasources/auth_remote_data_source.dart';
@@ -60,7 +61,7 @@ class AppBinding extends Bindings {
   @override
   void dependencies() {
     final pb = PocketBase(
-      'https://pocketbase-latest-9x81.onrender.com/',
+      pocketBaseUrl,
       authStore: AsyncAuthStore(
         initial: prefs.getString('pb_auth'),
         save: (data) async => prefs.setString('pb_auth', data),

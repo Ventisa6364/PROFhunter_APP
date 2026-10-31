@@ -1,4 +1,3 @@
-import 'package:pocketbase/pocketbase.dart';
 import 'package:profhunterapp/domain/entities/response.dart';
 import 'package:profhunterapp/domain/entities/response_view_data.dart';
 

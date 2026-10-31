@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:profhunterapp/domain/entities/vacancy.dart';
 import 'package:profhunterapp/presentation/controllers/auth_controller.dart';
 import 'package:profhunterapp/presentation/controllers/vacancy_controller.dart';
-import 'package:profhunterapp/presentation/pages/home_page.dart';
 import 'package:profhunteruikit/uikit.dart';
 
 class EditVacancyPage extends StatefulWidget {

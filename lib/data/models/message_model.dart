@@ -17,7 +17,7 @@ class MessageModel extends Message {
       chatId: map['chatId'] ?? '',
       textMessage: map['textMessage'] ?? '',
       created: map['created'] != null? DateTime.parse(map['created']) : null,
-      isRead: false,
+      isRead: map['isRead'] as bool? ?? false,
     );
   }
 
@@ -27,7 +27,7 @@ class MessageModel extends Message {
       'senderId': senderId,
       'chatId': chatId,
       'textMessage': textMessage,
-      'created': created,
+      if (created != null) 'created': created!.toUtc().toIso8601String(),
       'isRead': isRead,
     };
   }

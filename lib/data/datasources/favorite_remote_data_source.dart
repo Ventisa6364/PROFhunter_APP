@@ -1,5 +1,4 @@
 import 'package:pocketbase/pocketbase.dart';
-import 'package:profhunterapp/data/models/app_user_model.dart';
 import 'package:profhunterapp/data/models/favorite_model.dart';
 import 'package:profhunterapp/data/models/vacancy_model.dart';
 import 'package:profhunterapp/domain/entities/favorite_view_data.dart';
