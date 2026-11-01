@@ -46,3 +46,5 @@ app.*.map.json
 
 # Local PocketBase configuration
 /lib/data/pocketbase_config.dart
+/pb_migrations/1793448000_profhunter.js
+/pb_schema.json
